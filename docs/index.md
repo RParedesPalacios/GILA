@@ -32,5 +32,7 @@ python3 gila.py -h
 ~~~
 
 
+
 ## The Image Classification Mode
 
+* [The Image Classification Mode](class.md)
