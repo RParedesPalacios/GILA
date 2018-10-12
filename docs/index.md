@@ -9,7 +9,6 @@ Initially GILA is developed to deal with the following problems:
 * Object Detection 
 * Image Segmentation
 
-
 ## Install GILA
 
 From git:
@@ -30,7 +29,6 @@ some help:
 ~~~C
 python3 gila.py -h
 ~~~
-
 
 
 ## The Image Classification Mode
