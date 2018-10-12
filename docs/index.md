@@ -34,5 +34,5 @@ python3 gila.py -h
 ## Different Modes
 
 * [Image Classification](class.md)
-* [Object Detection](docs/detect.md)
-* [Image Segmentation](docs/segment.md)
+* [Object Detection](detect.md)
+* [Image Segmentation](segment.md)
