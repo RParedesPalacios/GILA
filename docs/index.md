@@ -1,5 +1,5 @@
 
-#GILA - The Docs
+# GILA - The Docs
 
 GILA is a general image toolkit to use deep learning over images. GILA works over Keras and Pillow, mainly.
 
