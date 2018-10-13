@@ -111,7 +111,7 @@ kramdown:
 
 # Sass/SCSS
 sass:
-  sass_dir: assets/css
+  sass_dir: _scss
   style: compressed # http://sass-lang.com/documentation/file.SASS_REFERENCE.html#output_style
 
 
