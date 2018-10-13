@@ -7,7 +7,7 @@
   margin-left: auto;
   margin-right: 1em;
   padding-left: 1em;
-  padding-right: -10em;
+  padding-right: 1em;
   -webkit-animation: $intro-transition;
   animation: $intro-transition;
   max-width: 100%;
@@ -23,7 +23,7 @@
   @include breakpoint($large) {
     float: right;
     width: calc(100% - #{$right-sidebar-width-narrow});
-    padding-right: -1em;
+    padding-right: $right-sidebar-width-narrow;
   }
 
   @include breakpoint($x-large) {
