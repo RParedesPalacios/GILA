@@ -1,9 +1,0 @@
----
----
-
-@import "{{ site.theme }}";
-
-body {
-  ...
-  font: 12px/1.4 $helvetica;
-}
