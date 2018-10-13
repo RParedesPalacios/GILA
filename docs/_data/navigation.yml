@@ -7,10 +7,10 @@ main:
     url: segment
 
 menu:
-  - title: "Title"
-    image: http://placehold.it/350x250
-    image_alt: "image"
-    text: "Some text here."
+  - title: "GILA"
+    image: gila.png
+    image_alt: "GILA"
+    text: "General Image LAbelling"
   - title: "Image Classification"
     url: class
   - title: "Object Detection"
