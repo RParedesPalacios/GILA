@@ -9,7 +9,7 @@ menu:
             url: class
       - title: "Data augmentation"
         url: class
-      - tile: "Deep Models"
+      - title: "Deep Models"
         url: class
       - title: "Examples"
         url: class
