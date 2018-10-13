@@ -191,3 +191,10 @@ defaults:
       comments: false
       share: false
       related: false
+      
+  - scope:
+      path: ""
+      type: menu
+    values:
+      sidebar:
+        nav: "menu"
