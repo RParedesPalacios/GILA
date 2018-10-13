@@ -1,3 +1,4 @@
+## DATA SOURCES
 
 Images can be specified in two different ways:
 
