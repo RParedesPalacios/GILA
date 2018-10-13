@@ -2,7 +2,11 @@ menu:
   - title: "Image Classification"
     children:
       - title: "Data source"
-        url: class
+        children:
+          - title: "Load from list file"
+            url: class
+          - title: "Load form directory"
+            url: class
       - title: "Data augmentation"
         url: class
       - tile: "Deep Models"
