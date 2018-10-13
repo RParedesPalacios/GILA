@@ -185,7 +185,7 @@ defaults:
     values:
       layout: single
       author_profile: true
-      read_time: true
+      read_time: flase
       comments: false
       share: false
-      related: true
+      related: false
