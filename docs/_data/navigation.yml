@@ -1,7 +1,7 @@
 main:
   - title: "Image Classification"
     url: class
-  - title: "Object DetectionX"
+  - title: "Object Detection"
     url: detect
   - title: "Image Segmentation"
     url: segment
