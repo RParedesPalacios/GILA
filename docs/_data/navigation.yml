@@ -13,3 +13,9 @@ menu:
     url: detect
   - title: "Image Segmentation"
     url: segment
+
+stitle:
+  - title: "GILA"
+    image: gila_small.png
+    image_alt: "GILA"
+    text: "General Image LAbelling"
