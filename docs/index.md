@@ -11,26 +11,19 @@ Initially GILA is developed to deal with the following problems:
 
 From git:
 
-~~~C
+~~~shell
 git clone https://github.com/RParedesPalacios/GILA.git
 ~~~
 ## Using GILA
 
 As mentioned GILA is a command line tool:
 
-~~~C
+~~~shell
 python3 gila.py
 ~~~
 
 some help:
 
-~~~C
+~~~shell
 python3 gila.py -h
 ~~~
-
-
-## Different Modes
-
-* [Image Classification](class.md)
-* [Object Detection](detect.md)
-* [Image Segmentation](segment.md)
