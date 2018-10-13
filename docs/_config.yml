@@ -44,10 +44,8 @@ footer:
   links:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      # url:
-    - label: "GitLab"
-      icon: "fab fa-fw fa-gitlab"
       url: "https://github.com/RParedesPalacios"
+       
 
 
 # Reading Files
