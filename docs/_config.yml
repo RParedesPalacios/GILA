@@ -34,6 +34,10 @@ author:
       icon: "fab fa-fw fa-github"
       url: "https://github.com/RParedesPalacios"
 
+sidebar:
+  title: "Modes"
+  nav: sidebar-sample
+  
 # Site Footer
 footer:
   links:
