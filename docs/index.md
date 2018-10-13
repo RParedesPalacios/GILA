@@ -1,23 +1,3 @@
----
-fontsize: 8pt
-sidebar:
-  - title: "Title"
-    image: gila_small.png
-    image_alt: "image"
-    text: "Some text here."
-  - title: "Another Title"
-    text: "More text here."
-  - title: "Image Classification"
-    url: class
-  - title: "Object Detection"
-    url: detect
-  - title: "Image Segmentation"
-    url: segment
-  - title: "GILA"
-    image: "gila_small.png"
-    image_alt: "GILA"
-    text: "General Image LAbelling"
----
 
 GILA is a general image toolkit to use deep learning over images. GILA works over Keras and Pillow, mainly.
 
