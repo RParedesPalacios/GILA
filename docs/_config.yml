@@ -21,7 +21,7 @@ title                    : "GILA Documentation"
 title_separator          : "-"
 name                     : "Roberto Paredes Palacios"
 description              : "The GILA documentation webpage"
-words_per_minute         : 200
+#words_per_minute         : 200
 
 
 # Site Author
@@ -43,7 +43,7 @@ author:
 footer:
   links:
     - label: "GitHub"
-      icon: "fab fa-fw fa-github"
+      icon: "fa-github"
       url: "https://github.com/RParedesPalacios"
        
 
@@ -181,7 +181,7 @@ defaults:
     values:
       layout: single
       author_profile: true
-      read_time: true
+      read_time: false
       comments: # true
       share: true
       related: true
