@@ -13,21 +13,21 @@
 # theme                  : "minimal-mistakes-jekyll"
 remote_theme           : "mmistakes/minimal-mistakes"
 #minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
-minimal_mistakes_skin    : "dark"
+minimal_mistakes_skin    : "dirt"
 
 # Site Settings
 locale                   : "en-US"
 title                    : "GILA Documentation"
 title_separator          : "-"
-name                     : "Roberto Paredes"
-description              : "The GILA documentation webpage."
+name                     : "Roberto Paredes Palacios"
+description              : "The GILA documentation webpage"
 words_per_minute         : 200
 
 
 # Site Author
 author:
   name             : "Roberto Paredes Palacios"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  avatar           : "https://avatars2.githubusercontent.com/u/18326981?s=400&v=4"
   bio              : "Associate Professor and SolverML CTO"
   location         : "Valencia (Spain)"
   email            : "rparedes@dsic.upv.es"
