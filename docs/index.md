@@ -1,7 +1,3 @@
----
-title: GILA Doc
-layout: default
----
 
 GILA is a general image toolkit that use deep learning techniques to solve different problems. GILA uses Keras and TensorFlow as DL framework.
 
