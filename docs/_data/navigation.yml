@@ -1,14 +1,14 @@
-main:
-  - title: "Image Classification"
-    url: class
-  - title: "Object Detection"
-    url: detect
-  - title: "Image Segmentation"
-    url: segment
-
 menu:
   - title: "Image Classification"
-    url: class
+    children:
+      - title: "Data source"
+        url: class
+      - title: "Data augmentation"
+        url: class
+      - tile: "Deep Models"
+        url: class
+      - title: "Examples"
+        url: class
   - title: "Object Detection"
     url: detect
   - title: "Image Segmentation"
