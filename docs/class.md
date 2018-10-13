@@ -1,6 +1,6 @@
 
 
-Image Classification Mode
+**IMAGE CLASSIFICATION MODE**
 
 ~~~shell
 python3 gila.py -mode class
