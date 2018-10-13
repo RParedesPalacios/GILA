@@ -6,7 +6,7 @@ GILA can use two different models:
 	
 	Automatically generates a convolutional network that fits the image sizes and the number of classes
 	
-	~~~C
+	~~~shell
 	-models auto
 	~~~
 	
@@ -14,7 +14,7 @@ GILA can use two different models:
 
 	Load pretrained models and use GlobalAvgPooling to adapt the pretrained models to the size of the FC layers and numbers of classes
 	
-	~~~C
+	~~~shell
 	-models {vgg16,vgg19,resnet50...}
 	~~~
 
