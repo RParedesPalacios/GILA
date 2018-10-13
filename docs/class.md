@@ -1,1 +1,3 @@
-## The Image Classification Mode
+
+
+The Image Classification Mode
