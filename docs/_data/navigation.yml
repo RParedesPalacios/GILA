@@ -8,7 +8,7 @@ menu:
     url: class
     children:
       - title: "Data source"
-        url: class_source.md
+        url: class_source
       - title: "Data augmentation"
         url: class_da
       - title: "Deep Models"
