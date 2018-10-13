@@ -7,10 +7,6 @@ main:
     url: segment
 
 menu:
-  - title: "GILA"
-    image: gila_small.png
-    image_alt: "GILA"
-    text: "General Image LAbelling"
   - title: "Image Classification"
     url: class
   - title: "Object Detection"
