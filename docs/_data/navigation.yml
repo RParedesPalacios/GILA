@@ -8,13 +8,13 @@ menu:
     url: class
     children:
       - title: "Data source"
-        url: class
+        url: class_source.md
       - title: "Data augmentation"
-        url: class
+        url: class_da
       - title: "Deep Models"
-        url: class
+        url: class_models
       - title: "Examples"
-        url: class
+        url: class_examples
   - title: "Object Detection"
     url: detect
   - title: "Image Segmentation"
