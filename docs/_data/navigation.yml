@@ -7,6 +7,10 @@ main:
     url: segment
 
 menu:
+  - title: "Title"
+    image: http://placehold.it/350x250
+    image_alt: "image"
+    text: "Some text here."
   - title: "Image Classification"
     url: class
   - title: "Object Detection"
