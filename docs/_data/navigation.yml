@@ -1,15 +1,9 @@
 main:
-  - title: "Quick-Start Guide"
-    url: /docs/quick-start-guide/
-  - title: "Posts"
-    url: /year-archive/
-  - title: "Categories"
-    url: /categories/
-  - title: "Tags"
-    url: /tags/
-  - title: "Pages"
-    url: /page-archive/
-  - title: "Collections"
-    url: /collection-archive/
+  - title: "Image Classification"
+    url: /docs/class.md
+  - title: "Object Detection"
+    url: /docs/detect.md
+  - title: "Image Segmentation"
+    url: /docs/segment.md
   - title: "External Link"
     url: https://google.com
