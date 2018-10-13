@@ -1,9 +1,7 @@
 main:
   - title: "Image Classification"
-    url: /docs/class
+    url: class
   - title: "Object DetectionX"
     url: detect
   - title: "Image Segmentation"
-    url: /docs/segment.md
-  - title: "External Link"
-    url: https://google.com
+    url: segment
