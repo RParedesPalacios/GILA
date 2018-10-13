@@ -1,12 +1,3 @@
----
-sidebar:
-  - title: "Title"
-    image: http://placehold.it/350x250
-    image_alt: "image"
-    text: "Some text here."
-  - title: "Another Title"
-    text: "More text here."
----
 
 GILA is a general image toolkit to use deep learning over images. GILA works over Keras and Pillow, mainly.
 
@@ -20,26 +11,19 @@ Initially GILA is developed to deal with the following problems:
 
 From git:
 
-~~~C
+~~~shell
 git clone https://github.com/RParedesPalacios/GILA.git
 ~~~
 ## Using GILA
 
 As mentioned GILA is a command line tool:
 
-~~~C
+~~~shell
 python3 gila.py
 ~~~
 
 some help:
 
-~~~C
+~~~shell
 python3 gila.py -h
 ~~~
-
-
-## Different Modes
-
-* [Image Classification](class.md)
-* [Object Detection](detect.md)
-* [Image Segmentation](segment.md)
