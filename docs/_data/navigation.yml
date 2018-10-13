@@ -1,5 +1,6 @@
 menu:
   - title: "Image Classification"
+    url: class
     children:
       - title: "Data source"
         url: class
