@@ -5,3 +5,11 @@ main:
     url: detect
   - title: "Image Segmentation"
     url: segment
+
+sidebar-sample:
+  - title: "Image Classification"
+    url: class
+  - title: "Object Detection"
+    url: detect
+  - title: "Image Segmentation"
+    url: segment
