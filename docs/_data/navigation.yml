@@ -1,7 +1,7 @@
 main:
   - title: "Image Classification"
     url: /docs/class.md
-  - title: "Object Detection"
+  - title: "Object DetectionX"
     url: detect.md
   - title: "Image Segmentation"
     url: /docs/segment.md
