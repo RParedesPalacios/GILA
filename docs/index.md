@@ -1,7 +1,8 @@
 ---
+fontsize: 8pt
 sidebar:
   - title: "Title"
-    image: http://placehold.it/350x250
+    image: gila_small.png
     image_alt: "image"
     text: "Some text here."
   - title: "Another Title"
