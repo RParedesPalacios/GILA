@@ -1,3 +1,8 @@
+main: 
+  - title: "View on Github"
+    url: "https://github.com/RParedesPalacios/GILA"
+
+
 menu:
   - title: "Image Classification"
     url: class
