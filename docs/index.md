@@ -1,5 +1,4 @@
-
-GILA is a general image toolkit that use deep learning techniques to solve different problems. GILA is written by Roberto Paredes and works over Keras and Pillow.
+GILA is a general image toolkit that use deep learning techniques to solve different problems. GILA uses Keras and TensorFlow as DL framework.
 
 Initially GILA is developed to deal with the following problems:
 
