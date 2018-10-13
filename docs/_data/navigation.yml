@@ -4,6 +4,7 @@ main:
 
 
 menu:
+  - title: "Contents:"
   - title: "Image Classification"
     url: class
     children:
