@@ -192,5 +192,6 @@ defaults:
       share: false
       related: false
       sidebar:
+        nav: "stitle"
         nav: "menu"
 
