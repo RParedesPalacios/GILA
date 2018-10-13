@@ -145,3 +145,5 @@ defaults:
       related: false
 
 
+
+theme: jekyll-theme-minimal
