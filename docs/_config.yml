@@ -191,10 +191,6 @@ defaults:
       comments: false
       share: false
       related: false
-      
-  - scope:
-      path: ""
-      type: docs
-    values:
       sidebar:
         nav: "menu"
+
