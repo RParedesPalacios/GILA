@@ -12,7 +12,7 @@ Image classification mode is devoted for the usual image categorization, like CI
 To specify the dataset we can use two different ways:
 
   * [File lists](filelist.md)
-  * Directories (directories.md)
+  * [Directories] (directories.md)
   
   
   
