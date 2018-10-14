@@ -67,10 +67,12 @@
 
   }
 
+  li:hover,
   li.selected {
     color: black;
     background: white;
   }
+  p:hover,
   p.selected {
     color: black;
     background: white;
