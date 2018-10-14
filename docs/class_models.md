@@ -1,6 +1,6 @@
-**CLASSIFICATION MODELS**
+<span style="text-decoration:underline;">**CLASSIFICATION MODELS**<span>
 
-GILA can use two different models:
+GILA create two different models:
 
 * Auto models: 
 	

@@ -1,5 +1,4 @@
-<span style="color:red">**CLASSIFICATION DATA SOURCES**<span>
-
+<span style="text-decoration:underline;">**CLASSIFICATION DATA SOURCES**<span>
 
 Images can be specified in two different ways:
 
