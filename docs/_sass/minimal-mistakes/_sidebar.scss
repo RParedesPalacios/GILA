@@ -56,7 +56,12 @@
 
   }
 
-  p,
+  p{
+    font-family: $sans-serif;
+    font-size: $type-size-6;
+    line-height: 1.5;
+    color: white;
+  }
   li {
     font-family: $sans-serif;
     font-size: $type-size-6;
