@@ -43,6 +43,7 @@
   > * {
     margin-top: 1em;
     margin-bottom: 1em;
+    background-color:blue;
   }
 
   h2,
@@ -56,17 +57,14 @@
 
   }
 
-  p{
-    font-family: $sans-serif;
-    font-size: $type-size-6;
-    line-height: 1.5;
-    color: white;
-  }
+
+  p,
   li {
     font-family: $sans-serif;
     font-size: $type-size-6;
     line-height: 1.5;
     color: red;
+
   }
 
   img {
