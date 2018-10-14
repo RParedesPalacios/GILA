@@ -63,7 +63,7 @@
 
 .page__lead {
   font-family: $global-font-family;
-  font-size: $type-size-5;
+  font-size: $type-size-4;
 }
 
 .page__content {
@@ -75,7 +75,8 @@
   p,
   li,
   dl {
-    font-size: 1em;
+    /*font-size: 1em;*/
+    font-size: $type-size-2;
   }
 
   /* paragraph indents */
