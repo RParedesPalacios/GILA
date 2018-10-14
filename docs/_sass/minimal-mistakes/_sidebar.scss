@@ -20,8 +20,6 @@
     float: left;
     width: calc(#{$right-sidebar-width-narrow} - 1em);
     opacity: 1.0;
-    -webkit-transition: opacity 0.2s ease-in-out;
-    transition: opacity 0.2s ease-in-out;
 
     &:hover {
       opacity: 1;
@@ -69,13 +67,13 @@
 
   li:hover,
   li.selected {
-    color: black;
-    background: white;
+    color: white;
+    background: gray;
   }
   p:hover,
   p.selected {
-    color: black;
-    background: white;
+    color: white;
+    background: gray;
   }
 
   img {
