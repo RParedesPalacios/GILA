@@ -50,7 +50,7 @@
   h4,
   h5,
   h6 {
-    color: red;
+
     margin-bottom: 0;
     font-family: $sans-serif-narrow;
 
@@ -61,6 +61,7 @@
     font-family: $sans-serif;
     font-size: $type-size-6;
     line-height: 1.5;
+    color: red;
   }
 
   img {
