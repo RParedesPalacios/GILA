@@ -24,7 +24,7 @@
     transition: opacity 0.2s ease-in-out;
 
     &:hover {
-      opacity: 10;
+      opacity: 1;
     }
 
     &.sticky {
@@ -279,7 +279,7 @@
     padding-right: 5px;
     padding-top: 2px;
     padding-bottom: 2px;
-    color: inherit;
+    color: red;
     font-size: $type-size-5;
     text-decoration: none;
 
