@@ -42,12 +42,6 @@ footer:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
       url: mailto:rparedes@dsic.upv.es
-    - label: "Website"
-      icon: "fas fa-fw fa-link"
-      url: "http://users.dsic.upv.es/~rparedes/"
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/robertoparpal"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/RParedesPalacios"
