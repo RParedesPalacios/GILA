@@ -35,7 +35,7 @@ author:
       url: "https://github.com/RParedesPalacios"
 
 
-  
+
 # Site Footer
 footer:
   links:
@@ -110,9 +110,9 @@ kramdown:
 
 
 # Sass/SCSS
-#sass:
-#  sass_dir: _scss
-#  style: compressed # http://sass-lang.com/documentation/file.SASS_REFERENCE.html#output_style
+sass:
+  sass_dir: _sass
+  style: compressed # http://sass-lang.com/documentation/file.SASS_REFERENCE.html#output_style
 
 
 # Outputting
@@ -193,4 +193,3 @@ defaults:
       related: false
       sidebar:
         nav: "menu"
-
