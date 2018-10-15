@@ -16,7 +16,7 @@ def training_generator(args,num_classes,X=0,L=0):
     print("Data Augmentation: Width",da_width)
     print("Data Augmentation: Height",da_width)
     print("Data Augmentation: Rotation",da_rotation)
-    print("Data Augmentation: Zoom [%.2f,%.2f]",%(1.0-da_zoom,1+da_zoom))
+    print("Data Augmentation: Zoom [%.2f,%.2f]" %(1.0-da_zoom,1+da_zoom))
     print("Data Augmentation: FlipV",da_flip_v)
     print("Data Augmentation: FlipH",da_flip_h)
 
