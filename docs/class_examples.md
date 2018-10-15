@@ -3,7 +3,7 @@
 
 <span style="color:red;">**CIFAR 10**<span>
 
-Download the images from: [CIFAR10](https://www.dropbox.com/s/nn2bfybbfj3ly9b/CIFAR10.tgz)
+Download the images from: [CIFAR10](https://www.dropbox.com/s/nn2bfybbfj3ly9b/CIFAR10.tgz?dl=1)
 
 you will find two directories (train, test) and two files (tr.txt, ts.txt)
 
