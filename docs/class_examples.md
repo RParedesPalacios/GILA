@@ -9,7 +9,7 @@ Download the images from:
 
 you will find two directories (train, test) and two files (tr.txt,ts.txt)
 
-We can specify the data sources in bothÅÅ  ways:
+We can specify the data sources in both ways:
 
 * Directories
 
