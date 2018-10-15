@@ -3,18 +3,19 @@ GILA is a general image toolkit that use deep learning techniques to solve diffe
 
 Initially GILA is developed to deal with the following problems:
 
-* Image Classification 
-* Object Detection 
+* Image Classification
+* Object Detection
 * Image Segmentation
 
-## Install GILA
+#### Install GILA
 
 From git:
 
 ~~~shell
 git clone https://github.com/RParedesPalacios/GILA.git
 ~~~
-## Using GILA
+
+#### Using GILA
 
 As mentioned GILA is a command line tool:
 
