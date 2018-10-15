@@ -14,7 +14,7 @@ def basic_conv(model,K,args,ishape=0):
         model.add(Conv2D(K, (3, 3), padding='same'))
 
     model.add(BN())
-    if (args.da_gauss!=None)
+    if (args.da_gauss!=0.0)
         model.add(GN(args.da_gauss))
     model.add(Activation('relu'))
 
@@ -61,7 +61,7 @@ def auto_model(X,L,args,num_classes):
         if (i==0):
             model=basic_conv(model,numf,args,shape)
         else:
-            model=basic_conv(model,args,numf)
+            model=basic_conv(model,numf,args)
 
 
     model.add(Flatten())
