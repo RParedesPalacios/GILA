@@ -45,6 +45,8 @@ parser.add_argument('-balance', choices=['yes', 'no'], default='no',help='Class 
 parser.add_argument('-da_width', type=int, help='DA width shift %% (0)',default=0)
 parser.add_argument('-da_height', type=int, help='DA height shift %% (0)',default=0)
 parser.add_argument('-da_rotation', type=int, help='DA rotation angle (0)',default=0)
+parser.add_argument('-da_zoom', type=float, help='DA zoom rang [1-zoom,1+zoom] (0.0)',default=0.0)
+parser.add_argument('-da_gauss', type=float, help='DA gaussian noise (0.0)',default=0.0)
 parser.add_argument('-da_flip_v', choices=['yes', 'no'], default='no',help='DA vertical flip (no)')
 parser.add_argument('-da_flip_h', choices=['yes', 'no'], default='no',help='DA horizontal flip (no)')
 
@@ -54,7 +56,7 @@ parser.add_argument('-save_model',  help='Save  model to file')
 
 
 args = parser.parse_args()
-    
+
 import numpy as np
 from PIL import Image
 from loaders import *
@@ -119,12 +121,12 @@ if (MODE=="class"):
             print("Setting test dir to",args.tsdir)
             TEST=1
         train_class_model(X,L,TEST,Xt,Lt,args)
-    ## EVAL        
+    ## EVAL
     elif (args.load_model!=None):
         TEST=0
         Xt=0
         Lt=0
-        if (args.tsfile!=None):        
+        if (args.tsfile!=None):
             if (MODE=="class"):
                 print("Loading test file:",args.tsfile)
                 [Xt,Lt]=load_list_file_class_to_numpy(args.tsfile,ROWS,COLS,CHAN,RES)
@@ -152,21 +154,4 @@ elif (MODE=="detect"):
 ############################
 elif (MODE=="segment"):
     print ("Segment mode not yet implemented")
-    sys.exit()    
-        
-  
-
-    
-
-
-
-
-
-    
-
-
-    
-    
-
-
-    
+    sys.exit()

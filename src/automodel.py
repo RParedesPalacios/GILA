@@ -4,20 +4,26 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers.normalization import BatchNormalization as BN
+from keras.layers import GaussianNoise as GN
 
 
-
-def basic_conv(model,K,ishape=0):
+def basic_conv(model,K,args,ishape=0):
     if (ishape!=0):
         model.add(Conv2D(K, (3, 3), padding='same',input_shape=ishape))
     else:
         model.add(Conv2D(K, (3, 3), padding='same'))
 
     model.add(BN())
+    if (args.da_gauss!=None)
+        model.add(GN(args.da_gauss))
     model.add(Activation('relu'))
+
     model.add(Conv2D(K, (3, 3), padding='same'))
     model.add(BN())
+    if (args.da_gauss!=None)
+        model.add(GN(args.da_gauss))
     model.add(Activation('relu'))
+
     model.add(MaxPooling2D(pool_size=(2, 2)))
     return model
 
@@ -53,9 +59,9 @@ def auto_model(X,L,args,num_classes):
             numf=KEND
 
         if (i==0):
-            model=basic_conv(model,numf,shape)
+            model=basic_conv(model,numf,args,shape)
         else:
-            model=basic_conv(model,numf)
+            model=basic_conv(model,args,numf)
 
 
     model.add(Flatten())
