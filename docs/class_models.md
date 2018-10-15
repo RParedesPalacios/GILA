@@ -4,16 +4,16 @@ GILA create two different models:
 
 #### Auto models:
 
-	Automatically generates a convolutional network that fits the image sizes and the number of classes
+Automatically generates a convolutional network that fits the image sizes and the number of classes
 
-	~~~shell
-	-models auto
-	~~~
+~~~shell
+-models auto
+~~~
 
 #### Pre-trained models:
 
-	Load pretrained models and use GlobalAvgPooling to adapt the pretrained models to the size of the FC layers and numbers of classes
+Load pretrained models and use GlobalAvgPooling to adapt the pretrained models to the size of the FC layers and numbers of classes
 
-	~~~shell
-	-models {vgg16,vgg19,resnet50...}
-	~~~
+~~~shell
+-models {vgg16,vgg19,resnet50...}
+~~~
