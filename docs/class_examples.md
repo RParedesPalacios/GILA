@@ -1,13 +1,11 @@
 <span style="text-decoration:underline;">**CLASSIFICATION EXAMPLES**<span>
 
 
-### CIFAR 10
+<<span "color:blue">### CIFAR 10<span>
 
-Download the images from:
+Download the images from: [CIFAR10](https://www.dropbox.com/s/nn2bfybbfj3ly9b/CIFAR10.tgz)
 
-[CIFAR10]()
-
-you will find two directories (train, test) and two files (tr.txt,ts.txt)
+you will find two directories (train, test) and two files (tr.txt, ts.txt)
 
 We can specify the data sources in both ways:
 
