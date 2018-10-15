@@ -1,7 +1,7 @@
 <span style="text-decoration:underline;">**CLASSIFICATION EXAMPLES**<span>
 
 
-<span style="color:blue">### CIFAR 10<span>
+<span style="color:red;">**CIFAR 10**<span>
 
 Download the images from: [CIFAR10](https://www.dropbox.com/s/nn2bfybbfj3ly9b/CIFAR10.tgz)
 
