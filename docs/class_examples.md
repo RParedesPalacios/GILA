@@ -12,7 +12,7 @@ We can specify the data sources in both ways:
 * Directories
 
 ~~~shell
-python3 ~/GITHUB/GILA/src/gila.py -trdir train -tsdir test -width 32 -height 32 -mode class -model auto
+python3 gila.py -trdir train -tsdir test -width 32 -height 32 -mode class -model auto
 ~~~
 
 * Files
@@ -31,7 +31,7 @@ python3 gila.py -trfile tr.txt -tsfile ts.txt -width 32 -height 32 -mode class -
 
 * Use a pre-trained model:
 
-A resnet50:
+A **resnet50**:
 
 ~~~shell
 python3 gila.py -trfile tr.txt -tsfile ts.txt -width 32 -height 32 -mode class -model resnet50 -da_width 20 -da_height 20 -da_flip_h yes
@@ -40,5 +40,5 @@ python3 gila.py -trfile tr.txt -tsfile ts.txt -width 32 -height 32 -mode class -
 Or **inceptionv3**, in this case the images are too small so we increase the working size up to 128x128:
 
 ~~~shell
-python3 ~/GITHUB/GILA/src/gila.py -trfile tr.txt -tsfile ts.txt -width 128 -height 128 -mode class -model inceptionv3 -da_width 20 -da_height 20 -da_flip_h yes
+python3 gila.py -trfile tr.txt -tsfile ts.txt -width 128 -height 128 -mode class -model inceptionv3 -da_width 20 -da_height 20 -da_flip_h yes
 ~~~
