@@ -8,13 +8,13 @@ you will find two directories (train, test) and two files (tr.txt, ts.txt)
 
 We can specify the data sources in both ways:
 
-* Directories
+#### Directories
 
 ~~~shell
 python3 gila.py -trdir train -tsdir test -width 32 -height 32 -mode class -model auto
 ~~~
 
-* Files
+#### Files
 
 ~~~shell
 python3 gila.py -trfile tr.txt -tsfile ts.txt -width 32 -height 32 -mode class -model auto
@@ -22,13 +22,13 @@ python3 gila.py -trfile tr.txt -tsfile ts.txt -width 32 -height 32 -mode class -
 
 In both cases GILA will use the training data to train the deep model and the test data as unseen data for error estimation.
 
-* Add some data augmentation:
+#### Add some data augmentation:
 
 ~~~shell
 python3 gila.py -trfile tr.txt -tsfile ts.txt -width 32 -height 32 -mode class -model auto -da_width 20 -da_height 20 -da_flip_h yes
 ~~~
 
-* Use a pre-trained model:
+#### Use a pre-trained model:
 
 A **resnet50**:
 
