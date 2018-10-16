@@ -27,7 +27,7 @@ These files will be defined using the "-trfile" and "-tsfile" arguments.
 
 #### Directories:
 
-These method is more convenient because all the images are not loaded in memory but processed in a flow manner.
+This method is more convenient because images are not loaded in memory but processed in a flow manner.
 
 Each class is a directory containing all the images of that class. In this case same class image **must** be in the same folder. And the folders of the different classes must be in the same directory:
 
