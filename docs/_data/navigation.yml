@@ -9,15 +9,15 @@ menu:
   - title: "Image Classification"
     url: class
     children:
-      - title: "- Data source"
+      - title: " - Data source"
         url: class_source
-      - title: "- Deep models"
+      - title: " - Deep models"
         url: class_models
-      - title: "- Optimization"
+      - title: " - Optimization"
         url: class_optim
-      - title: "- Data augmentation"
+      - title: " - Data augmentation"
         url: class_da
-      - title: "- Examples"
+      - title: " - Examples"
         url: class_examples
   - title: "Object Detection"
     url: detect
