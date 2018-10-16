@@ -68,3 +68,30 @@ These folders will be defined using the "-trdir" and "-tsdir" arguments:
 ~~~shell
 python3 gila.py -mode class -trdir train -tsdir test
 ~~~
+
+***
+
+### Image size
+
+No matter the size of the images GILA will resize them to the working size with the -width and -height arguments:
+
+~~~shell
+-width 64 -height 64
+~~~
+default=240x240
+
+To rescale the images GILA can use a resize or crop:
+
+~~~shell
+-resize {resize,crop}
+~~~
+
+default=resize
+
+Also we can define the number of channels:
+
+~~~shell
+-chan {rgb,gray}  
+~~~
+
+default=rgb

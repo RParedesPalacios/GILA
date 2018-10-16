@@ -73,3 +73,34 @@ And the size of this fully connected layers:
 ~~~shell
 -predsize 1024
 ~~~
+
+***
+
+Model summary can be print out:
+
+~~shell
+-summary yes
+~~~
+
+default=no
+
+***
+
+And models can be loaded or saved using json and h5 formats
+
+~~~shell
+-save_model my_model
+~~~
+
+will save the trained model as two files:
+~~~shell
+- my_model.json
+- my_model.h5
+~~~
+
+For loading
+~~~shell
+-load_model my_model
+~~~
+
+expect to find both files, json and h5
