@@ -57,6 +57,7 @@
   margin-top: 0;
   line-height: 1;
   font-size: $type-size-1;
+  background-color: $footer-background-color;
   & + .page__meta {
     margin-top: -0.5em;
   }
