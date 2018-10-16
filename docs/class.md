@@ -1,4 +1,4 @@
-##IMAGE CLASSIFICATION MODE
+## Image Classification 
 
 Image classification mode is devoted for the usual image categorization, like CIFAR10, SVHN or ImageNet datasets.
 
