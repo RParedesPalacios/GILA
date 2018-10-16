@@ -7,7 +7,7 @@ GILA provides arguments to select several optimizations options, some are basica
 Number of epochs
 
 ~~~shell
-python3 gila.py -epochs 50
+-epochs 50
 ~~~
 
 default=100
@@ -15,7 +15,7 @@ default=100
 and batch size
 
 ~~~shell
-python3 gila.py -batch 128
+-batch 128
 ~~~
 
 default=100
@@ -25,7 +25,7 @@ default=100
 In some cases the dataset is unbalanced. There are different strategies to balanced the dataset to escape from prior probability accuracy. To this end we can provide a generator that balance the batches.
 
 ~~~shell
-python3 gilap.py -balance yes
+-balance yes
 ~~~
 
 default=no
@@ -35,7 +35,7 @@ default=no
 We can select different optimizers {sgd,adam,rmsprop}
 
 ~~~shell
-python3 gilap.py -optim sgd
+-optim sgd
 ~~~
 
 default=sgd
@@ -45,7 +45,7 @@ default=sgd
 Learnig rate can be defined
 
 ~~~shell
-python3 gilap.py -lr 0.01
+-lr 0.01
 ~~~
 
 default=0.1 (large lr assuming BatchNormalization is used)
@@ -56,7 +56,7 @@ default=0.1 (large lr assuming BatchNormalization is used)
 We can perform a learning rate annealing.
 
 ~~~shell
-python3 gilap.py -lra yes
+-lra yes
 ~~~
 
 default=no
