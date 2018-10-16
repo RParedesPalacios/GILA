@@ -12,8 +12,8 @@
         {% endif %}
         alt="{% if s.image_alt %}{{ s.image_alt }}{% endif %}">
       {% endif %}
-      <img src="gila.png" alt="GILA" height="42" width="42">
-      
+      <img src="../gila.png" alt="GILA" height="42" width="42">
+
       {% if s.title %}<h3>{{ s.title }}</h3>{% endif %}
       {% if s.text %}{{ s.text | markdownify }}{% endif %}
     {% endfor %}
