@@ -1,3 +1,3 @@
 # GILA
-General Image LAbelling: https://rparedespalacios.github.io/GILA/
+General Image LAbeling: https://rparedespalacios.github.io/GILA/
 
