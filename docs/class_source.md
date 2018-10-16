@@ -21,12 +21,12 @@ train/ship/19097_ship.png 8
 train/truck/12979_truck.png 9
 ~~~
 
-Files can be everywhere, it is not necessary that same class images to be in the same folder. Classes start in 0.
+Files can be everywhere, it is not necessary that images of the same class to be in the same folder. Classes start in 0.
 
 These files will be defined using the "-trfile" and "-tsfile" arguments:
 
 ~~~shell
-python3 gila.py -mode class -trfile tr.txt
+python3 gila.py -mode class -trfile tr.txt -tsfile ts.txt
 ~~~
 
 ***
@@ -35,7 +35,7 @@ python3 gila.py -mode class -trfile tr.txt
 
 This method is more convenient because images are not loaded in memory but processed in a flow manner.
 
-Each class is a directory containing all the images of that class. In this case same class image **must** be in the same folder. And the folders of the different classes must be in the same directory:
+Each class is a directory containing all the images of that class. In this case, images of the same class **must** be in the same folder. And the folders of the different classes must be in the same directory for training or test:
 
 ~~~
 train/
