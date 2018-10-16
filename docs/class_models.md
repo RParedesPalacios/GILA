@@ -92,7 +92,7 @@ And models can be loaded or saved using json and h5 formats
 -save_model my_model
 ~~~
 
-will save the trained model as two files:
+will save the trained model in two files:
 ~~~shell
 - my_model.json
 - my_model.h5
