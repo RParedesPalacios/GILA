@@ -17,23 +17,23 @@ $masthead-link-color: $text-color !default;
 $masthead-link-color-hover: $text-color !default;
 $navicon-link-color-hover: mix(#fff, $text-color, 80%) !default;
 
-/* contrast syntax highlighting (base16) */
-$base00: #000000 !default;
-$base01: #242422 !default;
-$base02: #484844 !default;
-$base03: #6c6c66 !default;
-$base04: #918f88 !default;
-$base05: #b5b3aa !default;
-$base06: #d9d7cc !default;
-$base07: #fdfbee !default;
-$base08: #ff6c60 !default;
-$base09: #e9c062 !default;
-$base0a: #ffffb6 !default;
-$base0b: #a8ff60 !default;
-$base0c: #c6c5fe !default;
-$base0d: #96cbfe !default;
-$base0e: #ff73fd !default;
-$base0f: #b18a3d !default;
+/* neon syntax highlighting (base16) */
+$base00: #ffffff !default;
+$base01: #e0e0e0 !default;
+$base02: #d0d0d0 !default;
+$base03: #b0b0b0 !default;
+$base04: #000000 !default;
+$base05: #101010 !default;
+$base06: #151515 !default;
+$base07: #202020 !default;
+$base08: #ff0086 !default;
+$base09: #fd8900 !default;
+$base0a: #aba800 !default;
+$base0b: #00c918 !default;
+$base0c: #1faaaa !default;
+$base0d: #3777e6 !default;
+$base0e: #ad00a1 !default;
+$base0f: #cc6633 !default;
 
 .page__footer {
   color: #fff !important; // override
