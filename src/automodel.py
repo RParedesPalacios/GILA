@@ -18,7 +18,7 @@ def basic_block(model,K,args,ishape=0):
         model.add(GN(args.da_gauss))
     model.add(Activation('relu'))
 
-    for i range(args.autonconv-1):
+    for i in range(args.autonconv-1):
         model.add(Conv2D(K, (3, 3), padding='same'))
         model.add(BN())
         if (args.da_gauss!=0.0):
