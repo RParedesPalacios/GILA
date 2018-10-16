@@ -4,7 +4,6 @@ main:
 
 
 menu:
-  - title: "Contents:"
   - title: "Introduction"
     url: index
   - title: "Image Classification"
