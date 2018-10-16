@@ -65,7 +65,7 @@ default value=no
 
 ***
 
-Not only for images:
+**Not only for images:**
 
 ### Gaussian noise
 
