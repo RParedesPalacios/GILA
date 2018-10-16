@@ -73,7 +73,7 @@ python3 gila.py -mode class -trdir train -tsdir test
 
 ### Image size
 
-No matter the size of the images GILA will resize them to the working size with the -width and -height arguments:
+No matter the size of the images GILA will resize them to the working size specified with the -width and -height arguments:
 
 ~~~shell
 -width 64 -height 64
