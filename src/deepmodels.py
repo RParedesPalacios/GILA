@@ -187,7 +187,7 @@ def train_class_model(X,L,TEST,Xt,Lt,args):
 
 
     if (TEST):
-        model.fit_generator(training_generator(args,num_classes,X,L),
+        history = model.fit_generator(training_generator(args,num_classes,X,L),
                             steps_per_epoch=tr_steps,
                             epochs=epochs,
                             validation_data=test_generator(args,Xt,Lt),
@@ -195,7 +195,7 @@ def train_class_model(X,L,TEST,Xt,Lt,args):
                             callbacks=callbacks,
                             verbose=1)
     else:
-        model.fit_generator(training_generator(args,num_classes,X,L),
+        history = model.fit_generator(training_generator(args,num_classes,X,L),
                             steps_per_epoch=tr_steps,
                             epochs=epochs,
                             callbacks=callbacks,
