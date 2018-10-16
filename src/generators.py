@@ -85,7 +85,7 @@ def training_generator(args,num_classes,X=0,L=0):
 #### TEST GENERATOR
 def test_generator(args,Xt=0,Lt=0):
 
-    datagen = ImageDataGenerator(rescale=1./da_rescale)
+    datagen = ImageDataGenerator(rescale=1./args.da_rescale)
     if (args.tsdir==None):
         gen=datagen.flow(Xt,Lt,batch_size=args.batch)
     else:
