@@ -7,12 +7,14 @@ def training_generator(args,num_classes,X=0,L=0):
     da_height=args.da_height/100.0
     da_rotation=args.da_rotation
     da_zoom=args.da_zoom
+    da_rescale=args.da_rescale
     da_flip_v=False
     if (args.da_flip_v=="yes"):
         da_flip_v=True
     da_flip_h=False
     if (args.da_flip_h=="yes"): da_flip_h=True
 
+    print("Data Augmentation: Rescale input values",da_rescale)
     print("Data Augmentation: Width",da_width)
     print("Data Augmentation: Height",da_width)
     print("Data Augmentation: Rotation",da_rotation)

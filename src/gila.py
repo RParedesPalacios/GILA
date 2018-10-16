@@ -47,6 +47,7 @@ parser.add_argument('-da_height', type=int, help='DA height shift %% (0)',defaul
 parser.add_argument('-da_rotation', type=int, help='DA rotation angle (0)',default=0)
 parser.add_argument('-da_zoom', type=float, help='DA zoom rang [1-zoom,1+zoom] (0.0)',default=0.0)
 parser.add_argument('-da_gauss', type=float, help='DA gaussian noise (0.0)',default=0.0)
+parser.add_argument('-da_rescale', type=float, help='DA scale of values input map (255.0)',default=255.0)
 parser.add_argument('-da_flip_v', choices=['yes', 'no'], default='no',help='DA vertical flip (no)')
 parser.add_argument('-da_flip_h', choices=['yes', 'no'], default='no',help='DA horizontal flip (no)')
 
