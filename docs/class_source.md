@@ -2,7 +2,7 @@
 
 Images can be specified in two different ways:
 
-#### List Files:
+### List Files:
 
 A file with the name and class of each image. For example:
 
@@ -31,7 +31,7 @@ python3 gila.py -mode class -trfile tr.txt
 
 ***
 
-#### Directories:
+### Directories:
 
 This method is more convenient because images are not loaded in memory but processed in a flow manner.
 
