@@ -36,7 +36,7 @@ We can define as well the number of consecutive convolutions before each maxpool
 
 ~~~shell
 -autonconv 1
-~~~s
+~~~
 
 default=2
 
