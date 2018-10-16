@@ -24,6 +24,22 @@ And the size of this fully connected layers:
 -autodsize 1024
 ~~~
 
+Also we can define the number of filters, by default GILA doubles the number of filters after each maxpool. GILA starts with KINI number of filters up to KEND number of maximum filters:
+
+~~~shell
+-autokini 32 -autokend 1024
+~~~
+
+default values KINI=16 KEND=512
+
+We can define as well the number of consecutive convolutions before each maxpooling:
+
+~~~shell
+-autonconv 1
+~~~s
+
+default=2
+
 ***
 
 ### Pre-trained models:

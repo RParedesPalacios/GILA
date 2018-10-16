@@ -14,6 +14,7 @@ parser.add_argument('-trfile', help='File with list of training images')
 parser.add_argument('-tsfile',help='File with list of test images')
 parser.add_argument('-trdir', help='Path of training images, class folders')
 parser.add_argument('-tsdir', help='Path of test images, class folders')
+
 # ### IMAGES
 parser.add_argument('-chan', choices=['rgb', 'gray'], default='rgb',help='working image depth (rgb)')
 parser.add_argument('-width', type=int, help='working image width (240)',default=240)
@@ -31,6 +32,7 @@ parser.add_argument('-autodsize',type=int,help='size of the dense layers attache
 parser.add_argument('-autodlayers',type=int,help='number of dense layers attached to auto  model (1)',default=1)
 parser.add_argument('-autokini',type=int,help='inital number of kernels for the auto model (16)',default=16)
 parser.add_argument('-autokend',type=int,help='Final number of kernels for the auto model (512)',default=512)
+parser.add_argument('-autonconv',type=int,help='Number of consecutive convolutions (2)',default=2)
 
 # ## OPTIM
 parser.add_argument('-optim', choices=['sgd', 'adam','rmsprop'], default='sgd',help='Optimizer (sgd)')
