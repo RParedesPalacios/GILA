@@ -14,6 +14,8 @@ menu:
         url: class_source
       - title: "Deep models"
         url: class_models
+      - title: "Optimization"
+        url: class_optim
       - title: "Data augmentation"
         url: class_da
       - title: "Examples"
