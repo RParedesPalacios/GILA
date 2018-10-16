@@ -55,6 +55,8 @@ parser.add_argument('-da_flip_h', choices=['yes', 'no'], default='no',help='DA h
 parser.add_argument('-load_model',  help='Load a model from file')
 parser.add_argument('-save_model',  help='Save  model to file')
 
+# ## other
+parser.add_argument('-plot, choices=['yes', 'no'], default='no',help='Plot training (no)')
 
 args = parser.parse_args()
 

@@ -1,5 +1,6 @@
 import numpy as np
 import keras
+import matplotlib.pyplot as plt
 from keras.optimizers import SGD
 from keras.optimizers import Adam
 from keras.optimizers import RMSprop
@@ -164,8 +165,16 @@ def train_class_model(X,L,TEST,Xt,Lt,args):
             if epoch < e1:
                 return args.lr
             elif epoch < e2:
+                if (epoch==e1):
+                    print "==============================="
+                    print "New learning rate:",args.lr/10
+                    print "==============================="
                 return args.lr/10
             else:
+                if (epoch==e2):
+                    print "==============================="
+                    print "New learning rate:",args.lr/100
+                    print "==============================="
                 return args.lr/100
 
         set_lr = LRS(scheduler)
@@ -191,6 +200,16 @@ def train_class_model(X,L,TEST,Xt,Lt,args):
                             epochs=epochs,
                             callbacks=callbacks,
                             verbose=1)
+
+    if (args.plot):
+        #  "Accuracy"
+        plt.plot(history.history['acc'])
+        plt.plot(history.history['val_acc'])
+        plt.title('model accuracy')
+        plt.ylabel('accuracy')
+        plt.xlabel('epoch')
+        plt.legend(['train', 'validation'], loc='upper left')
+        plt.show()
 
     ## SAVE MODEL
     if (args.save_model!=None):
