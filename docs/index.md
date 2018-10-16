@@ -17,7 +17,7 @@ git clone https://github.com/RParedesPalacios/GILA.git
 
 #### Using GILA
 
-As mentioned GILA is a command line tool:
+GILA is a command line tool:
 
 ~~~shell
 python3 gila.py
