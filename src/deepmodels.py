@@ -156,8 +156,8 @@ def train_class_model(X,L,TEST,Xt,Lt,args):
 
     ## REGULAR TRAINING
     if (args.lra=="yes"):
-        e1=int(epochs*0.25)
-        e2=int(epochs*0.5)
+        e1=int(epochs*0.5)
+        e2=int(epochs*0.75)
         print ("Learning rate annealing epochs: 0-->",e1,"-->",e2,"-->",epochs)
         print ("Learning rate annealing LR:",args.lr,"-->",args.lr/10,"-->",args.lr/100)
 
@@ -210,6 +210,7 @@ def train_class_model(X,L,TEST,Xt,Lt,args):
         plt.ylabel('accuracy')
         plt.xlabel('epoch')
         plt.legend(['train', 'validation'], loc='upper left')
+        plt.savefig('gila.png')
         plt.show()
 
     ## SAVE MODEL

@@ -27,7 +27,7 @@ def training_generator(args,num_classes,X=0,L=0):
     if (args.balance=="yes"):
         print("Batch balance")
 
-    datagen = ImageDataGenerator(rescale=1./255,
+    datagen = ImageDataGenerator(rescale=1./da_rescale,
                                     width_shift_range=da_width,
                                     height_shift_range=da_height,
                                     horizontal_flip=da_flip_h,
@@ -85,7 +85,7 @@ def training_generator(args,num_classes,X=0,L=0):
 #### TEST GENERATOR
 def test_generator(args,Xt=0,Lt=0):
 
-    datagen = ImageDataGenerator(rescale=1./255)
+    datagen = ImageDataGenerator(rescale=1./da_rescale)
     if (args.tsdir==None):
         gen=datagen.flow(Xt,Lt,batch_size=args.batch)
     else:
