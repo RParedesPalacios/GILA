@@ -1,6 +1,6 @@
 import numpy as np
 import keras
-import matplotlib.pyplot as plt
+
 from keras.optimizers import SGD
 from keras.optimizers import Adam
 from keras.optimizers import RMSprop
@@ -202,6 +202,7 @@ def train_class_model(X,L,TEST,Xt,Lt,args):
                             verbose=1)
 
     if (args.plot):
+        import matplotlib.pyplot as plt
         #  "Accuracy"
         plt.plot(history.history['acc'])
         plt.plot(history.history['val_acc'])

@@ -1,10 +1,12 @@
-main: 
+main:
   - title: "View on Github!"
     url: "https://github.com/RParedesPalacios/GILA"
 
 
 menu:
   - title: "Contents:"
+  - title: "Introduction"
+    url: index
   - title: "Image Classification"
     url: class
     children:
@@ -20,4 +22,3 @@ menu:
     url: detect
   - title: "Image Segmentation"
     url: segment
-

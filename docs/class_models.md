@@ -15,5 +15,5 @@ Automatically generates a convolutional network that fits the image sizes and th
 Load pretrained models and use GlobalAvgPooling to adapt the pretrained models to the size of the FC layers and numbers of classes
 
 ~~~shell
--models {vgg16,vgg19,resnet50...}
+-models {vgg16,vgg19,resnet50,inceptionv3,inceptionresnetv2,densenet121,densenet169,densenet201,mobilenet,mobilenetv2}
 ~~~
