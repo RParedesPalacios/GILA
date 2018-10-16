@@ -78,7 +78,7 @@ And the size of this fully connected layers:
 
 Model summary can be print out:
 
-~~shell
+~~~shell
 -summary yes
 ~~~
 
@@ -98,7 +98,7 @@ will save the trained model as two files:
 - my_model.h5
 ~~~
 
-For loading
+Therefore, for loading
 ~~~shell
 -load_model my_model
 ~~~
