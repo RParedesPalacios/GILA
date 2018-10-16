@@ -2,7 +2,7 @@
 
 GILA create two different models:
 
-#### Auto models:
+### Auto models:
 
 Automatically generates a convolutional network that fits the image sizes and the number of classes
 
@@ -24,8 +24,9 @@ And the size of this fully connected layers:
 -autodsize 1024
 ~~~
 
+***
 
-#### Pre-trained models:
+### Pre-trained models:
 
 Load pretrained models and use GlobalAvgPooling to adapt the pretrained models to the size of the FC layers and numbers of classes
 

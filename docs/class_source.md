@@ -23,7 +23,13 @@ train/truck/12979_truck.png 9
 
 Files can be everywhere, it is not necessary that same class images to be in the same folder. Classes start in 0.
 
-These files will be defined using the "-trfile" and "-tsfile" arguments.
+These files will be defined using the "-trfile" and "-tsfile" arguments:
+
+~~~shell
+python3 gila.py -mode class -trfile tr.txt
+~~~
+
+***
 
 #### Directories:
 
@@ -57,4 +63,8 @@ test/
   -- truck/
 ~~~
 
-These folders will be defined using the "-trdir" and "-tsdir" arguments
+These folders will be defined using the "-trdir" and "-tsdir" arguments:
+
+~~~shell
+python3 gila.py -mode class -trdir train -tsdir test
+~~~
