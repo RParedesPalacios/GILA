@@ -29,7 +29,7 @@ def training_generator(args,num_classes,X=0,L=0):
                                     horizontal_flip=da_flip_h,
                                     vertical_flip=da_flip_v,
                                     rotation_range=da_rotation,
-                                    zoom=da_zoom)
+                                    zoom_range=da_zoom)
     if (args.trdir==None):
         gen=datagen.flow(X,L,batch_size=args.batch)
     else:
