@@ -18,7 +18,7 @@ To define the number of fully connected layers after the last convolution and be
 -autodlayers 2
 ~~~
 
-
+And the size of this fully connected layers:
 
 ~~~shell
 -autodsize 1024
