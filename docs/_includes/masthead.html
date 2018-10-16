@@ -3,7 +3,7 @@
     <div class="masthead__menu">
       <nav id="site-nav" style="background-color:lightblue"  class="greedy-nav">
         <!--mod tite size 50px-->
-        <font size="50px"><a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a></font>
+        <font color="black" size="50px"><a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a></font>
 
         <ul class="visible-links">
           {%- for link in site.data.navigation.main -%}
@@ -13,7 +13,7 @@
               {%- assign url = link.url | relative_url -%}
             {%- endif -%}
             <li class="masthead__menu-item">
-              <a href="{{ url }}" {% if link.description %}title="{{ link.description }}"{% endif %}>{{ link.title }}</a>
+              <font color="black"><a href="{{ url }}" {% if link.description %}title="{{ link.description }}"{% endif %}>{{ link.title }}</a></font>
             </li>
           {%- endfor -%}
         </ul>
