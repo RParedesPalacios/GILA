@@ -166,15 +166,15 @@ def train_class_model(X,L,TEST,Xt,Lt,args):
                 return args.lr
             elif epoch < e2:
                 if (epoch==e1):
-                    print "==============================="
-                    print "New learning rate:",args.lr/10
-                    print "==============================="
+                    print ("===============================")
+                    print ("New learning rate:",args.lr/10)
+                    print ("===============================")
                 return args.lr/10
             else:
                 if (epoch==e2):
-                    print "==============================="
-                    print "New learning rate:",args.lr/100
-                    print "==============================="
+                    print ("===============================")
+                    print ("New learning rate:",args.lr/100)
+                    print ("===============================")
                 return args.lr/100
 
         set_lr = LRS(scheduler)
