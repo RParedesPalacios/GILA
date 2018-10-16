@@ -6,6 +6,10 @@ main:
 menu:
   - title: "Introduction"
     url: index
+  - title: "GILA"
+    image: https://rparedespalacios.github.io/GILA/gila.png
+    image_alt: "GILA"
+    text: "General Image LAbeling"
   - title: "Image Classification"
     url: class
     children:
