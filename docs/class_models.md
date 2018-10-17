@@ -79,7 +79,7 @@ And the size of this fully connected layers:
 Model summary can be print out:
 
 ~~~shell
--summary yes
+-summary
 ~~~
 
 default=no

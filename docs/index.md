@@ -15,6 +15,28 @@ From git:
 git clone https://github.com/RParedesPalacios/GILA.git
 ~~~
 
+#### Pre-requisites
+
+GILA requires the following python libs:
+  * Numpy
+    ~~~shell
+    pip3 install mumpy
+    ~~~
+
+  * Keras
+    ~~~shell
+    pip3 install keras
+    ~~~
+  * Pillow
+    ~~~shell
+    pip3 install pillow
+    ~~~
+  * MatPlolib (only if you use the -plot option)
+    ~~~shell
+    pip3 install matplotlib
+    ~~~
+
+
 #### Using GILA
 
 GILA is a command line tool:

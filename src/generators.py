@@ -10,10 +10,10 @@ def training_generator(args,num_classes,X=0,L=0):
     da_rescale=args.da_rescale
     da_flip_v=False
     da_gauss=args.da_gauss
-    if (args.da_flip_v=="yes"):
+    if (args.da_flip_v==True):
         da_flip_v=True
     da_flip_h=False
-    if (args.da_flip_h=="yes"): da_flip_h=True
+    if (args.da_flip_h==True): da_flip_h=True
 
     print("Data Augmentation: Rescale input values",da_rescale)
     print("Data Augmentation: Gaussian noise",da_gauss)
@@ -24,7 +24,7 @@ def training_generator(args,num_classes,X=0,L=0):
     print("Data Augmentation: FlipV",da_flip_v)
     print("Data Augmentation: FlipH",da_flip_h)
 
-    if (args.balance=="yes"):
+    if (args.balance==True):
         print("Batch balance")
 
     datagen = ImageDataGenerator(rescale=1./da_rescale,
