@@ -36,9 +36,9 @@ layout: default
       <section class="page__content" itemprop="text">
           <aside class="sidebar__right">
             <h2> Datasets</h2>
-            <li>
-              <ul> <a href="https://www.dropbox.com/s/nn2bfybbfj3ly9b/CIFAR10.tgz?dl=1">CIFAR10</a></ul>
-            </li>
+            <ul style="list-style-type:none">
+              <li> <a href="https://www.dropbox.com/s/nn2bfybbfj3ly9b/CIFAR10.tgz?dl=1">CIFAR10</a></ul>
+            </ul>
           </aside>
         {{ content }}
         {% if page.link %}<div><a href="{{ page.link }}" class="btn btn--primary">{{ site.data.ui-text[site.locale].ext_link_label | default: "Direct Link" }}</a></div>{% endif %}
