@@ -1,6 +1,7 @@
 import numpy as np
 import keras
 
+
 from keras.optimizers import SGD
 from keras.optimizers import Adam
 from keras.optimizers import RMSprop
@@ -26,7 +27,7 @@ def eval_class_model(Xt,Lt,args):
     model=load_json_model(args.load_model)
 
 
-    if (args.summary=="yes"):
+    if (args.summary==True):
         model.summary()
 
     model.compile(loss='categorical_crossentropy',optimizer='sgd',metrics=['accuracy'])
@@ -76,7 +77,7 @@ def train_class_model(X,L,TEST,Xt,Lt,args):
         [base,model]=pretrained_model(X,L,args,num_classes)
 
 
-    if (args.summary=="yes"):
+    if (args.summary==True):
         model.summary()
 
 
@@ -155,7 +156,7 @@ def train_class_model(X,L,TEST,Xt,Lt,args):
 
 
     ## REGULAR TRAINING
-    if (args.lra=="yes"):
+    if (args.lra==True):
         e1=int(epochs*0.5)
         e2=int(epochs*0.75)
         print ("Learning rate annealing epochs: 0-->",e1,"-->",e2,"-->",epochs)
@@ -200,6 +201,11 @@ def train_class_model(X,L,TEST,Xt,Lt,args):
                             epochs=epochs,
                             callbacks=callbacks,
                             verbose=1)
+
+    if (args.history):
+        import pickle
+        with open('gila.hist', 'wb') as file_pi:
+            pickle.dump(history.history, file_pi)
 
     if (args.plot):
         import matplotlib.pyplot as plt

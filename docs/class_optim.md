@@ -25,7 +25,7 @@ default=100
 In some cases the dataset is unbalanced. There are different strategies to balanced the dataset to escape from prior probability accuracy. To this end we can provide a generator that balance the batches.
 
 ~~~shell
--balance yes
+-balance
 ~~~
 
 default=no
@@ -56,7 +56,7 @@ default=0.1 (large lr assuming BatchNormalization is used)
 We can perform a learning rate annealing.
 
 ~~~shell
--lra yes
+-lra 
 ~~~
 
 default=no

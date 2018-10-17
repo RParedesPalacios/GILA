@@ -48,7 +48,7 @@ default value=0.0
 Flipt the image horizontally
 
 ~~~shell
--da_flip_h yes
+-da_flip_h
 ~~~
 
 default value=no
@@ -58,7 +58,7 @@ default value=no
 Flip the image vertically
 
 ~~~shell
--da_flip_v yes
+-da_flip_v
 ~~~
 
 default value=no
@@ -90,5 +90,5 @@ A fixed scale of the input values (1/value). Typically value=255 for images
 All these data augmentation can be combined:
 
 ~~~shell
-python3 gila.py -trdir train -tsdir test -width 32 -height 32 -mode class -model resnet50 -da_width 20 -da_height 20 -da_flip_h yes -da_zoom 0.2 -da_rescale 255.0
+python3 gila.py -trdir train -tsdir test -width 32 -height 32 -mode class -model resnet50 -da_width 20 -da_height 20 -da_flip_h -da_zoom 0.2 -da_rescale 255.0
 ~~~

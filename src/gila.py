@@ -24,7 +24,7 @@ parser.add_argument('-resize',choices=['resize', 'crop'],help='resize mode (resi
 # ### MODELS
 parser.add_argument('-mode', choices=['class', 'detect', 'segment'], default='class',help='type of problem (class)')
 parser.add_argument('-model',choices=ptrmodels,help='neural network model (auto)',default='auto')
-parser.add_argument('-summary',choices=['yes','no'],help='print model summary (no)',default='no')
+parser.add_argument('-summary',action='store_true',help='print model summary (no)',default='no')
 parser.add_argument('-predsize',type=int,help='size of the dense layers attached to pre-trained models (512)',default=512)
 parser.add_argument('-predlayers',type=int,help='number of dense layers attached to pre-trained models (1)',default=1)
 parser.add_argument('-flayer',help='freeze pre-trained model up to this layer')
@@ -36,12 +36,12 @@ parser.add_argument('-autonconv',type=int,help='Number of consecutive convolutio
 
 # ## OPTIM
 parser.add_argument('-optim', choices=['sgd', 'adam','rmsprop'], default='sgd',help='Optimizer (sgd)')
-parser.add_argument('-lra', choices=['yes', 'no'], default='yes',help='Learning Rate Annealing (yes)')
+parser.add_argument('-lra', action='store_true', help='Learning Rate Annealing')
 parser.add_argument('-lr',type=float,help='Learning rate (0.1)',default=0.1)
 parser.add_argument('-epochs',type=int,help='Epochs (100)',default=100)
 parser.add_argument('-fepochs',type=int,help='Freeze pretrained epochs (10)',default=10)
 parser.add_argument('-batch',type=int,help='Batch size (100)',default=100)
-parser.add_argument('-balance', choices=['yes', 'no'], default='no',help='Class balance (no)')
+parser.add_argument('-balance', action='store_true',help='Class balance')
 
 # ## DA
 parser.add_argument('-da_width', type=int, help='DA width shift %% (0)',default=0)
@@ -50,16 +50,16 @@ parser.add_argument('-da_rotation', type=int, help='DA rotation angle (0)',defau
 parser.add_argument('-da_zoom', type=float, help='DA zoom rang [1-zoom,1+zoom] (0.0)',default=0.0)
 parser.add_argument('-da_gauss', type=float, help='DA gaussian noise (0.0)',default=0.0)
 parser.add_argument('-da_rescale', type=float, help='DA scale of values input map (255.0)',default=255.0)
-parser.add_argument('-da_flip_v', choices=['yes', 'no'], default='no',help='DA vertical flip (no)')
-parser.add_argument('-da_flip_h', choices=['yes', 'no'], default='no',help='DA horizontal flip (no)')
+parser.add_argument('-da_flip_v', action='store_true',help='DA vertical flip')
+parser.add_argument('-da_flip_h', action='store_true',help='DA horizontal flip')
 
 # ## IO MODELS
 parser.add_argument('-load_model',  help='Load a model from file')
 parser.add_argument('-save_model',  help='Save  model to file')
 
 # ## other
-parser.add_argument('-plot', choices=['yes', 'no'], default='no',help='Plot training (no)')
-
+parser.add_argument('-plot', action='store_true',help='plot the accuracy and create a gila.png')
+parser.add_argument('-history', action='store_true',help='create a gila.txt with accuracy evolution')
 args = parser.parse_args()
 
 import numpy as np

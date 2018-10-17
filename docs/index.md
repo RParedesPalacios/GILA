@@ -1,5 +1,7 @@
 
-GILA is a general image toolkit that use deep learning techniques to solve different problems. GILA uses Keras and TensorFlow as DL framework.
+## GILA
+
+GILA is a general image toolkit that uses deep learning techniques to solve different problems. GILA uses Keras and TensorFlow as DL framework.
 
 Initially GILA is developed to deal with the following problems:
 
@@ -7,7 +9,7 @@ Initially GILA is developed to deal with the following problems:
 * Object Detection
 * Image Segmentation
 
-#### Install GILA
+### Install GILA
 
 From git:
 
@@ -15,7 +17,31 @@ From git:
 git clone https://github.com/RParedesPalacios/GILA.git
 ~~~
 
-#### Using GILA
+### Pre-requisites
+
+GILA requires the following python libs:
+  * Numpy
+    ~~~shell
+    pip3 install mumpy
+    ~~~
+
+  * Keras
+    ~~~shell
+    pip3 install keras
+    ~~~
+    
+  * Pillow
+    ~~~shell
+    pip3 install pillow
+    ~~~
+
+  * MatPlolib (only if you use the -plot option)
+    ~~~shell
+    pip3 install matplotlib
+    ~~~
+
+
+### Using GILA
 
 GILA is a command line tool:
 

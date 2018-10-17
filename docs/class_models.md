@@ -10,6 +10,8 @@ Automatically generates a convolutional network that fits the image sizes and th
 -models auto
 ~~~
 
+> Note: by default automodel uses 3x3 convolutions with stride=1 and padding. After each convolutional block applies a 2x2 max-pooling with stride 2. Also automodel by default uses batch normalization and after the batchnorm apply a ReLu as activation function.
+
 Some modifications can be done to the auto model.
 
 To define the number of fully connected layers after the last convolution and before the softmax:
@@ -79,7 +81,7 @@ And the size of this fully connected layers:
 Model summary can be print out:
 
 ~~~shell
--summary yes
+-summary
 ~~~
 
 default=no
