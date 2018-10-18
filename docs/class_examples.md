@@ -4,7 +4,7 @@
 
 Download MNIST images from the datasets right menu.
 
-In this case images are grayscale and we use the channel argument to indicate
+In this case images are grayscale and we use the channel argument to indicate it
 
 ~~~shell
 -chan gray
