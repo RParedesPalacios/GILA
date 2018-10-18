@@ -16,6 +16,11 @@ try an auto model:
 python3 gila.py -trdir training/ -tsdir testing/ -width 28 -height 28 -chan gray -mode class -da_width 10 -da_height 10 -da_rescale 255.0 -epochs 25 -plot -model auto -summary -lra -autodsize 128 -autonconv 1 -autokini 32
 ~~~
 
+obtaining a 0,59% of test error rate.
+
+![MNIST](https://github.com/RParedesPalacios/GILA/blob/master/imgs/mnist.png)
+
+
 ***
 
 ## CIFAR 10
