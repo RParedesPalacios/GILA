@@ -25,7 +25,7 @@ obtaining a 0,59% of test error rate.
 
 ## CIFAR 10
 
-Download the images from: [CIFAR10](https://www.dropbox.com/s/nn2bfybbfj3ly9b/CIFAR10.tgz?dl=1)
+Download the images the datasets right menu. 
 
 you will find two directories (train, test) and two files (tr.txt, ts.txt)
 
