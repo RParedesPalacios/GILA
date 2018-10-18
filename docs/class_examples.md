@@ -13,7 +13,7 @@ In this case images are grayscale and we use the channel argument to indicate
 try an auto model:
 
 ~~~shell
-python3 gila.py -trdir training -tsdir testing -width 28 -height 28 -chan gray -mode class -da_width 10 -da_height 10 -da_rescale 255.0 -epochs 100 -plot -model auto -summary -lra -autodsize 128
+python3 gila.py -trdir training/ -tsdir testing/ -width 28 -height 28 -chan gray -mode class -da_width 10 -da_height 10 -da_rescale 255.0 -epochs 25 -plot -model auto -summary -lra -autodsize 128 -autonconv 1 -autokini 32
 ~~~
 
 ***
