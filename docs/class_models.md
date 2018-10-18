@@ -10,7 +10,7 @@ Automatically generates a convolutional network that fits the image sizes and th
 -models auto
 ~~~
 
-> Note: by default automodel uses 3x3 convolutions with stride=1 and padding. After each convolutional block applies a 2x2 max-pooling with stride 2. Also automodel by default uses batch normalization and after the batchnorm apply a ReLu as activation function.
+> Note: by default automodel uses 3x3 convolutions with stride=1 and padding. After each convolution, automodel stacks a batch normalization layer and a ReLu activation layer. Convolutional layers are stacked as many as defined by the -autonconv argument to form a convolutional block. Finally, after each convolutional block a 2x2 max-pooling with stride 2 is applied.
 
 Some modifications can be done to the auto model.
 
