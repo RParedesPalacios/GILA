@@ -18,7 +18,7 @@ python3 gila.py -trdir training/ -tsdir testing/ -width 28 -height 28 -chan gray
 
 obtaining a 0,59% of test error rate.
 
-![MNIST](https://github.com/RParedesPalacios/GILA/blob/master/imgs/mnist.png)
+![MNIST](https://github.com/RParedesPalacios/GILA/blob/master/imgs/mnist.png?raw=true)
 
 
 ***
