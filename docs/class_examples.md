@@ -2,7 +2,7 @@
 
 ## MNIST
 
-Download MNIST images from the datasets -->
+Download MNIST images from the datasets right menu.
 
 In this case images are grayscale and we use the channel argument to indicate
 
