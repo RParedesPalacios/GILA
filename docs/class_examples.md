@@ -1,5 +1,23 @@
 <span style="text-decoration:underline;">**CLASSIFICATION EXAMPLES**<span>
 
+## MNIST
+
+Download MNIST images from the datasets -->
+
+In this case images are grayscale and we use the channel argument to indicate
+
+~~~shell
+-chan gray
+~~~
+
+try a auto model:
+
+~~~shell
+python3 gila.py -trdir training -tsdir testing -width 28 -height 28 -chan gray -mode class -da_width 10 -da_height 10 -da_rescale 255.0 -epochs 100 -plot -model auto -summary -lra -autodsize 128
+~~~
+
+***
+
 ## CIFAR 10
 
 Download the images from: [CIFAR10](https://www.dropbox.com/s/nn2bfybbfj3ly9b/CIFAR10.tgz?dl=1)
@@ -39,5 +57,5 @@ python3 gila.py -trfile tr.txt -tsfile ts.txt -width 32 -height 32 -mode class -
 Or **inceptionv3**, in this case the images are too small so we increase the working size up to 128x128:
 
 ~~~shell
-python3 gila.py -trfile tr.txt -tsfile ts.txt -width 128 -height 128 -mode class -model inceptionv3 -da_width 20 -da_height 20 -da_flip_h 
+python3 gila.py -trfile tr.txt -tsfile ts.txt -width 128 -height 128 -mode class -model inceptionv3 -da_width 20 -da_height 20 -da_flip_h
 ~~~
