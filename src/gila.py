@@ -36,6 +36,7 @@ parser.add_argument('-autonconv',type=int,help='Number of consecutive convolutio
 
 # ## OPTIM
 parser.add_argument('-optim', choices=['sgd', 'adam','rmsprop'], default='sgd',help='Optimizer (sgd)')
+parser.add_argument('-lra_scale', type=float, action='store_true', help='Learning Rate Annealing scale factor (2)',default=2)
 parser.add_argument('-lra', action='store_true', help='Learning Rate Annealing')
 parser.add_argument('-lr',type=float,help='Learning rate (0.1)',default=0.1)
 parser.add_argument('-epochs',type=int,help='Epochs (100)',default=100)

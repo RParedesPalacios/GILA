@@ -170,13 +170,13 @@ def train_class_model(X,L,TEST,Xt,Lt,args):
                     print ("===============================")
                     print ("New learning rate:",args.lr/10)
                     print ("===============================")
-                return args.lr/10
+                return args.lr/args.lra_scale
             else:
                 if (epoch==e2):
                     print ("===============================")
                     print ("New learning rate:",args.lr/100)
                     print ("===============================")
-                return args.lr/100
+                return args.lr/(args.lra_scale*args.lra_scale)
 
         set_lr = LRS(scheduler)
         callbacks=[set_lr]
