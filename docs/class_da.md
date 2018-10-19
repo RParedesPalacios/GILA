@@ -1,7 +1,7 @@
 <span style="text-decoration:underline;">**CLASSIFICATION DATA AUGMENTATION**<span>
 
 
-Data augmentation is a crucial strategy when dealing with image classification. GILA uses the most commonly used data augmentation parameters that Keras provides:
+Data augmentation is a crucial strategy when dealing with image classification. GILA uses the most common data augmentation techniques that Keras provides:
 
 ### Width shift
 
