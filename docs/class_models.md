@@ -78,6 +78,8 @@ And the size of this fully connected layers:
 
 ***
 
+### For all the models
+
 Model summary can be print out:
 
 ~~~shell
