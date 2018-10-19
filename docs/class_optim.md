@@ -61,19 +61,30 @@ We can perform a learning rate annealing.
 
 default=no
 
-We can defined the annealing scale factor:
-
-~~~shell
--lra_scale 2.0
-~~~
-
-default=2.0
-
-In this case this is the LR scheduler:
+This is the LR scheduler:
 
 |   Epoch	|  LR 	|
 |---	|---	|
 | 1-50%  	|  lr  	|   
 | 50%-75%  	| lr/lra_scale  	|
 | 75%-100%  	| lr/lra_scale^2  	|
+| ---  	| ---  	|
+
+
+We can defined the annealing scale factor:
+
+~~~shell
+-lra_scale 5.0
+~~~
+
+default=2.0
+
+
+In this case this is the LR scheduler:
+
+|   Epoch	|  LR 	|
+|---	|---	|
+| 1-50%  	|  lr  	|   
+| 50%-75%  	| lr/5  	|
+| 75%-100%  	| lr/25  	|
 | ---  	| ---  	|
