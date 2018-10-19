@@ -56,7 +56,7 @@ default=0.1 (large lr assuming BatchNormalization is used)
 We can perform a learning rate annealing.
 
 ~~~shell
--lra 
+-lra
 ~~~
 
 default=no
@@ -67,6 +67,6 @@ In this case this is the LR scheduler:
 |   Epoch	|  LR 	|
 |---	|---	|
 | 1-50%  	|  lr  	|   
-| 50%-75%  	| lr/10  	|
-| 75%-100%  	| lr/100  	|
+| 50%-75%  	| lr/lra_scale  	|
+| 75%-100%  	| lr/lra_scale^2  	|
 | ---  	| ---  	|
