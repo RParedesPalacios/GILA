@@ -25,7 +25,7 @@ obtaining a 0,59% of test error rate.
 
 ## CIFAR 10
 
-Download the images the datasets right menu. 
+Download the images from the datasets right menu.
 
 you will find two directories (train, test) and two files (tr.txt, ts.txt)
 
@@ -43,12 +43,12 @@ python3 gila.py -trdir train -tsdir test -width 32 -height 32 -mode class -model
 python3 gila.py -trfile tr.txt -tsfile ts.txt -width 32 -height 32 -mode class -model auto
 ~~~
 
-In both cases GILA will use the training data to train the deep model and the test data as unseen data for error estimation.
+In both cases GILA will use the training data to train the deep model and the test data as unseen data for test error estimation.
 
-### Add some data augmentation:
+### Automodel with some data augmentation:
 
 ~~~shell
-python3 gila.py -trfile tr.txt -tsfile ts.txt -width 32 -height 32 -mode class -model auto -da_width 20 -da_height 20 -da_flip_h
+python3 gila.py -trdir train -tsfile test -width 32 -height 32 -mode class -model auto -da_width 10 -da_height 10 -da_flip_h -lra -autokini 32
 ~~~
 
 ### Use a pre-trained model:
