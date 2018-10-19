@@ -160,7 +160,7 @@ def train_class_model(X,L,TEST,Xt,Lt,args):
         e1=int(epochs*0.5)
         e2=int(epochs*0.75)
         print ("Learning rate annealing epochs: 0-->",e1,"-->",e2,"-->",epochs)
-        print ("Learning rate annealing LR:",args.lr,"-->",args.lr/10,"-->",args.lr/100)
+        print ("Learning rate annealing LR:",args.lr,"-->",args.lr/args.lra_scale,"-->",args.lr/(args.lra_scale*args.lra_scale))
 
         def scheduler(epoch):
             if epoch < e1:
