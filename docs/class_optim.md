@@ -71,7 +71,7 @@ This is the LR scheduler:
 | ---  	| ---  	|
 
 
-We can defined the annealing scale factor:
+We can define the annealing scale factor:
 
 ~~~shell
 -lra_scale 5.0
