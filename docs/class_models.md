@@ -52,7 +52,9 @@ default=no
 
 >Note: the firs block of convolutions has not residual connections and it ends with a maxpooling. After that all the convolutional blocks will have residual connections and the last convolution will have stride=2 to reduce the maps sizes. Moreover the last ReLu of each convolutional block is applied after the Add layer.
 
+
 ***
+
 
 ### Pre-trained models:
 
