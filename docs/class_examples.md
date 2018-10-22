@@ -53,6 +53,7 @@ python3 ~/GITHUB/GILA/src/gila.py -trdir train -tsdir test -width 32 -height 32 
 
 obtaining a 8,92% of test error rate.
 
+![CIFAR10](https://raw.githubusercontent.com/RParedesPalacios/GILA/master/imgs/cifar10.png)
 
 
 
