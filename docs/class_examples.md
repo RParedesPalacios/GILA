@@ -51,7 +51,7 @@ In both cases GILA will use the training data to train the deep model and the te
 python3 ~/GITHUB/GILA/src/gila.py -trdir train -tsdir test -width 32 -height 32 -mode class -model auto -da_width 10 -da_height 10 -da_flip_h -lra -autokini 64 -plot -da_gauss 0.3 -summary -epochs 200 -autonconv 2
 ~~~
 
-obtaining a 8.92% of test error rate.
+obtaining a 9.65% of test error rate.
 
 ![CIFAR10](https://raw.githubusercontent.com/RParedesPalacios/GILA/master/imgs/cifar10.png)
 
