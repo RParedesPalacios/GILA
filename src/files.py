@@ -15,7 +15,7 @@ def load_json_model(basename):
 
 
 def save_json_model(model,basename):
-    fmodel_json = model.to_json()
+    model_json = model.to_json()
     filename=basename+".json"
     with open(filename, "w") as json_file:
         json_file.write(model_json)
