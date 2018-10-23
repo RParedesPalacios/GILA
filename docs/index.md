@@ -34,6 +34,9 @@ GILA requires the following python libs:
     ~~~shell
     pip3 install pillow
     ~~~
+---
+
+Optional:
 
   * MatPlolib (only if you use the -plot option)
     ~~~shell
