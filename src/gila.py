@@ -33,6 +33,7 @@ parser.add_argument('-autodlayers',type=int,help='number of dense layers attache
 parser.add_argument('-autokini',type=int,help='inital number of kernels for the auto model (16)',default=16)
 parser.add_argument('-autokend',type=int,help='Final number of kernels for the auto model (512)',default=512)
 parser.add_argument('-autonconv',type=int,help='Number of consecutive convolutions (2)',default=2)
+parser.add_argument('-autocdwise',action='store_true',help='use depthwise convolutions',default='no')
 parser.add_argument('-autores',action='store_true',help='auto model with residual connections',default='no')
 
 # ## OPTIM

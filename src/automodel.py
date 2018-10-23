@@ -17,7 +17,11 @@ def basic_block(y,K,args,ishape=0,residual=0):
     str=np.int32(str)
 
     for i in range(args.autonconv):
-        y=layers.Conv2D(K, kernel_size=(3, 3), strides=(str[i],str[i]), padding='same')(y)
+        if (args.autocdwise==False):
+            y=layers.Conv2D(K, kernel_size=(3, 3), strides=(str[i],str[i]), padding='same')(y)
+        else:
+            y=layers.SeparableConv2D(K,kernel_size=(3, 3), strides=(str[i],str[i]), padding='same')(y)
+
         y=layers.BatchNormalization()(y)
         if (args.da_gauss!=0.0):
             y=layers.GaussianNoise(0.3)(y)
@@ -26,7 +30,10 @@ def basic_block(y,K,args,ishape=0,residual=0):
 
 
     if (residual):
-         x=layers.Conv2D(K, kernel_size=(1, 1), strides=(2,2),padding='same')(x)
+         if (args.autocdwise==False):
+             x=layers.Conv2D(K, kernel_size=(1, 1), strides=(2,2),padding='same')(x)
+         else:
+             x=layers.SeparableConv2D(K, kernel_size=(1, 1), strides=(2,2),padding='same')(x)
          y=layers.add([x, y])
          y=layers.ReLU()(y)
 
