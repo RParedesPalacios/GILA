@@ -42,6 +42,11 @@ We can define as well the number of consecutive convolutions before each maxpool
 
 default=2
 
+DepthWise convolutions can be used:
+~~~shell
+-autocdwise
+~~~
+
 
 We can add **residual** connections:
 ~~~shell
