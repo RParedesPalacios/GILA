@@ -100,6 +100,9 @@ Model summary can be print out:
 
 default=no
 
+also a graphical version of the model is obtained in "model.png"
+
+
 ***
 
 And models can be loaded or saved using json and h5 formats
