@@ -63,6 +63,20 @@ parser.add_argument('-save_model',  help='Save  model to file')
 # ## other
 parser.add_argument('-plot', action='store_true',help='plot the accuracy and create a gila.png')
 parser.add_argument('-history', action='store_true',help='create a gila.txt with accuracy evolution')
+
+########## DETECTION ###########################
+## Mode json annot file
+parser.add_argument('-trannot', help='File with list of training images and annotations')
+parser.add_argument('-tsannot', help='File with list of test images and annotations')
+parser.add_argument('-fprefix', help='File name prefix, useful to match json image names with file names, e.g COCO json annot (0000000)',default="0000000")
+parser.add_argument('-nmaps',  help='Numer of maps connecting to loss in detection mode (3)',default="3")
+## Mode directory with backgrounds and objects
+parser.add_argument('-trbackgounds', help='Directory with backgourd images')
+parser.add_argument('-trobjects', help='Directory with object images, one sub-directory per object category')
+## anchors
+parser.add_argument('-anchors',type=float,nargs="+",help='Define the anchors geometry (0.75 0.75 1 1 1.5 1 1 1.5)',default=[0.8,0.8,1.5,1.5,2,2,1.5,1,1,1.5,1,2,2,1])
+
+
 args = parser.parse_args()
 
 import numpy as np
@@ -118,8 +132,8 @@ if (MODE=="class"):
 #### DETECTION MODE
 ############################
 elif (MODE=="detect"):
-    print ("Detect mode not yet implemented")
-    sys.exit()
+    from detect_deepmodels import *
+    train_det_model(args)
 
 ############################
 #### SEGMENTATION MODE
