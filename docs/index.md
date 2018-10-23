@@ -40,10 +40,10 @@ GILA requires the following python libs:
     pip3 install matplotlib
     ~~~
 
-    * Pydot (only if you use the -summary option)
-      ~~~shell
-      pip3 install pydot
-      ~~~
+  * Pydot (only if you use the -summary option)
+    ~~~shell
+    pip3 install pydot
+    ~~~
 
 
 ### Using GILA
