@@ -30,7 +30,7 @@ def basic_block(y,K,args,ishape=0,residual=0):
 
 
     if (residual):
-         if (args.autocdwise==True:
+         if (args.autocdwise==True):
              x=layers.SeparableConv2D(K, kernel_size=(1, 1), strides=(2,2),padding='same')(x)
          else:
              x=layers.Conv2D(K, kernel_size=(1, 1), strides=(2,2),padding='same')(x)
