@@ -116,7 +116,7 @@ def train_class_model(args):
         model=auto_model(args,num_classes)
     else:
         PRETR=True
-        [base,model]=pretrained_model(X,L,args,num_classes)
+        [base,model]=pretrained_model(args,num_classes)
 
 
     if (args.summary==True):
