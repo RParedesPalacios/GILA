@@ -46,7 +46,7 @@ DepthWise convolutions can be used:
 ~~~shell
 -autocdwise
 ~~~
-
+default=no
 
 We can add **residual** connections:
 ~~~shell
