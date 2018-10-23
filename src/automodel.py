@@ -67,7 +67,7 @@ def auto_model(args,num_classes):
             numf=KEND
 
         res=0
-        if ((args.auto_res==True)&(DEPTH>1)):
+        if ((args.autores==True)&(DEPTH>1)):
             res=1
 
         if (i==0):
