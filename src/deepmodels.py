@@ -16,26 +16,45 @@ from files import *
 ##################################
 ### EVAL CLASS MODELS
 ##################################
-def eval_class_model(Xt,Lt,args):
+def eval_class_model(args):
 
-    if (args.tsdir==None):
-        num_classes=len(set(Lt))
-        Lt = keras.utils.to_categorical(Lt, num_classes)
-
-    batch_size=args.batch
+    if (args.load_model==None):
+        print("No model name (-load_model)")
+        sys.exit(0)
 
     model=load_json_model(args.load_model)
-
-
     if (args.summary==True):
         model.summary()
 
+
+    if (args.chan=="rgb"):
+        print ("setting depth to RGB")
+        CHAN=3
+    else:
+        print ("setting depth to Gray")
+        CHAN=1
+
+    Xt=0
+    Lt=0
+    if (args.tsfile!=None):
+        print("Loading test file:",args.tsfile)
+        [Xt,Lt]=load_list_file_class_to_numpy(args.trfile,args.height,args.width,CHAN,args.resize)
+        num_classes=len(set(Lt))
+        Lt = keras.utils.to_categorical(Lt, num_classes)
+        numts=len(Lt)
+    elif (args.tsdir!=None):
+        print("Setting test dir to",args.tsdir)
+        TEST=1
+        gen=ImageDataGenerator().flow_from_directory(args.tsdir,target_size=(args.height,args.width),
+            batch_size=args.batch,
+            class_mode='categorical')
+        numts=gen.samples
+
+    batch_size=args.batch
+
     model.compile(loss='categorical_crossentropy',optimizer='sgd',metrics=['accuracy'])
 
-    if (args.tsdir==None):
-        ts_steps=len(Xt)//batch_size
-    else:
-        ts_steps=args.numts//batch_size
+    ts_steps=numts//batch_size
 
     print("Evaluating...")
     score=model.evaluate_generator(test_generator(args,Xt,Lt),ts_steps)
@@ -46,24 +65,46 @@ def eval_class_model(Xt,Lt,args):
 ##################################
 ### TRAIN CLASS MODELS
 ##################################
-def train_class_model(X,L,TEST,Xt,Lt,args):
+def train_class_model(args):
 
-    ######### DATA SOURCE
-    if (args.trdir==None):
-        num_classes=len(set(L))
+
+    if (args.chan=="rgb"):
+        print ("setting depth to RGB")
+        CHAN=3
     else:
+        print ("setting depth to Gray")
+        CHAN=1
+
+    X=0
+    L=0
+    TEST=0
+    Xt=0
+    Lt=0
+    ######### DATA SOURCE
+    if (args.trfile!=None):
+        print("Loading training file:",args.trfile)
+        [X,L]=load_list_file_class_to_numpy(args.trfile,args.height,args.width,CHAN,args.resize)
+        num_classes=len(set(L))
+        numtr=len(L)
+        if (args.tsfile!=None):
+            TEST=1
+            print("Loading test file:",args.tsfile)
+            [Xt,Lt]=load_list_file_class_to_numpy(args.tsfile,args.height,args.width,CHAN,args.resize)
+            numts=len(Lt)
+    else:
+        print("Setting training dir to",args.trdir)
         gen=ImageDataGenerator().flow_from_directory(args.trdir,target_size=(args.height,args.width),
             batch_size=args.batch,
             class_mode='categorical')
         num_classes=len(set(gen.classes))
         numtr=gen.samples
-
-    if (args.tsdir!=None):
-        gen=ImageDataGenerator().flow_from_directory(args.tsdir,target_size=(args.height,args.width),
-            batch_size=args.batch,
-            class_mode='categorical')
-        numts=gen.samples
-
+        if (args.tsdir!=None):
+            print("Setting test dir to",args.tsdir)
+            TEST=1
+            gen=ImageDataGenerator().flow_from_directory(args.tsdir,target_size=(args.height,args.width),
+                batch_size=args.batch,
+                class_mode='categorical')
+            numts=gen.samples
 
     ######### MODELS
     PRETR=False
@@ -110,14 +151,9 @@ def train_class_model(X,L,TEST,Xt,Lt,args):
         opt=RMSprop(lr=args.lr, rho=0.9, epsilon=None, decay=0.0)
 
 
-    if (args.trdir==None):
-        tr_steps=len(X) // batch_size
-        if (TEST):
-            ts_steps=len(Xt)//batch_size
-    else:
-        tr_steps=numtr//batch_size
-        if (TEST):
-            ts_steps=numts//batch_size
+    tr_steps=numtr//batch_size
+    if (TEST):
+        ts_steps=numts//batch_size
 
 
     #### PRE-TRAIN

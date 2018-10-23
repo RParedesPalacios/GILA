@@ -106,50 +106,11 @@ print ("==================================")
 ############################
 if (MODE=="class"):
     ### TRAIN
-    if (args.trfile!=None):
-        TEST=0
-        print("Loading training file:",args.trfile)
-        [X,L]=load_list_file_class_to_numpy(args.trfile,ROWS,COLS,CHAN,RES)
-        Xt=0
-        Lt=0
-        if (args.tsfile!=None):
-            TEST=1
-            print("Loading test file:",args.tsfile)
-            [Xt,Lt]=load_list_file_class_to_numpy(args.tsfile,ROWS,COLS,CHAN,RES)
-
-        train_class_model(X,L,TEST,Xt,Lt,args)
-    elif (args.trdir!=None):
-        print("Setting training dir to",args.trdir)
-        X=0
-        L=0
-        TEST=0
-        Xt=0
-        Lt=0
-        if (args.tsdir!=None):
-            print("Setting test dir to",args.tsdir)
-            TEST=1
-        train_class_model(X,L,TEST,Xt,Lt,args)
+    if (args.trfile!=None)|(args.trdir!=None):
+        train_class_model(args)
     ## EVAL
-    elif (args.load_model!=None):
-        TEST=0
-        Xt=0
-        Lt=0
-        if (args.tsfile!=None):
-            if (MODE=="class"):
-                print("Loading test file:",args.tsfile)
-                [Xt,Lt]=load_list_file_class_to_numpy(args.tsfile,ROWS,COLS,CHAN,RES)
-                eval_class_model(Xt,Lt,args)
-        elif (args.tsdir!=None):
-            print("Setting test dir to",args.tsdir)
-            if (args.numts==None):
-                print("-numts must be specified in Tets Dir mode")
-                sys.exit()
-            TEST=1
-            eval_class_model(Xt,Lt,args)
-        else:
-            print("No test file to eval model")
-            sys.exit()
-
+    elif (args.tsfile!=None)|(args.tsdir!=None):
+        eval_class_model(args)
 ############################
 #### DETECTION MODE
 ############################
