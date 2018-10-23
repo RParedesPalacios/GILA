@@ -1,4 +1,4 @@
-from keras.models import model_from_json
+from keras.models import model_from_json,model_to_json
 
 def load_json_model(basename):
     filename=basename+".json"
