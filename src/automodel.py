@@ -44,6 +44,8 @@ def basic_block(y,K,args,ishape=0,residual=0):
 
 def auto_model(args,num_classes):
 
+    print("CDW=",args.autocdwise)
+
     h=args.height
     w=args.width
     if (args.chan=="rgb"):
