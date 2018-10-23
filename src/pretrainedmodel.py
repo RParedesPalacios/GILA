@@ -9,7 +9,7 @@ from keras.applications.inception_v3 import InceptionV3
 from keras.applications.inception_resnet_v2 import InceptionResNetV2
 from keras.applications.mobilenet import MobileNet
 from keras.applications.mobilenetv2 import MobileNetV2
-from keras.layers import  Activation 
+from keras.layers import  Activation
 from keras.layers.normalization import BatchNormalization as BN
 
 from keras.layers import Input
@@ -19,19 +19,16 @@ from keras.layers import Dense, GlobalAveragePooling2D
 import numpy as np
 
 
-    
-def pretrained_model(X,L,args,num_classes):
 
-    if (args.trdir==None):
-        num_classes=len(set(L))
-        shape=X.shape[1:]
+def pretrained_model(args,num_classes):
+
+
+    h=args.height
+    w=args.width
+    if (args.chan=="rgb"):
+        shape=(h,w,3)
     else:
-        h=args.height
-        w=args.width
-        if (args.chan=="rgb"):
-            shape=(h,w,3)
-        else:
-            shape=(h,w,1)
+        shape=(h,w,1)
 
     print("Setting input shape for pretrained model to",shape)
 
@@ -58,17 +55,17 @@ def pretrained_model(X,L,args,num_classes):
     elif (args.model=="mobilenetv2"):
         load_model = MobileNetV2(input_tensor=input_tensor,weights='imagenet', include_top=False)
 
-        
+
     x=load_model.output
     x=GlobalAveragePooling2D()(x)
     for i in range(args.predlayers):
         x=Dense(args.predsize)(x)
         x=BN()(x)
         x=Activation('relu')(x)
-        
+
     predictions = Dense(num_classes, activation='softmax')(x)
 
     model=Model(inputs=load_model.input, outputs=predictions)
-        
+
 
     return load_model,model
