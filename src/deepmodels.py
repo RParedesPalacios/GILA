@@ -22,6 +22,7 @@ def eval_class_model(args):
         print("No model name (-load_model)")
         sys.exit(0)
 
+
     model=load_json_model(args.load_model)
     if (args.summary==True):
         model.summary()
