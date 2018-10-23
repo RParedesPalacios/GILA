@@ -111,6 +111,9 @@ if (MODE=="class"):
     ## EVAL
     elif (args.tsfile!=None)|(args.tsdir!=None):
         eval_class_model(args)
+    else:
+        print("Nothing to do, bye!")
+
 ############################
 #### DETECTION MODE
 ############################
