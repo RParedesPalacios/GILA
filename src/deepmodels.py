@@ -6,7 +6,6 @@ from keras.optimizers import SGD
 from keras.optimizers import Adam
 from keras.optimizers import RMSprop
 from keras.callbacks import LearningRateScheduler as LRS
-from keras.utils import plot_model
 
 from automodel import auto_model
 from pretrainedmodel import pretrained_model
@@ -79,6 +78,7 @@ def train_class_model(X,L,TEST,Xt,Lt,args):
 
 
     if (args.summary==True):
+        from keras.utils import plot_model
         model.summary()
         plot_model(model, to_file='model.png')
 

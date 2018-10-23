@@ -16,7 +16,7 @@ try an auto model:
 python3 gila.py -trdir training/ -tsdir testing/ -width 28 -height 28 -chan gray -mode class -da_width 10 -da_height 10 -da_rescale 255.0 -epochs 25 -plot -model auto -summary -lra -autodsize 128 -autonconv 1 -autokini 32
 ~~~
 
-obtaining a 0,59% of test error rate.
+obtaining a 0.59% of test error rate.
 
 ![MNIST](https://raw.githubusercontent.com/RParedesPalacios/GILA/master/imgs/mnist.png)
 
@@ -51,7 +51,7 @@ In both cases GILA will use the training data to train the deep model and the te
 python3 ~/GITHUB/GILA/src/gila.py -trdir train -tsdir test -width 32 -height 32 -mode class -model auto -da_width 10 -da_height 10 -da_flip_h -lra -autokini 64 -plot -da_gauss 0.3 -summary -epochs 200 -autonconv 2
 ~~~
 
-obtaining a 8,92% of test error rate.
+obtaining a 8.92% of test error rate.
 
 ![CIFAR10](https://raw.githubusercontent.com/RParedesPalacios/GILA/master/imgs/cifar10.png)
 
