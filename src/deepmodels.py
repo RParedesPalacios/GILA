@@ -11,7 +11,7 @@ from automodel import auto_model
 from pretrainedmodel import pretrained_model
 from generators import *
 from files import *
-
+from loaders import *
 
 ##################################
 ### EVAL CLASS MODELS
