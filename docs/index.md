@@ -29,7 +29,7 @@ GILA requires the following python libs:
     ~~~shell
     pip3 install keras
     ~~~
-    
+
   * Pillow
     ~~~shell
     pip3 install pillow
@@ -39,6 +39,11 @@ GILA requires the following python libs:
     ~~~shell
     pip3 install matplotlib
     ~~~
+
+    * Pydot (only if you use the -summary option)
+      ~~~shell
+      pip3 install pydot
+      ~~~
 
 
 ### Using GILA
