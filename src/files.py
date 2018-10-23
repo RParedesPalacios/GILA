@@ -16,12 +16,10 @@ def load_json_model(basename):
 
 def save_json_model(model,basename):
     fmodel_json = model.to_json()
-    filename=args.save_model+".json"
+    filename=basename+".json"
     with open(filename, "w") as json_file:
         json_file.write(model_json)
-    
-    filename=args.save_model+".h5"
+
+    filename=basename+".h5"
     model.save_weights(filename)
     print("Saved model to disk")
-
-
