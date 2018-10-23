@@ -22,6 +22,7 @@ obtaining a 0.59% of test error rate.
 
 
 ***
+***
 
 ## CIFAR 10
 
@@ -55,6 +56,7 @@ obtaining a 9.65% of test error rate.
 
 ![CIFAR10](https://raw.githubusercontent.com/RParedesPalacios/GILA/master/imgs/cifar10.png)
 
+
 With residual connections:
 
 ~~~shell
@@ -64,7 +66,6 @@ python3 gila.py -trdir train -tsdir test -width 32 -height 32 -mode class -model
 obtaining a 9.7% of test error rate.
 
 ![CIFAR10](https://raw.githubusercontent.com/RParedesPalacios/GILA/master/imgs/cifar10_res.png)
-
 
 ### Use a pre-trained model:
 
