@@ -17,6 +17,7 @@ from loaders import *
 ### EVAL CLASS MODELS
 ##################################
 def eval_class_model(args):
+    print("Evaluation mode")
 
     if (args.load_model==None):
         print("No model name (-load_model)")
@@ -68,7 +69,7 @@ def eval_class_model(args):
 ##################################
 def train_class_model(args):
 
-
+    print("Training mode")
     if (args.chan=="rgb"):
         print ("setting depth to RGB")
         CHAN=3
