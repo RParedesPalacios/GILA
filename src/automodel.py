@@ -5,7 +5,7 @@ from keras import layers
 import numpy as np
 
 
-
+## Basic convolutional block
 def basic_block(y,K,args,ishape=0,residual=0):
 
     if (residual):
@@ -42,10 +42,8 @@ def basic_block(y,K,args,ishape=0,residual=0):
     return y
 
 
-def auto_model(args,num_classes):
-
-    print("CDW=",args.autocdwise)
-
+## Fully Convolutional Network
+def FCN(args):
     h=args.height
     w=args.width
     if (args.chan=="rgb"):
@@ -61,7 +59,6 @@ def auto_model(args,num_classes):
 
     print("Depth=",DEPTH)
 
-    ##model = Sequential()
     numf=int(KINI/2)
     for i in range(DEPTH):
         numf=numf*2
@@ -78,6 +75,13 @@ def auto_model(args,num_classes):
         else:
             x=basic_block(x,numf,args,residual=res)
 
+    return image_tensor,x
+
+
+## Automodel
+def auto_model(args,num_classes):
+
+    [input,x]=FCN(args)
 
     x=layers.Flatten()(x)
     for i in range(args.autodlayers):
@@ -88,6 +92,6 @@ def auto_model(args,num_classes):
         x=layers.ReLU()(x)
 
     x=layers.Dense(num_classes, activation='softmax')(x)
-    model = models.Model(inputs=[image_tensor], outputs=[x])
+    model = models.Model(inputs=[input], outputs=[x])
 
     return model

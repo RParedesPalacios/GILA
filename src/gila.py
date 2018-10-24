@@ -75,7 +75,9 @@ parser.add_argument('-trbackgounds', help='Directory with backgourd images')
 parser.add_argument('-trobjects', help='Directory with object images, one sub-directory per object category')
 ## anchors
 parser.add_argument('-anchors',type=float,nargs="+",help='Define the anchors geometry (0.75 0.75 1 1 1.5 1 1 1.5)',default=[0.8,0.8,1.5,1.5,2,2,1.5,1,1,1.5,1,2,2,1])
-
+## maps
+parser.add_argument('-minmap', type=int, help='detection minimum map size (2)',default=2)
+parser.add_argument('-maxmap', type=int, help='detection minimum map size (2)',default=16)
 
 args = parser.parse_args()
 
@@ -132,8 +134,11 @@ if (MODE=="class"):
 #### DETECTION MODE
 ############################
 elif (MODE=="detect"):
-    from detect_deepmodels import *
-    train_det_model(args)
+    if (args.trannot!=None):
+        from detect_deepmodels import *
+        train_det_model(args)
+    else:
+        print("Nothing to do, bye!")
 
 ############################
 #### SEGMENTATION MODE

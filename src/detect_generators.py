@@ -6,6 +6,32 @@ from loaders import *
 from pprint import pprint
 import random
 
+
+def iou(box1,box2):
+    ## (x1,y1,x2,y2)
+    w1=box1[3]-box1[1]
+    h1=box1[4]-box1[2]
+
+    w2=box2[3]-box2[1]
+    h2=box2[4]-box2[2]
+
+    area1=w1*h1
+    area2=w2*h2
+
+    ##intersection
+    dx=min(box1[3],box2[3])-max(box1[1],box2[1])
+    dy=min(box1[4],box2[4])-max(box1[2],box2[2])
+    if (dx>=0)and(dy>=0):
+        inter=dx*dy
+    else:
+        return 0
+
+    union=area1+area2-inter
+
+    return float(inter)/float(union)
+
+
+
 ######################################################################
 ################### DETECTION GENERATORS #############################
 ######################################################################

@@ -8,7 +8,7 @@ from keras.optimizers import Adam
 from keras.optimizers import RMSprop
 from keras.callbacks import LearningRateScheduler as LRS
 
-from detect_automodel import auto_det_model
+from detect_automodel import *
 from detect_generators import *
 
 
@@ -38,26 +38,33 @@ def train_det_model(args):
     for i in range(len(args.anchors)//2):
         print("[%f,%f]" %(args.anchors[2*i],args.anchors[2*i+1]))
 
-    ######### MODELS
-    model=auto_det_model(args,cat)
-
-
-    list=[]
-    for layer in model.layers:
-        if "conv2d" in layer.name:
-            list.append(layer.name)
-
-
-    print(list)
-
-    for i in range(args.autonconv-1,len(list),args.autonconv):
-        print(list[i])
-
-    ######### Connectig to output map
-    print("Connecting to output map:")
+    ######### FCN MODEL
+    input,x,model=auto_det_model(args)
     if (args.summary==True):
         model.summary()
+    ######### Obtaining output maps and target size
+    list=[]
+    for layer in model.layers:
+        if "re_lu" in layer.name:
+            list.append(layer)
 
+    print("Maps connected to target, from %d to %d" %(args.minmap,args.maxmap))
+    maps=[]
+    target_size=0
+    for i in range(args.autonconv-1,len(list),args.autonconv):
+        if (min(list[i].output.shape[1],list[i].output.shape[2])>=args.minmap)and(max(list[i].output.shape[1],list[i].output.shape[2])<=args.maxmap):
+            print(list[i].name,list[i].output.shape[1],"x",list[i].output.shape[2])
+            maps.append(list[i])
+            target_size=target_size+(int(list[i].output.shape[1])*int(list[i].output.shape[2]))*(4+cat+1)
+
+    print("Target size=",target_size)
+    ######### Connect FCN model to target
+    model=add_detect_target(input,args,maps)
+
+    if (args.summary==True):
+        from keras.utils import plot_model
+        model.summary()
+        plot_model(model, to_file='model.png')
 
     #### GENERAL
     batch_size=args.batch

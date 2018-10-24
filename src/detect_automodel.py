@@ -1,26 +1,32 @@
 import math
 import keras
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation, Flatten
-from keras.layers import Conv2D, MaxPooling2D
-from keras.layers.normalization import BatchNormalization as BN
-from keras.layers import GaussianNoise as GN
-from automodel import basic_block,FCN
+from keras import models
+from keras import layers
+from automodel import FCN
+from keras.backend import slice
 
 
+def auto_det_model(args):
 
-def auto_det_model(args,cat):
+    [input,x]=FCN(args)
 
-    model=FCN(args)
+    model = models.Model(inputs=[input], outputs=[x])
 
-    model.add(Flatten())
-    for i in range(args.autodlayers):
-        model.add(Dense(args.autodsize))
-        model.add(BN())
-        model.add(Activation('relu'))
+    return input,x,model
 
-    ## Detection output layer
-    model.add(Dense(cat))
-    model.add(Activation('softmax'))
+def add_detect_target(input,args,maps):
+
+    outs=[]
+    for m in maps:
+        size=int(m.output.shape[1])*int(m.output.shape[2])
+        for mx in range(m.output.shape[1]):
+            for my in range(m.
+            output.shape[1]):
+                s= layers.Lambda( lambda x: slice(x,(0,mx,my,0),(-1,1,1,-1)))(m.output)
+                print(s.shape)
+                x=layers.Dense(size,activation='linear')(s)
+                outs.append(x)
+
+    model = models.Model(inputs=[input], outputs=outs)
 
     return model
