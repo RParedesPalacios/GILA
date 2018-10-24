@@ -22,8 +22,7 @@ def add_detect_target(input,args,maps,cat,anchors):
 
     outs=[]
     for m in maps:
-        x=layers.Conv2D(depth, kernel_size
-        =(3, 3), strides=(1,1),
+        x=layers.Conv2D(depth, kernel_size=(3, 3), strides=(1,1),
         padding='same',activation='sigmoid')(m.output)
         outs.append(x)
 

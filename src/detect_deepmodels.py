@@ -123,11 +123,11 @@ def train_det_model(args):
     # detloss=
     ### metrics
 
-    #model.compile(loss='categorical_crossentropy',optimizer=opt,metrics=['accuracy'])
+    model.compile(loss='mean_squared_error',optimizer=opt,metrics=['accuracy'])
 
 
-    #history = model.fit_generator(detect_train_generator(args),
-                            #steps_per_epoch=tr_steps,
-                            #epochs=epochs,
-                            #callbacks=callbacks,
-                            #verbose=1)
+    history = model.fit_generator(detect_train_generator(args,maps,args.anchors),
+                            steps_per_epoch=tr_steps,
+                            epochs=epochs,
+                            callbacks=callbacks,
+                            verbose=1)
