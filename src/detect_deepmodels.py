@@ -35,7 +35,8 @@ def train_det_model(args):
 
     ######### ANCHORS
     print("Anchors:")
-    for i in range(len(args.anchors)//2):
+    anchors=len(args.anchors)//2
+    for i in range(anchors):
         print("[%f,%f]" %(args.anchors[2*i],args.anchors[2*i+1]))
 
     ######### FCN MODEL
@@ -59,7 +60,9 @@ def train_det_model(args):
 
     print("Target size=",target_size)
     ######### Connect FCN model to target
-    model=add_detect_target(input,args,maps)
+    maps,model=add_detect_target(input,args,maps,cat,anchors)
+    print(maps)
+    # maps are target maps equal size that feat maps
 
     if (args.summary==True):
         from keras.utils import plot_model
@@ -118,6 +121,8 @@ def train_det_model(args):
 
     ### detection loss
     # detloss=
+    ### metrics
+
     #model.compile(loss='categorical_crossentropy',optimizer=opt,metrics=['accuracy'])
 
 

@@ -14,19 +14,19 @@ def auto_det_model(args):
 
     return input,x,model
 
-def add_detect_target(input,args,maps):
+
+## FCN target
+def add_detect_target(input,args,maps,cat,anchors):
+
+    depth=anchors*(cat+1)
 
     outs=[]
     for m in maps:
-        size=int(m.output.shape[1])*int(m.output.shape[2])
-        for mx in range(m.output.shape[1]):
-            for my in range(m.
-            output.shape[1]):
-                s= layers.Lambda( lambda x: slice(x,(0,mx,my,0),(-1,1,1,-1)))(m.output)
-                print(s.shape)
-                x=layers.Dense(size,activation='linear')(s)
-                outs.append(x)
+        x=layers.Conv2D(depth, kernel_size
+        =(3, 3), strides=(1,1),
+        padding='same',activation='sigmoid')(m.output)
+        outs.append(x)
 
     model = models.Model(inputs=[input], outputs=outs)
 
-    return model
+    return outs,model
