@@ -95,3 +95,5 @@ Also we can define the number of channels:
 ~~~
 
 default=rgb
+
+[Next](https://rparedespalacios.github.io/GILA/class_models/)

@@ -92,3 +92,6 @@ All these data augmentation can be combined:
 ~~~shell
 python3 gila.py -trdir train -tsdir test -width 32 -height 32 -mode class -model resnet50 -da_width 20 -da_height 20 -da_flip_h -da_zoom 0.2 -da_rescale 255.0
 ~~~
+
+
+[Next](https://rparedespalacios.github.io/GILA/class_examples/)

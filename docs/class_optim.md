@@ -88,3 +88,6 @@ In this case this is the LR scheduler:
 | 50%-75%  	| lr/5  	|
 | 75%-100%  	| lr/25  	|
 | ---  	| ---  	|
+
+
+[Next](https://rparedespalacios.github.io/GILA/class_da/)
