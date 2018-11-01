@@ -5,7 +5,7 @@ def hnm_loss(y_true,y_pred):
 
 
     ## Count positives
-    pos=tf.cast(tf.count_nonzero(y_true)+1,dtype=tf.int32)
+    pos=tf.cast(tf.count_nonzero(y_true),dtype=tf.int32)
     neg=3*pos
 
     yt=tf.reshape(y_true,[tf.size(y_true)])
