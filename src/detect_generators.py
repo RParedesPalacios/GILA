@@ -201,6 +201,9 @@ def detect_train_generator(args,maps):
                     #print("Warning no anchor set for",imgname,"anot",an)
                 #print("max score=",max)
                 #input("Press Enter to continue...")
+        if (match==0):
+            print(match,tot)
+            
         mpc=float(100*match)/float(tot)
         if (mpc<50.0):
             print("anchors matched= %d %d %.2f%%" %(match,tot,mpc))
