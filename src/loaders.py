@@ -69,8 +69,8 @@ def load_image_as_numpy(args,fname):
             img=img.convert('L')
     if (ch=="L"):
         if (CH==3):
-            print ("========> Discarding gray image:"+filename)
-            read=0
+            img=img.convert('RGB')
+            print ("========> warning gray image to rgb:"+fname)
     if (read==1):
         if (args.resize=="resize"):
             C=args.width
