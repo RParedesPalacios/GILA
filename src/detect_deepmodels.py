@@ -39,30 +39,34 @@ def train_det_model(args):
     for i in range(anchors):
         print("[%f,%f]" %(args.anchors[2*i],args.anchors[2*i+1]))
 
-    ######### FCN MODEL
-    input,x,model=auto_det_model(args)
-    if (args.summary==True):
-        model.summary()
-    ######### Obtaining output maps and target size
-    list=[]
-    for layer in model.layers:
-        if "re_lu" in layer.name:
-            list.append(layer)
+    if (args.load_model!=None):
+        model=load_json_model(args.load_model)
+        maps=model.outputs
+    else:
+        ######### FCN MODEL
+        input,x,model=auto_det_model(args)
+        if (args.summary==True):
+            model.summary()
+        ######### Obtaining output maps and target size
+        list=[]
+        for layer in model.layers:
+            if "re_lu" in layer.name:
+                list.append(layer)
 
-    print("Maps connected to target, from %d to %d" %(args.minmap,args.maxmap))
-    maps=[]
-    target_size=0
-    for i in range(args.autonconv-1,len(list),args.autonconv):
-        if (min(list[i].output.shape[1],list[i].output.shape[2])>=args.minmap)and(max(list[i].output.shape[1],list[i].output.shape[2])<=args.maxmap):
-            print(list[i].name,list[i].output.shape[1],"x",list[i].output.shape[2])
-            maps.append(list[i])
-            target_size=target_size+(int(list[i].output.shape[1])*int(list[i].output.shape[2]))*(4+cat+1)
+        print("Maps connected to target, from %d to %d" %(args.minmap,args.maxmap))
+        maps=[]
+        target_size=0
+        for i in range(args.autonconv-1,len(list),args.autonconv):
+            if (min(list[i].output.shape[1],list[i].output.shape[2])>=args.minmap)and(max(list[i].output.shape[1],list[i].output.shape[2])<=args.maxmap):
+                print(list[i].name,list[i].output.shape[1],"x",list[i].output.shape[2])
+                maps.append(list[i])
+                target_size=target_size+(int(list[i].output.shape[1])*int(list[i].output.shape[2]))*(4+cat+1)
 
-    print("Target size=",target_size)
-    ######### Connect FCN model to target
-    maps,model=add_detect_target(input,args,maps,cat,anchors)
+        print("Target size=",target_size)
+        ######### Connect FCN model to target
+        maps,model=add_detect_target(input,args,maps,cat,anchors)
+
     print(maps)
-    # maps are target maps equal size that feat maps
 
     if (args.summary==True):
         from keras.utils import plot_model
@@ -131,3 +135,10 @@ def train_det_model(args):
                             epochs=epochs,
                             callbacks=callbacks,
                             verbose=1)
+
+
+
+
+    ## SAVE MODEL
+    if (args.save_model!=None):
+        save_json_model(model,args.save_model)

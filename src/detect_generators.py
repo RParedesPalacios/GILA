@@ -88,8 +88,9 @@ def detect_train_generator(args,maps):
     ## w.r.t an image of (args.height x args.width)
     lanchors=len(args.anchors)//2
     k=0
+    print("Maps")
     for m in maps:
-        print(m.shape[1],m.shape[2])
+        print(m.shape[1],"x",m.shape[2])
         scalex=float(args.width)/float(m.shape.as_list()[2])
         scaley=float(args.height)/float(m.shape.as_list()[1])
         for my in range(m.shape.as_list()[1]):
