@@ -203,7 +203,9 @@ def detect_train_generator(args,maps):
                 #input("Press Enter to continue...")
         if (match==0):
             print(match,tot)
-            
+        print("--")
+        print("anchors matched= %d %d %.2f%%" %(match,tot,mpc))
+
         mpc=float(100*match)/float(tot)
         if (mpc<50.0):
             print("anchors matched= %d %d %.2f%%" %(match,tot,mpc))
