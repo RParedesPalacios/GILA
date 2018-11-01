@@ -10,7 +10,7 @@ from keras.callbacks import LearningRateScheduler as LRS
 
 from detect_automodel import *
 from detect_generators import *
-
+from detect_loss import *
 
 ##################################
 ### TRAIN DETECTION MODELS
@@ -123,10 +123,10 @@ def train_det_model(args):
     # detloss=
     ### metrics
 
-    model.compile(loss='mean_squared_error',optimizer=opt,metrics=['accuracy'])
+    model.compile(loss=hnm_loss,optimizer=opt,metrics=['mae'])
 
 
-    history = model.fit_generator(detect_train_generator(args,maps,args.anchors),
+    history = model.fit_generator(detect_train_generator(args,maps),
                             steps_per_epoch=tr_steps,
                             epochs=epochs,
                             callbacks=callbacks,
