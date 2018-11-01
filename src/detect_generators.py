@@ -6,6 +6,7 @@ from loaders import *
 from pprint import pprint
 import random
 from keras import backend as K
+import tensorflow as tf
 
 def iou(box1,box2):
     ## (x1,y1,x2,y2)
@@ -197,25 +198,19 @@ def detect_train_generator(args,maps):
 
                 if (setanchor==True):
                     match=match+1
-                #else:
-                    #print("Warning no anchor set for",imgname,"anot",an)
-                #print("max score=",max)
-                #input("Press Enter to continue...")
-        if (match==0):
-            print(match,tot)
 
         mpc=float(100*match)/float(tot)
-        print("--")
-        print("anchors matched= %d %d %.2f%%" %(match,tot,mpc))
+        if (mpc<50):
+            print("few anchors matched= %d %d %.2f%%" %(match,tot,mpc))
 
 
-        if (mpc<50.0):
-            print("anchors matched= %d %d %.2f%%" %(match,tot,mpc))
         yield X,Y
-            ## batch
-            #X[i,:]=x
-            #Y[i,:]=y
 
+
+
+
+
+        ######
 
 
 
