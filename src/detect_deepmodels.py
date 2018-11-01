@@ -11,6 +11,7 @@ from keras.callbacks import LearningRateScheduler as LRS
 from detect_automodel import *
 from detect_generators import *
 from detect_loss import *
+from files import *
 
 ##################################
 ### TRAIN DETECTION MODELS
@@ -123,19 +124,15 @@ def train_det_model(args):
         print ("Learning rate=",args.lr,"no annealing")
         callbacks=[]
 
-    ### detection loss
-    # detloss=
-    ### metrics
 
+    ## use a hard negative minnig loss
     model.compile(loss=hnm_loss,optimizer=opt,metrics=['mae'])
-
 
     history = model.fit_generator(detect_train_generator(args,maps),
                             steps_per_epoch=tr_steps,
                             epochs=epochs,
                             callbacks=callbacks,
                             verbose=1)
-
 
 
 
