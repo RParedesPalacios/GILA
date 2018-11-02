@@ -111,7 +111,7 @@ def eval_detect_model(args):
                 names.append(str(imgname))
                 read=1
             except (FileNotFoundError, IOError):
-                print("Warning:",fname,"not found")
+                #print("Warning:",fname,"not found")
                 read=0
 
         X[b,:]=x

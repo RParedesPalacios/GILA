@@ -85,6 +85,7 @@ def load_image_as_numpy(args,fname):
 
 
         x=np.asarray(img, dtype="uint8" ).reshape(R,C,CH)
+        x=x/args.da_rescale
 
     return x,ws,hs
 
