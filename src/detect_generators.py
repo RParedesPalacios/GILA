@@ -135,6 +135,7 @@ def detect_train_generator(args,maps):
                     [x,ws,hs]=load_image_as_numpy(args,fname)
                     read=1
                 except (FileNotFoundError, IOError):
+                    print("Warning:",fname,"not found")
                     read=0
 
 
@@ -170,6 +171,7 @@ def detect_train_generator(args,maps):
                     cy=an[2]+(an[4]-an[2])/2
                     my=int(cy/scaley)
 
+                    #shift to search for neighborhood cells to place anchors
                     shift=0
                     for sy in range(-shift,shift+1,1):
                         if ((my+sy)>=0)and((my+sy)<A[k].shape[0]):
@@ -202,7 +204,7 @@ def detect_train_generator(args,maps):
 
         mpc=float(100*match)/float(tot)
         if (mpc<50):
-            print("few anchors matched= %d %d %.2f%%" %(match,tot,mpc))
+            print("Warning: few anchors matched= %d %d %.2f%%" %(match,tot,mpc))
 
 
         yield X,Y
