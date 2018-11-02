@@ -88,7 +88,11 @@ def eval_detect_model(args):
         k=k+1
 
     #build batch
-    imgname=[]
+    ch=3
+    if (args.chan=="gray"):
+        ch=1
+    X=np.zeros((args.batch,args.height,args.width,ch))
+    names=[]
     for b in range(args.batch):
         read=0
         while (read==0):
@@ -98,7 +102,7 @@ def eval_detect_model(args):
             fname=args.tsdir+args.fprefix+str(imgname)+".jpg"
             try:
                 [x,ws,hs]=load_image_as_numpy(args,fname)
-                imgname.append(str(imgname))
+                names.append(str(imgname))
                 read=1
             except (FileNotFoundError, IOError):
                 print("Warning:",fname,"not found")
@@ -112,7 +116,7 @@ def eval_detect_model(args):
 
     ## Draw detections
     for b in range(args.batch):
-        fname=args.tsdir+args.fprefix+str(imgname[b])+".jpg"
+        fname=args.tsdir+args.fprefix+str(names[b])+".jpg"
         [x,ws,hs]=load_image_as_numpy(args,fname)
         img=Image.open(fname)
         draw=ImageDraw.Draw(img)
@@ -121,13 +125,14 @@ def eval_detect_model(args):
             for my in range(y.shape[1]):
                 for mx in range(y.shape[2]):
                     for mz in range(y.shape[3]):
-                        if (y[my,mx,mz]>0.5):
+                        if (y[b,my,mx,mz]>0.5):
                             an=mz%lanchors
-                            draw.rectangle((A[k][my,mx,an]/ws,A[k][my,mx,an+1]/hs),
-                            (A[k][my,mx,an+2]/ws,A[k][my,mx,an+3]/hs))
+                            draw.rectangle(((A[k][my,mx,an]/ws,A[k][my,mx,an+1]/hs), (A[k][my,mx,an+2]/ws,A[k][my,mx,an+3]/hs)), fill=None)
+                            #draw.rectangle((A[k][my,mx,an]/ws,A[k][my,mx,an+1]/hs),
+                            #(A[k][my,mx,an+2]/ws,A[k][my,mx,an+3]/hs),fill="black")
             k=k+1
-        fname=args.tsdir+args.fprefix+str(imgname)+"ANOT"+".jpg"
-        Image.save(fname)
+        fname=args.tsdir+args.fprefix+str(names[b])+"ANOT"+".jpg"
+        img.save(fname)
 
 
 
