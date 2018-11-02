@@ -92,11 +92,16 @@ def eval_detect_model(args):
     if (args.chan=="gray"):
         ch=1
     X=np.zeros((args.batch,args.height,args.width,ch))
-    names=[]
+
+    rlist=list(range(size))
+    random.shuffle(rlist)
+    ri=0
     for b in range(args.batch):
         read=0
+
         while (read==0):
-            r=random.randint(0, size-1)
+            r=rlist[ri]
+            ri=ri+1
             imgname=databox[r]['image_id']
             ### from COCO image id to file path
             fname=args.tsdir+args.fprefix+str(imgname)+".jpg"
@@ -109,6 +114,7 @@ def eval_detect_model(args):
                 read=0
 
         X[b,:]=x
+
 
     print("Predict batch")
     ## get output maps

@@ -119,15 +119,21 @@ def detect_train_generator(args,maps):
 
         tot=0
         match=0
-        for b in range(args.batch):
+        rlist=list(range(size))
+        random.shuffle(rlist)
+        ri=0
 
+
+        for b in range(args.batch):
             read=0
+
             while (read==0):
-                r=random.randint(0, size-1)
+                r=rlist[ri]
+                ri=ri+1
+
                 imgname=databox[r]['image_id']
                 ### from COCO image id to file path
                 fname=args.trdir+args.fprefix+str(imgname)+".jpg"
-
                 try:
                     [x,ws,hs]=load_image_as_numpy(args,fname)
                     read=1
@@ -135,9 +141,8 @@ def detect_train_generator(args,maps):
                     #print("Warning:",fname,"not found")
                     read=0
 
-
-
             #x,ws,hs,wd,hd=image_transform(x,args)
+
 
             X[b,:]=x
 
