@@ -103,7 +103,7 @@ def eval_detect_model(args):
         while (read==0):
             r=rlist[ri%size]
             ri=ri+1
-            iimgname=dataimg[r]['id']
+            imgname=dataimg[r]['id']
             ### from COCO image id to file path
             fname=args.tsdir+args.fprefix+str(imgname)+".jpg"
             try:
