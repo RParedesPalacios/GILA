@@ -112,6 +112,9 @@ def detect_train_generator(args,maps):
 
     ## Provide images and achors fitting with iou>0.5
     print("Start Generator....")
+    rlist=list(range(size))
+    random.shuffle(rlist)
+
     while True:
 
         for y in Y:
@@ -119,16 +122,13 @@ def detect_train_generator(args,maps):
 
         tot=0
         match=0
-        rlist=list(range(size))
-        random.shuffle(rlist)
-        ri=0
-
+        ri=random.randint(0, size-1)
 
         for b in range(args.batch):
             read=0
 
             while (read==0):
-                r=rlist[ri]
+                r=rlist[ri%size]
                 ri=ri+1
 
                 imgname=databox[r]['image_id']
