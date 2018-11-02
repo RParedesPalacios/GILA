@@ -60,7 +60,7 @@ def eval_detect_model(args):
     lanchors=len(args.anchors)//2
 
     print("Maps")
-    maps=moldel.outputs
+    maps=model.outputs
 
     A=[]
     for m in maps:
