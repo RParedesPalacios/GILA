@@ -202,15 +202,12 @@ def detect_train_generator(args,maps):
                 if (setanchor==True):
                     match=match+1
 
-<<<<<<< HEAD
-        #mpc=float(100*match)/float(tot)
-        #if (mpc<50):
-        #    print("few anchors matched= %d %d %.2f%%" %(match,tot,mpc))
-=======
+
+
         mpc=float(100*match)/float(tot)
         if (mpc<50):
             print("Warning: few anchors matched= %d %d %.2f%%" %(match,tot,mpc))
->>>>>>> 25af87fcb0c11e4df15b25eee15f95004fe5426f
+
 
 
         yield X,Y

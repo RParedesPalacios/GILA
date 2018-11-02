@@ -137,6 +137,9 @@ elif (MODE=="detect"):
     if (args.trannot!=None):
         from detect_deepmodels import *
         train_det_model(args)
+    elif (args.tsannot!=None)and(args.tsdir!=None):
+        from detect_eval import *
+        eval_detect_model(args)
     else:
         print("Nothing to do, bye!")
 
@@ -146,3 +149,21 @@ elif (MODE=="detect"):
 elif (MODE=="segment"):
     print ("Segment mode not yet implemented")
     sys.exit()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###########
