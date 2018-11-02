@@ -132,7 +132,7 @@ def detect_train_generator(args,maps):
                     [x,ws,hs]=load_image_as_numpy(args,fname)
                     read=1
                 except (FileNotFoundError, IOError):
-                    print("Warning:",fname,"not found")
+                    #print("Warning:",fname,"not found")
                     read=0
 
 
