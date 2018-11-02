@@ -70,6 +70,7 @@ def detect_train_generator(args,maps):
     print ("Images in annotation file:",size)
 
 
+
     ## X,Y for trainig (data, targets) and A foro anchors
     Y=[]
     A=[]
@@ -125,7 +126,6 @@ def detect_train_generator(args,maps):
         rlist=list(range(size))
         random.shuffle(rlist)
         ri=random.randint(0, size-1)
-        print("RI=",ri)
         for b in range(args.batch):
             read=0
 
@@ -133,12 +133,11 @@ def detect_train_generator(args,maps):
                 r=rlist[ri%size]
                 ri=ri+1
 
-                imgname=databox[r]['image_id']
+                imgname=dataimg[r]['id']
                 ### from COCO image id to file path
                 fname=args.trdir+args.fprefix+str(imgname)+".jpg"
                 try:
                     [x,ws,hs]=load_image_as_numpy(args,fname)
-                    print("====== R=",r)
                     read=1
                 except (FileNotFoundError, IOError):
                     #print("Warning:",fname,"not found")
