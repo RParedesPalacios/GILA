@@ -134,7 +134,7 @@ def eval_detect_model(args):
             for my in range(y.shape[1]):
                 for mx in range(y.shape[2]):
                     for mz in range(y.shape[3]):
-                        if (y[b,my,mx,mz]>0.1):
+                        if (y[b,my,mx,mz]>0.25):
                             an=mz%lanchors
                             c=c+1
                             draw.rectangle(((A[k][my,mx,an]/ws,A[k][my,mx,an+1]/hs), (A[k][my,mx,an+2]/ws,A[k][my,mx,an+3]/hs)), fill=None)
