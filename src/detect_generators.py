@@ -138,6 +138,7 @@ def detect_train_generator(args,maps):
                 fname=args.trdir+args.fprefix+str(imgname)+".jpg"
                 try:
                     [x,ws,hs]=load_image_as_numpy(args,fname)
+                    print("====== R=",r)
                     read=1
                 except (FileNotFoundError, IOError):
                     #print("Warning:",fname,"not found")
