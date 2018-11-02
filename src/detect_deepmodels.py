@@ -41,7 +41,7 @@ def train_det_model(args):
         print("[%f,%f]" %(args.anchors[2*i],args.anchors[2*i+1]))
 
     if (args.load_model!=None):
-        model=load_json_model(args.load_model)
+        model=load_from_disk(args.load_model)
         maps=model.outputs
     else:
         ######### FCN MODEL
@@ -138,7 +138,7 @@ def train_det_model(args):
 
     ## SAVE MODEL
     if (args.save_model!=None):
-        save_json_model(model,args.save_model)
+        save_to_disk(model,args.save_model)
 
 
 

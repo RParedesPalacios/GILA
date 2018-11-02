@@ -23,3 +23,16 @@ def save_json_model(model,basename):
     filename=basename+".h5"
     model.save_weights(filename)
     print("Saved model to disk")
+
+
+def load_from_disk(basename):
+    filename=basename+".h5"
+    model=load_model(filename)
+    print("Loaded model from disk")
+    return model
+
+
+def save_to_disk(model,basename):
+    filename=basename+".h5"
+    model.save(filename)
+    print("Saved model to disk")
