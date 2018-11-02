@@ -113,7 +113,7 @@ def eval_detect_model(args):
     print("Predict batch")
     ## get output maps
     Y=model.predict(X, args.batch)
-
+    print(Y)
     ## Draw detections
     for b in range(args.batch):
         fname=args.tsdir+args.fprefix+str(names[b])+".jpg"
