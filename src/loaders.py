@@ -69,8 +69,8 @@ def load_image_as_numpy(args,fname):
             img=img.convert('L')
     if (ch=="L"):
         if (CH==3):
-            img=img.convert('RGB')
-            print ("Warning: gray image to rgb:",fname)
+            #img=img.convert('RGB')
+            #print ("Warning: gray image to rgb:",fname)
             raise FileNotFoundError
     if (read==1):
         if (args.resize=="resize"):
