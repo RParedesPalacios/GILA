@@ -125,6 +125,7 @@ def detect_train_generator(args,maps):
         rlist=list(range(size))
         random.shuffle(rlist)
         ri=random.randint(0, size-1)
+        print("RI=",ri)
         for b in range(args.batch):
             read=0
 
