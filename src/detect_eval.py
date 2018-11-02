@@ -5,7 +5,7 @@ import sys
 from loaders import *
 import random
 from files import *
-
+from pprint import pprint
 
 ######################################################################
 ################### DETECTION INFERENCE  #############################
@@ -34,7 +34,7 @@ def eval_detect_model(args):
     f.close()
 
     cat=data['categories']
-    pprint(data['categories'])
+    print(data['categories'])
     size=len(cat)
     print ("Categories in annotation file:",size)
     lencat=size
