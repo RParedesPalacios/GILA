@@ -110,9 +110,6 @@ def detect_train_generator(args,maps):
         k=k+1
 
 
-    #print(A[0][0,0,:])
-
-
     ## Provide images and achors fitting with iou>0.5
     print("Start Generator....")
     while True:
@@ -137,6 +134,9 @@ def detect_train_generator(args,maps):
                 except (FileNotFoundError, IOError):
                     read=0
 
+
+
+            #x,ws,hs,wd,hd=image_transform(x,args)
 
             X[b,:]=x
 
@@ -200,9 +200,9 @@ def detect_train_generator(args,maps):
                 if (setanchor==True):
                     match=match+1
 
-        mpc=float(100*match)/float(tot)
-        if (mpc<50):
-            print("few anchors matched= %d %d %.2f%%" %(match,tot,mpc))
+        #mpc=float(100*match)/float(tot)
+        #if (mpc<50):
+        #    print("few anchors matched= %d %d %.2f%%" %(match,tot,mpc))
 
 
         yield X,Y

@@ -67,7 +67,7 @@ def train_det_model(args):
         ######### Connect FCN model to target
         maps,model=add_detect_target(input,args,maps,cat,anchors)
 
-    print(maps)
+    #print(maps)
 
     if (args.summary==True):
         from keras.utils import plot_model
@@ -139,3 +139,16 @@ def train_det_model(args):
     ## SAVE MODEL
     if (args.save_model!=None):
         save_json_model(model,args.save_model)
+
+
+
+
+
+
+
+
+
+
+
+
+    ###############
