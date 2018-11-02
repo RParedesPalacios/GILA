@@ -112,9 +112,7 @@ def detect_train_generator(args,maps):
 
     ## Provide images and achors fitting with iou>0.5
     print("Start Generator....")
-    rlist=list(range(size))
-    random.shuffle(rlist)
-    ri=random.randint(0, size-1)
+
 
     while True:
 
@@ -124,7 +122,9 @@ def detect_train_generator(args,maps):
         tot=0
         match=0
 
-
+        rlist=list(range(size))
+        random.shuffle(rlist)
+        ri=random.randint(0, size-1)
         for b in range(args.batch):
             read=0
 
