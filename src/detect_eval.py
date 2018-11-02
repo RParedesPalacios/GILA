@@ -93,6 +93,7 @@ def eval_detect_model(args):
         ch=1
     X=np.zeros((args.batch,args.height,args.width,ch))
 
+    names=[]
     rlist=list(range(size))
     random.shuffle(rlist)
     ri=0
