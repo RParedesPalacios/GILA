@@ -121,16 +121,20 @@ def eval_detect_model(args):
         img=Image.open(fname)
         draw=ImageDraw.Draw(img)
         k=0
+        c=0
         for y in Y:
             for my in range(y.shape[1]):
                 for mx in range(y.shape[2]):
                     for mz in range(y.shape[3]):
                         if (y[b,my,mx,mz]>0.5):
                             an=mz%lanchors
+                            c=c+1
                             draw.rectangle(((A[k][my,mx,an]/ws,A[k][my,mx,an+1]/hs), (A[k][my,mx,an+2]/ws,A[k][my,mx,an+3]/hs)), fill=None)
                             #draw.rectangle((A[k][my,mx,an]/ws,A[k][my,mx,an+1]/hs),
                             #(A[k][my,mx,an+2]/ws,A[k][my,mx,an+3]/hs),fill="black")
             k=k+1
+        print("Image",fname,"found",c,"boxes")
+        
         fname=args.tsdir+args.fprefix+str(names[b])+"ANOT"+".jpg"
         img.save(fname)
 
