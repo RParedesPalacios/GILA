@@ -96,14 +96,14 @@ def eval_detect_model(args):
     names=[]
     rlist=list(range(size))
     random.shuffle(rlist)
-    ri=0
+    ri=random.randint(0, size-1)
     for b in range(args.batch):
         read=0
 
         while (read==0):
-            r=rlist[ri]
+            r=rlist[ri%size]
             ri=ri+1
-            imgname=databox[r]['image_id']
+            iimgname=dataimg[r]['id']
             ### from COCO image id to file path
             fname=args.tsdir+args.fprefix+str(imgname)+".jpg"
             try:
@@ -134,7 +134,7 @@ def eval_detect_model(args):
             for my in range(y.shape[1]):
                 for mx in range(y.shape[2]):
                     for mz in range(y.shape[3]):
-                        if (y[b,my,mx,mz]>0.5):
+                        if (y[b,my,mx,mz]>0.05):
                             an=mz%lanchors
                             c=c+1
                             draw.rectangle(((A[k][my,mx,an]/ws,A[k][my,mx,an+1]/hs), (A[k][my,mx,an+2]/ws,A[k][my,mx,an+3]/hs)), fill=None)

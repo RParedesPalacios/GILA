@@ -197,7 +197,7 @@ def detect_train_generator(args,maps):
 
                                         if (score>max):
                                             max=score
-                                        if (score>0.05):
+                                        if (score>0.5):
                                             #print("anchor found")
                                             setanchor=True
                                             cls=int(an[0])
