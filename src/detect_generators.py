@@ -1,12 +1,13 @@
-import json
 from PIL import Image, ImageOps
 import numpy as np
 import sys
 from loaders import *
 from pprint import pprint
 import random
-from keras import backend as K
-import tensorflow as tf
+from detect_tools import *
+
+import keras.backend as K
+
 
 def iou(box1,box2):
     ## (x1,y1,x2,y2)
@@ -43,40 +44,24 @@ def iou(box1,box2):
 def detect_train_generator(args,maps):
     ## read json annot files
 
-    print("Loading JSON annotations file",args.trannot)
-    with open(args.trannot) as f:
-        data = json.load(f)
-    f.close()
-
-    cat=data['categories']
-    pprint(data['categories'])
-    size=len(cat)
-    print ("Categories in annotation file:",size)
+    [categories,catlen,images,imglen,boxes,boxlen]=load_annot_json(args.trannot)
 
     catdict={}
     j=0
-    for i in cat:
-        catdict.update({cat[j]['id']:j})
+    for i in categories:
+        catdict.update({categories[j]['id']:j})
         j=j+1
 
     print(catdict)
 
-    databox=data['annotations']
-    size=len(databox)
-    print ("Boxes in annotation file:",size)
-
-    dataimg=data['images']
-    size=len(dataimg)
-    print ("Images in annotation file:",size)
-
-
 
     ## X,Y for trainig (data, targets) and A foro anchors
+    lanchors=len(args.anchors)//2
     Y=[]
     A=[]
     for m in maps:
         Y.append(np.zeros((args.batch,m.shape[1],m.shape[2],m.shape[3])))
-        A.append(np.zeros((m.shape[1],m.shape[2],len(cat)*len(args.anchors)*2)))
+        A.append(np.zeros((m.shape[1],m.shape[2],lanchors*4)))
 
 
     ch=3
@@ -87,11 +72,10 @@ def detect_train_generator(args,maps):
 
     ## args.anchors codification
     ## w.r.t an image of (args.height x args.width)
-    lanchors=len(args.anchors)//2
     k=0
     print("Maps")
     for m in maps:
-        print(m.shape[1],"x",m.shape[2])
+        print(m.name,m.shape[1],"x",m.shape[2])
         scalex=float(args.width)/float(m.shape.as_list()[2])
         scaley=float(args.height)/float(m.shape.as_list()[1])
         for my in range(m.shape.as_list()[1]):
@@ -99,15 +83,14 @@ def detect_train_generator(args,maps):
             for mx in range(m.shape.as_list()[2]):
                 cx=(float(mx)+0.5)*scalex
                 i=0
-                for c in range(len(cat)):
-                    for j in range(lanchors):
-                        w=args.anchors[2*j]*scalex
-                        h=args.anchors[2*j+1]*scaley
-                        A[k][my,mx,i]=cx-(w/2)     #x1
-                        A[k][my,mx,i+1]=cy-(h/2)   #y1
-                        A[k][my,mx,i+2]=cx+(w/2)   #x2
-                        A[k][my,mx,i+3]=cy+(h/2)   #y2
-                        i=i+4
+                for j in range(lanchors):
+                    w=args.anchors[2*j]*scalex
+                    h=args.anchors[2*j+1]*scaley
+                    A[k][my,mx,i]=cx-(w/2)     #x1
+                    A[k][my,mx,i+1]=cy-(h/2)   #y1
+                    A[k][my,mx,i+2]=cx+(w/2)   #x2
+                    A[k][my,mx,i+3]=cy+(h/2)   #y2
+                    i=i+4
         k=k+1
 
 
@@ -123,17 +106,20 @@ def detect_train_generator(args,maps):
         tot=0
         match=0
 
-        rlist=list(range(size))
+
+        rlist=list(range(imglen))
         random.shuffle(rlist)
-        ri=random.randint(0, size-1)
+        ri=random.randint(0, imglen-1)
+        v=np.zeros(len(Y))
+
         for b in range(args.batch):
             read=0
 
             while (read==0):
-                r=rlist[ri%size]
                 ri=ri+1
+                r=rlist[ri%imglen]
 
-                imgname=dataimg[r]['id']
+                imgname=images[r]['id']
                 ### from COCO image id to file path
                 fname=args.trdir+args.fprefix+str(imgname)+".jpg"
                 try:
@@ -151,7 +137,7 @@ def detect_train_generator(args,maps):
             ## Load annotation of image, codification
             ## w.r.t an image of (args.height x args.width)
             anot=[]
-            for all in databox:
+            for all in boxes:
                  if (all['image_id']==imgname):
                      #print(imgname, all['bbox'],catdict[all['category_id']])
                      x,y,w,h=all['bbox']
@@ -162,6 +148,7 @@ def detect_train_generator(args,maps):
 
 
             #print(yanot)
+
             for an in anot:
                 #print("====================================================")
                 tot=tot+1
@@ -179,7 +166,7 @@ def detect_train_generator(args,maps):
                     my=int(cy/scaley)
 
                     #shift to search for neighborhood cells to place anchors
-                    shift=0
+                    shift=1
                     for sy in range(-shift,shift+1,1):
                         if ((my+sy)>=0)and((my+sy)<A[k].shape[0]):
                             for sx in range(-shift,shift+1,1):
@@ -200,8 +187,10 @@ def detect_train_generator(args,maps):
                                         if (score>0.5):
                                             #print("anchor found")
                                             setanchor=True
-                                            cls=int(an[0])
-                                            y[b,my+sy,mx+sx,(cls*lanchors)+j]=1.0
+                                            oclass=int(an[0])
+                                            y[b,my+sy,mx+sx,j]=1.0
+                                            y[b,my+sy,mx+sx,lanchors+oclass]=1.0
+                                            v[k]=v[k]+1
                                         i=i+4
                     k=k+1
 
@@ -213,11 +202,26 @@ def detect_train_generator(args,maps):
 
         mpc=float(100*match)/float(tot)
         if (mpc<50):
-            print("Warning: few anchors matched= %d %d %.2f%%" %(match,tot,mpc))
+            print("Warning: few gt boxes matched= %d %d %.2f%%" %(match,tot,mpc))
 
 
+        print("----------------------")
+        print("Total",tot)
+        print("Match",match)
+        k=0
+        for y in Y:
+            print(k,":",v[k],np.count_nonzero(Y[k]),np.sum(Y[k]))
+            k=k+1
+        print("----------------------")
 
-        yield X,Y
+        output_dict={}
+        k=0
+        for m in maps:
+         output_dict.update({m.name.replace('/Sigmoid:0',''):Y[k]})
+         k=k+1
+
+
+        yield (X,output_dict)
 
 
 

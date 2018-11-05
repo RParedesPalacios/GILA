@@ -7,29 +7,28 @@ import random
 from files import *
 from pprint import pprint
 
+
 ######################################################################
 ################### DETECTION INFERENCE  #############################
 ######################################################################
-#def eval_detect_model(args):
 
-    ## # TODO:
-
-
-def eval_detect_model(args):
-
-    if (args.load_model==None):
-        print("No model name to eval (-load_model)")
-        sys.exit(0)
+def eval_detect_model(args,model=None):
 
 
-    model=load_from_disk(args.load_model)
+    if (model==None):
+        if (args.load_model==None):
+            print("No model name to eval (-load_model)")
+            sys.exit(0)
+        model=load_from_disk(args.load_model)
+
+
     if (args.summary==True):
         model.summary()
 
 
     ## read json annot files
-    print("Loading JSON annotations file",args.tsannot)
-    with open(args.tsannot) as f:
+    print("Loading JSON annotations file",args.trannot)
+    with open(args.trannot) as f:
         data = json.load(f)
     f.close()
 
@@ -64,7 +63,7 @@ def eval_detect_model(args):
 
     A=[]
     for m in maps:
-        A.append(np.zeros((m.shape[1],m.shape[2],len(cat)*len(args.anchors)*2)))
+        A.append(np.zeros((m.shape[1],m.shape[2],4*lanchors)))
 
     k=0
     for m in maps:
@@ -76,15 +75,14 @@ def eval_detect_model(args):
             for mx in range(m.shape.as_list()[2]):
                 cx=(float(mx)+0.5)*scalex
                 i=0
-                for c in range(len(cat)):
-                    for j in range(lanchors):
-                        w=args.anchors[2*j]*scalex
-                        h=args.anchors[2*j+1]*scaley
-                        A[k][my,mx,i]=cx-(w/2)     #x1
-                        A[k][my,mx,i+1]=cy-(h/2)   #y1
-                        A[k][my,mx,i+2]=cx+(w/2)   #x2
-                        A[k][my,mx,i+3]=cy+(h/2)   #y2
-                        i=i+4
+                for j in range(lanchors):
+                    w=args.anchors[2*j]*scalex
+                    h=args.anchors[2*j+1]*scaley
+                    A[k][my,mx,i]=cx-(w/2)     #x1
+                    A[k][my,mx,i+1]=cy-(h/2)   #y1
+                    A[k][my,mx,i+2]=cx+(w/2)   #x2
+                    A[k][my,mx,i+3]=cy+(h/2)   #y2
+                    i=i+4
         k=k+1
 
     #build batch
@@ -92,6 +90,7 @@ def eval_detect_model(args):
     if (args.chan=="gray"):
         ch=1
     X=np.zeros((args.batch,args.height,args.width,ch))
+
 
     names=[]
     rlist=list(range(size))
@@ -105,7 +104,7 @@ def eval_detect_model(args):
             ri=ri+1
             imgname=dataimg[r]['id']
             ### from COCO image id to file path
-            fname=args.tsdir+args.fprefix+str(imgname)+".jpg"
+            fname=args.trdir+args.fprefix+str(imgname)+".jpg"
             try:
                 [x,ws,hs]=load_image_as_numpy(args,fname)
                 names.append(str(imgname))
@@ -121,10 +120,10 @@ def eval_detect_model(args):
     ## get output maps
     Y=model.predict(X, args.batch)
     for y in Y:
-        print(np.max(y))
+        print(y.shape,np.max(y))
     ## Draw detections
     for b in range(args.batch):
-        fname=args.tsdir+args.fprefix+str(names[b])+".jpg"
+        fname=args.trdir+args.fprefix+str(names[b])+".jpg"
         [x,ws,hs]=load_image_as_numpy(args,fname)
         img=Image.open(fname)
         draw=ImageDraw.Draw(img)
@@ -134,16 +133,15 @@ def eval_detect_model(args):
             for my in range(y.shape[1]):
                 for mx in range(y.shape[2]):
                     for mz in range(y.shape[3]):
-                        if (y[b,my,mx,mz]>0.51):
-                            an=mz%lanchors
+                        if (y[b,my,mx,mz]>0.5):
                             c=c+1
-                            draw.rectangle(((A[k][my,mx,an]/ws,A[k][my,mx,an+1]/hs), (A[k][my,mx,an+2]/ws,A[k][my,mx,an+3]/hs)), fill=None)
+                            draw.rectangle(((A[k][my,mx,mz]/ws,A[k][my,mx,mz+1]/hs), (A[k][my,mx,mz+2]/ws,A[k][my,mx,mz+3]/hs)), fill=None)
                             #draw.rectangle((A[k][my,mx,an]/ws,A[k][my,mx,an+1]/hs),
                             #(A[k][my,mx,an+2]/ws,A[k][my,mx,an+3]/hs),fill="black")
             k=k+1
         print("Image",fname,"found",c,"boxes")
 
-        fname=args.tsdir+args.fprefix+str(names[b])+"ANOT"+".jpg"
+        fname=args.trdir+args.fprefix+str(names[b])+"ANOT"+".jpg"
         img.save(fname)
 
 

@@ -1,6 +1,6 @@
 import numpy as np
 import keras
-import json
+
 from pprint import pprint
 
 from keras.optimizers import SGD
@@ -11,6 +11,8 @@ from keras.callbacks import LearningRateScheduler as LRS
 from detect_automodel import *
 from detect_generators import *
 from detect_loss import *
+from detect_tools import *
+from detect_eval import *
 from files import *
 
 ##################################
@@ -20,19 +22,7 @@ def train_det_model(args):
 
 
     ######### ANNOT FILE
-    print("Loading JSON annotations file",args.trannot)
-    with open(args.trannot) as f:
-        data = json.load(f)
-
-    cat=data['categories']
-    pprint(data['categories'])
-    cat=len(cat)
-    print ("Categories in annotation file:",cat)
-    f.close()
-
-    dataimg=data['images']
-    trsize=len(dataimg)
-    print ("Images in annotation file:",trsize)
+    [categories,catlen,images,imglen,_,_]=load_annot_json(args.trannot)
 
     ######### ANCHORS
     print("Anchors:")
@@ -40,8 +30,9 @@ def train_det_model(args):
     for i in range(anchors):
         print("[%f,%f]" %(args.anchors[2*i],args.anchors[2*i+1]))
 
+    ######### MODEL
     if (args.load_model!=None):
-        model=load_from_disk(args.load_model)
+        model=load_from_disk(args.load_model,hnm_loss)
         maps=model.outputs
     else:
         ######### FCN MODEL
@@ -56,18 +47,15 @@ def train_det_model(args):
 
         print("Maps connected to target, from %d to %d" %(args.minmap,args.maxmap))
         maps=[]
-        target_size=0
         for i in range(args.autonconv-1,len(list),args.autonconv):
             if (min(list[i].output.shape[1],list[i].output.shape[2])>=args.minmap)and(max(list[i].output.shape[1],list[i].output.shape[2])<=args.maxmap):
                 print(list[i].name,list[i].output.shape[1],"x",list[i].output.shape[2])
                 maps.append(list[i])
-                target_size=target_size+(int(list[i].output.shape[1])*int(list[i].output.shape[2]))*(4+cat+1)
 
-        print("Target size=",target_size)
         ######### Connect FCN model to target
-        maps,model=add_detect_target(input,args,maps,cat,anchors)
+        maps,model=add_detect_target(input,args,maps,catlen,anchors)
 
-    #print(maps)
+
 
     if (args.summary==True):
         from keras.utils import plot_model
@@ -93,7 +81,7 @@ def train_det_model(args):
 
 
 
-    tr_steps=trsize/batch_size
+    tr_steps=imglen/batch_size
 
     ## REGULAR TRAINING
     if (args.lra==True):
@@ -126,15 +114,30 @@ def train_det_model(args):
 
 
     ## use a hard negative minnig loss
-    model.compile(loss=hnm_loss,optimizer=opt,metrics=['mae'])
+    loss_dict={}
+    j=0
+    for m in maps:
+     loss_dict.update({m.name.replace('/Sigmoid:0',''):hnm_loss})
+     j=j+1
+
+    m_dict={}
+    j=0
+    for m in maps:
+     m_dict.update({m.name.replace('/Sigmoid:0',''):num_pos})
+     j=j+1
+    model.compile(loss=loss_dict,optimizer=opt,metrics=m_dict)
+
+
+    #eval_detect_model(args,model)
 
     history = model.fit_generator(detect_train_generator(args,maps),
+                            max_queue_size=1, workers=0,
                             steps_per_epoch=tr_steps,
                             epochs=epochs,
                             callbacks=callbacks,
                             verbose=1)
 
-
+    eval_detect_model(args,model)
 
     ## SAVE MODEL
     if (args.save_model!=None):

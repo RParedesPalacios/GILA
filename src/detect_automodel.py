@@ -18,7 +18,7 @@ def auto_det_model(args):
 ## FCN target
 def add_detect_target(input,args,maps,cat,anchors):
 
-    depth=anchors*cat
+    depth=anchors+cat
 
     outs=[]
     for m in maps:
