@@ -1,7 +1,11 @@
 import json
-import numpy as np
 import random
 from loaders import *
+
+from keras.preprocessing.image import ImageDataGenerator
+import numpy as np
+import scipy.ndimage
+
 
 #### DETECT TOOLS
 
@@ -30,8 +34,6 @@ def iou(box1,box2):
     union=area1+area2-inter
 
     return float(inter)/float(union)
-
-
 
 
 def load_annot_json(filename):
@@ -65,7 +67,6 @@ def load_annot_json(filename):
     return images,imglen,boxes,boxlen,catdict,catlen
 
 
-### Build anchors
 def build_anchors(args,maps):
 
 
@@ -128,3 +129,47 @@ def rand_image(args,images,tr=1):
         except (FileNotFoundError, IOError):
             read=0
     return x,ws,hs,imgname
+
+
+def transform(args,x,gen):
+
+    dx=(args.da_width*args.width)//100
+    dy=(args.da_width*args.width)//100
+
+    dx=random.randint(-dx,dx)
+    dy=random.randint(-dy,dy)
+    scale=random.uniform(1-args.da_zoom,1+args.da_zoom)
+
+    transform={'tx':dx,'ty':dy}
+    x=gen.apply_transform(x, transform)
+    transform={'zx':scale,'zy':scale}
+    x=gen.apply_transform(x, transform)
+    
+    return x,dx,dy,scale
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    #####

@@ -9,7 +9,7 @@ def hnm_loss(y_true,y_pred):
 
     ## Count positives and define neg as 3*pos
     pos=tf.cast(tf.count_nonzero(yt),dtype=tf.int32)
-    neg=3*pos
+    neg=tf.maximum(3*pos,1)
     neg=tf.cast(neg,dtype=tf.int32)
 
     zero=tf.constant(0, dtype=tf.float32)

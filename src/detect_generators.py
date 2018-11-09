@@ -34,6 +34,7 @@ def detect_train_generator(args,maps):
 
     ## Provide images and achors fitting with iou>0.5
     print("Start Generator....")
+    gen = ImageDataGenerator()
     while True:
 
         for y in Y:
@@ -46,8 +47,11 @@ def detect_train_generator(args,maps):
 
         for b in range(args.batch):
 
-            [x,ws,hs,imgname]=rand_image(args,images)
-            X[b,:]=x
+            [img,ws,hs,imgname]=rand_image(args,images)
+
+            ##DATA AUGMENTATION
+            [img,dx,dy,scale]=transform(args,img,gen)
+            X[b,:]=img
 
             ## Load annotation of image, codification
             ## w.r.t an image of (args.height x args.width)
@@ -55,6 +59,10 @@ def detect_train_generator(args,maps):
             for all in boxes:
                  if (all['image_id']==imgname):
                     x,y,w,h=all['bbox']
+                    x=(x+dx)*scale
+                    y=(y+dy)*scale
+                    w=w*scale
+                    h=h*scale
                     anot.append([catdict[all['category_id']],x*ws,y*hs,(x+w)*ws,(y+h)*hs])
                     #cat,x1,y1,x2,y2
 
@@ -74,7 +82,7 @@ def detect_train_generator(args,maps):
                     my=int(cy/scaley)
 
                     #shift to search for neighborhood cells to place anchors
-                    shift=1
+                    shift=0
                     for sy in range(-shift,shift+1,1):
                         if ((my+sy)>=0)and((my+sy)<A[k].shape[0]):
                             for sx in range(-shift,shift+1,1):

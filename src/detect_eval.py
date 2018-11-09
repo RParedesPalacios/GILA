@@ -34,7 +34,7 @@ def eval_detect_model(args,model=None):
 
     names=[]
     for b in range(args.batch):
-        [x,ws,hs,imgname]=rand_image(args,images,0)
+        [x,ws,hs,img,imgname]=rand_image(args,images,0)
         names.append(str(imgname))
         X[b,:]=x
 
