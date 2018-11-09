@@ -83,8 +83,6 @@ def train_det_model(args):
     tr_steps=imglen/batch_size
 
 
-    tr_steps=100
-
     ## REGULAR TRAINING
     if (args.lra==True):
         e1=int(epochs*0.5)
