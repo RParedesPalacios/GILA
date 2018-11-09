@@ -26,12 +26,12 @@ def save_json_model(model,basename):
     print("Saved model to disk")
 
 
-def load_from_disk(basename,custom_loss=None):
+def load_from_disk(basename,custom_loss=None,custom_metric=None):
     filename=basename+".h5"
     if (custom_loss==None):
         model=load_model(filename)
     else:
-        model=load_model(filename,custom_objects={'hnm_loss': custom_loss})
+        model=load_model(filename,custom_objects={'hnm_loss': custom_loss,'num_pos':custom_metric})
     print("Loaded model from disk")
     return model
 

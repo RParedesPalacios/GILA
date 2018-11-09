@@ -1,12 +1,9 @@
-import json
-from PIL import Image, ImageOps,ImageDraw
-import numpy as np
+from PIL import Image, ImageOps, ImageDraw
 import sys
 from loaders import *
-import random
 from files import *
-from pprint import pprint
-
+from detect_loss import *
+from detect_tools import *
 
 ######################################################################
 ################### DETECTION INFERENCE  #############################
@@ -19,102 +16,27 @@ def eval_detect_model(args,model=None):
         if (args.load_model==None):
             print("No model name to eval (-load_model)")
             sys.exit(0)
-        model=load_from_disk(args.load_model)
+        model=load_from_disk(args.load_model,hnm_loss,num_pos)
 
 
     if (args.summary==True):
         model.summary()
 
+    [images,imglen,boxes,boxlen,catdict,catlen]=load_annot_json(args.tsannot)
 
-    ## read json annot files
-    print("Loading JSON annotations file",args.trannot)
-    with open(args.trannot) as f:
-        data = json.load(f)
-    f.close()
-
-    cat=data['categories']
-    print(data['categories'])
-    size=len(cat)
-    print ("Categories in annotation file:",size)
-    lencat=size
-
-    catdict={}
-    j=0
-    for i in cat:
-        catdict.update({cat[j]['id']:j})
-        j=j+1
-
-    print(catdict)
-
-    databox=data['annotations']
-    size=len(databox)
-    print ("Boxes in annotation file:",size)
-
-    dataimg=data['images']
-    size=len(dataimg)
-    print ("Images in annotation file:",size)
-
-    ## args.anchors codification
-    ## w.r.t an image of (args.height x args.width)
     lanchors=len(args.anchors)//2
-
-    print("Maps")
     maps=model.outputs
+    A=build_anchors(args,maps)
 
-    A=[]
-    for m in maps:
-        A.append(np.zeros((m.shape[1],m.shape[2],4*lanchors)))
 
-    k=0
-    for m in maps:
-        print(m.shape[1],"x",m.shape[2])
-        scalex=float(args.width)/float(m.shape.as_list()[2])
-        scaley=float(args.height)/float(m.shape.as_list()[1])
-        for my in range(m.shape.as_list()[1]):
-            cy=(float(my)+0.5)*scaley
-            for mx in range(m.shape.as_list()[2]):
-                cx=(float(mx)+0.5)*scalex
-                i=0
-                for j in range(lanchors):
-                    w=args.anchors[2*j]*scalex
-                    h=args.anchors[2*j+1]*scaley
-                    A[k][my,mx,i]=cx-(w/2)     #x1
-                    A[k][my,mx,i+1]=cy-(h/2)   #y1
-                    A[k][my,mx,i+2]=cx+(w/2)   #x2
-                    A[k][my,mx,i+3]=cy+(h/2)   #y2
-                    i=i+4
-        k=k+1
-
-    #build batch
-    ch=3
-    if (args.chan=="gray"):
-        ch=1
-    X=np.zeros((args.batch,args.height,args.width,ch))
+    [X,Y]=buil_XY(args,maps)
 
 
     names=[]
-    rlist=list(range(size))
-    random.shuffle(rlist)
-    ri=random.randint(0, size-1)
     for b in range(args.batch):
-        read=0
-
-        while (read==0):
-            r=rlist[ri%size]
-            ri=ri+1
-            imgname=dataimg[r]['id']
-            ### from COCO image id to file path
-            fname=args.trdir+args.fprefix+str(imgname)+".jpg"
-            try:
-                [x,ws,hs]=load_image_as_numpy(args,fname)
-                names.append(str(imgname))
-                read=1
-            except (FileNotFoundError, IOError):
-                #print("Warning:",fname,"not found")
-                read=0
-
+        [x,ws,hs,imgname]=rand_image(args,images,0)
+        names.append(str(imgname))
         X[b,:]=x
-
 
     print("Predict batch")
     ## get output maps
@@ -123,7 +45,7 @@ def eval_detect_model(args,model=None):
         print(y.shape,np.max(y))
     ## Draw detections
     for b in range(args.batch):
-        fname=args.trdir+args.fprefix+str(names[b])+".jpg"
+        fname=args.tsdir+args.fprefix+str(names[b])+".jpg"
         [x,ws,hs]=load_image_as_numpy(args,fname)
         img=Image.open(fname)
         draw=ImageDraw.Draw(img)
@@ -135,13 +57,13 @@ def eval_detect_model(args,model=None):
                     for mz in range(y.shape[3]):
                         if (y[b,my,mx,mz]>0.5):
                             c=c+1
-                            draw.rectangle(((A[k][my,mx,mz]/ws,A[k][my,mx,mz+1]/hs), (A[k][my,mx,mz+2]/ws,A[k][my,mx,mz+3]/hs)), fill=None)
-                            #draw.rectangle((A[k][my,mx,an]/ws,A[k][my,mx,an+1]/hs),
-                            #(A[k][my,mx,an+2]/ws,A[k][my,mx,an+3]/hs),fill="black")
+                            z=4*(mz//catlen)
+                            draw.rectangle(((A[k][my,mx,z]/ws,A[k][my,mx,z+1]/hs), (A[k][my,mx,z+2]/ws,A[k][my,mx,z+3]/hs)), fill=None)
+
             k=k+1
         print("Image",fname,"found",c,"boxes")
 
-        fname=args.trdir+args.fprefix+str(names[b])+"ANOT"+".jpg"
+        fname=args.tsdir+args.fprefix+str(names[b])+"ANOT"+".jpg"
         img.save(fname)
 
 

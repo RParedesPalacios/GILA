@@ -3,46 +3,54 @@ import keras.backend as K
 
 def hnm_loss(y_true,y_pred):
 
-
-    ## Count positives just to define neg as 3*pos
+    ## reshape to 1D vectors
     yt=tf.reshape(y_true,[-1])
-    pos=tf.cast(tf.count_nonzero(y_true),dtype=tf.int32)
+    yp=tf.reshape(y_pred,[-1])
 
-    #neg=tf.maximum(pos,1)
-    neg=pos
+    ## Count positives and define neg as 3*pos
+    pos=tf.cast(tf.count_nonzero(yt),dtype=tf.int32)
+    neg=3*pos
     neg=tf.cast(neg,dtype=tf.int32)
 
     zero=tf.constant(0, dtype=tf.float32)
-    indpos=tf.where(tf.not_equal(y_true, zero))
+    ## Gather postives
+    indpos=tf.where(tf.not_equal(yt, zero))
     indpos=tf.cast(tf.reshape(indpos,[-1]),dtype=tf.int32)
-    #indpos could be empty in some target maps
-
-    indneg=tf.where(tf.equal(yt, zero))
-    indneg=tf.cast(tf.reshape(indneg,[-1]),dtype=tf.int32)
-
-
-    yp=tf.reshape(y_pred,[-1])
-
-    ## Gather postives, could be empty
-    ypgp=tf.gather(yp,indpos)
+    yp_p=tf.gather(yp,indpos)
 
     ## Gather hard negatives
-    ypgn=tf.gather(yp,indneg)
-    ypgn,ind=tf.nn.top_k(ypgn,neg)
+    indneg=tf.where(tf.equal(yt, zero))
+    indneg=tf.cast(tf.reshape(indneg,[-1]),dtype=tf.int32)
+    yp_n=tf.gather(yp,indneg)
+    yp_n,ind=tf.nn.top_k(yp_n,neg)
+    mask=tf.greater(yp_n, 0.5)
+    yp_n=tf.boolean_mask(yp_n, mask)
 
-    ##Concat both
-    ypg=tf.concat([ypgp,ypgn],0)
-    indP=tf.concat([indpos,ind],0)
+    ##Concat predicted both
+    yp=tf.concat([yp_p,yp_n],0)
 
-    ## Gather targets (pos 1s and neg 0s)
-    ytg=tf.gather(yt,indP)
+    ## Define targets (pos 1s and neg 0s)
+    yt1=tf.ones([tf.size(yp_p)], tf.float32)
+    yt2=tf.zeros([tf.size(yp_n)], tf.float32)
+    yt=tf.concat([yt1, yt2], 0)
 
-    anchor_loss = tf.reduce_mean(tf.square(ytg - ypg))
+    anchor_loss = tf.reduce_mean(tf.square(yt - yp))
 
-    #let the magic happen
     return anchor_loss
 
 
 
 def num_pos(y_true, y_pred):
-    return K.sum(y_true)
+    yp=tf.reshape(y_pred,[-1])
+    yt=tf.reshape(y_true,[-1])
+
+    zero=tf.constant(0, dtype=tf.float32)
+    indpos=tf.where(tf.not_equal(yt, zero))
+    indpos=tf.cast(tf.reshape(indpos,[-1]),dtype=tf.int32)
+
+    pos=tf.size(indpos)
+    yp_p=tf.gather(yp,indpos)
+    mask=tf.greater(yp_p, 0.5)
+    yp_p=tf.boolean_mask(yp_p, mask)
+
+    return tf.size(yp_p)/pos

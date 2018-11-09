@@ -22,7 +22,7 @@ def train_det_model(args):
 
 
     ######### ANNOT FILE
-    [categories,catlen,images,imglen,_,_]=load_annot_json(args.trannot)
+    [images,imglen,boxes,boxlen,catdict,catlen]=load_annot_json(args.trannot)
 
     ######### ANCHORS
     print("Anchors:")
@@ -32,7 +32,7 @@ def train_det_model(args):
 
     ######### MODEL
     if (args.load_model!=None):
-        model=load_from_disk(args.load_model,hnm_loss)
+        model=load_from_disk(args.load_model,hnm_loss,num_pos)
         maps=model.outputs
     else:
         ######### FCN MODEL
@@ -80,8 +80,10 @@ def train_det_model(args):
         opt=RMSprop(lr=args.lr, rho=0.9, epsilon=None, decay=0.0)
 
 
-
     tr_steps=imglen/batch_size
+
+
+    tr_steps=100
 
     ## REGULAR TRAINING
     if (args.lra==True):
@@ -125,19 +127,19 @@ def train_det_model(args):
     for m in maps:
      m_dict.update({m.name.replace('/Sigmoid:0',''):num_pos})
      j=j+1
+
     model.compile(loss=loss_dict,optimizer=opt,metrics=m_dict)
 
 
     #eval_detect_model(args,model)
 
     history = model.fit_generator(detect_train_generator(args,maps),
-                            max_queue_size=1, workers=0,
+                            max_queue_size=10, workers=0,
                             steps_per_epoch=tr_steps,
                             epochs=epochs,
                             callbacks=callbacks,
                             verbose=1)
 
-    eval_detect_model(args,model)
 
     ## SAVE MODEL
     if (args.save_model!=None):
