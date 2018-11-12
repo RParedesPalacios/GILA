@@ -149,10 +149,10 @@ def detect_train_generator(args,maps):
 
 
 
-        mpc=float(100*match)/float(tot)
-        if (mpc<50):
-            print("")
-            print("Warning: few gt boxes matched= %d %d %.2f%%" %(match,tot,mpc))
+        # mpc=float(100*match)/float(tot)
+        # if (mpc<50):
+        #     print("")
+        #     print("Warning: few gt boxes matched= %d %d %.2f%%" %(match,tot,mpc))
 
 
         # print("----------------------")
