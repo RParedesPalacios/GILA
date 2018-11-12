@@ -155,7 +155,7 @@ def transform(args,x,gen):
     # SCALE
     scale=1.0
     if (args.da_zoom!=0.0):
-        scale=random.uniform(1-args.da_zoom,1+args.da_zoom)
+        scale=random.uniform(1,1+args.da_zoom)
         transform={'zx':scale,'zy':scale}
         x=gen.apply_transform(x, transform)
 
