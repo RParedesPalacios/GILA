@@ -63,4 +63,4 @@ def num_pos(y_true, y_pred):
     yp_n=tf.gather(yp,indneg)
     yp_n,ind=tf.nn.top_k(yp_n,neg)
 
-    return tf.reduce_mean(yp_p)/tf.reduce_mean(yp_n)
+    return tf.reduce_mean(yp_p)/(tf.reduce_mean(yp_n)+0.001)
