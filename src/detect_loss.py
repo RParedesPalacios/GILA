@@ -65,6 +65,6 @@ def num_pos(y_true, y_pred):
     yp_n,ind=tf.nn.top_k(yp_n,neg)
 
     if (yp_p is not None):
-        return tf.reduce_mean(yp_p)/(tf.reduce_mean(yp_n)+0.001)
+        return tf.reduce_mean(yp_p)#/(tf.reduce_mean(yp_n)+0.001)
     else:
         return 0.0
