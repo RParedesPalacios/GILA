@@ -6,7 +6,7 @@ import numpy as np
 
 
 ## Basic convolutional block
-def basic_block(y,K,args,ishape=0,residual=0):
+def basic_block(y,K,args,ishape=0,residual=0,tlist=[]):
 
     if (residual):
         x=y
@@ -27,6 +27,7 @@ def basic_block(y,K,args,ishape=0,residual=0):
             y=layers.GaussianNoise(0.3)(y)
         if (residual==0)|(i<args.autonconv-1):
             y=layers.ReLU()(y)
+            tlist.append(y)
 
 
     if (residual):
@@ -36,7 +37,7 @@ def basic_block(y,K,args,ishape=0,residual=0):
              x=layers.Conv2D(K, kernel_size=(1, 1), strides=(2,2),padding='same')(x)
          y=layers.add([x, y])
          y=layers.ReLU()(y)
-
+         tlist.append(y)
     else:
         y=layers.MaxPooling2D(pool_size=(2, 2))(y)
     return y
@@ -60,6 +61,7 @@ def FCN(args):
     print("Depth=",DEPTH)
 
     numf=int(KINI/2)
+    tlist=[]
     for i in range(DEPTH):
         numf=numf*2
         if (numf>KEND):
@@ -71,17 +73,19 @@ def FCN(args):
 
         if (i==0):
             image_tensor = layers.Input(shape=shape)
-            x=basic_block(image_tensor,numf,args)
-        else:
-            x=basic_block(x,numf,args,residual=res)
+            x=basic_block(image_tensor,numf,args,tlist=tlist)
 
-    return image_tensor,x
+        else:
+            x=basic_block(x,numf,args,residual=res,tlist=tlist)
+
+
+    return image_tensor,x,tlist
 
 
 ## Automodel
 def auto_model(args,num_classes):
 
-    [input,x]=FCN(args)
+    [input,x,tlist]=FCN(args)
 
     x=layers.Flatten()(x)
     for i in range(args.autodlayers):

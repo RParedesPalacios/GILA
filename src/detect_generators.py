@@ -7,12 +7,37 @@ from pprint import pprint
 from detect_tools import *
 
 import keras.backend as K
-
+import threading
 
 ######################################################################
 ################### DETECTION GENERATORS #############################
 ######################################################################
 
+# Class for generator_thread_safe
+class threadsafe_iter:
+    """Takes an iterator/generator and makes it thread-safe by
+    serializing call to the `next` method of given iterator/generator.
+    """
+    def __init__(self, it):
+        self.it = it
+        self.lock = threading.Lock()
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        with self.lock:
+            return next(self.it)
+
+
+def threadsafe_generator(f):
+    """A decorator that takes a generator function and makes it thread-safe.
+    """
+    def g(*a, **kw):
+        return threadsafe_iter(f(*a, **kw))
+    return g
+
+@threadsafe_generator
 def detect_train_generator(args,maps):
     ## read json annot files
 
@@ -50,7 +75,7 @@ def detect_train_generator(args,maps):
             [img,ws,hs,imgname]=rand_image(args,images)
 
             ##DATA AUGMENTATION
-            [img,dx,dy,scale]=transform(args,img,gen)
+            [img,dx,dy,scale,flip]=transform(args,img,gen)
             X[b,:]=img
 
             ## Load annotation of image, codification
@@ -59,11 +84,20 @@ def detect_train_generator(args,maps):
             for all in boxes:
                  if (all['image_id']==imgname):
                     x,y,w,h=all['bbox']
+                    x=x*ws
+                    y=y*hs
+                    w=w*ws
+                    h=h*hs
+                    #Apply transofmrs to the gt box
+                    if (flip):
+                        x=args.width-(x+w)
+                        y=args.height-(y+h)
+
                     x=(x+dx)*scale
                     y=(y+dy)*scale
                     w=w*scale
                     h=h*scale
-                    anot.append([catdict[all['category_id']],x*ws,y*hs,(x+w)*ws,(y+h)*hs])
+                    anot.append([catdict[all['category_id']],x,y,(x+w),(y+h)])
                     #cat,x1,y1,x2,y2
 
             for an in anot:

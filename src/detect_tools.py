@@ -133,19 +133,33 @@ def rand_image(args,images,tr=1):
 
 def transform(args,x,gen):
 
-    dx=(args.da_width*args.width)//100
-    dy=(args.da_width*args.width)//100
+    #HORIZAONTAL FLIP
+    flip=False
+    if (args.da_flip_h):
+        if random.randint(0,1):
+            flip=True
+            transform={'flip_horizontal':True}
+            x=gen.apply_transform(x, transform)
 
-    dx=random.randint(-dx,dx)
-    dy=random.randint(-dy,dy)
-    scale=random.uniform(1-args.da_zoom,1+args.da_zoom)
+    #HORIZAONTAL AND VERTICAL SHIFT
+    dx=0
+    dy=0
+    if (args.da_width!=0.0)or(args.da_height!=0.0):
+        dx=(args.da_width*args.width)//100
+        dy=(args.da_width*args.width)//100
+        dx=random.randint(-dx,dx)
+        dy=random.randint(-dy,dy)
+        transform={'tx':dx,'ty':dy}
+        x=gen.apply_transform(x, transform)
 
-    transform={'tx':dx,'ty':dy}
-    x=gen.apply_transform(x, transform)
-    transform={'zx':scale,'zy':scale}
-    x=gen.apply_transform(x, transform)
-    
-    return x,dx,dy,scale
+    # SCALE
+    scale=1.0
+    if (args.da_zoom!=0.0):
+        scale=random.uniform(1-args.da_zoom,1+args.da_zoom)
+        transform={'zx':scale,'zy':scale}
+        x=gen.apply_transform(x, transform)
+
+    return x,dx,dy,scale,flip
 
 
 

@@ -35,25 +35,9 @@ def train_det_model(args):
         model=load_from_disk(args.load_model,hnm_loss,num_pos)
         maps=model.outputs
     else:
-        ######### FCN MODEL
-        input,x,model=auto_det_model(args)
-        if (args.summary==True):
-            model.summary()
-        ######### Obtaining output maps and target size
-        list=[]
-        for layer in model.layers:
-            if "re_lu" in layer.name:
-                list.append(layer)
-
-        print("Maps connected to target, from %d to %d" %(args.minmap,args.maxmap))
-        maps=[]
-        for i in range(args.autonconv-1,len(list),args.autonconv):
-            if (min(list[i].output.shape[1],list[i].output.shape[2])>=args.minmap)and(max(list[i].output.shape[1],list[i].output.shape[2])<=args.maxmap):
-                print(list[i].name,list[i].output.shape[1],"x",list[i].output.shape[2])
-                maps.append(list[i])
-
-        ######### Connect FCN model to target
-        maps,model=add_detect_target(input,args,maps,catlen,anchors)
+        print("Automodel")
+        model=auto_det_model(args,anchors,catlen)
+        maps=model.outputs
 
 
 
@@ -130,9 +114,9 @@ def train_det_model(args):
 
 
     #eval_detect_model(args,model)
-
+    
     history = model.fit_generator(detect_train_generator(args,maps),
-                            max_queue_size=10, workers=0,
+                            max_queue_size=10, workers=0,use_multiprocessing=False,
                             steps_per_epoch=tr_steps,
                             epochs=epochs,
                             callbacks=callbacks,
