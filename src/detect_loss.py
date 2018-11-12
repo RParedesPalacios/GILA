@@ -48,6 +48,7 @@ def num_pos(y_true, y_pred):
 
     ## Count positives and define neg
     pos=tf.cast(tf.count_nonzero(yt),dtype=tf.int32)
+
     neg=pos
     neg=tf.cast(neg,dtype=tf.int32)
 
@@ -63,4 +64,7 @@ def num_pos(y_true, y_pred):
     yp_n=tf.gather(yp,indneg)
     yp_n,ind=tf.nn.top_k(yp_n,neg)
 
-    return tf.reduce_mean(yp_p)/(tf.reduce_mean(yp_n)+0.001)
+    if (yp_p is not None):
+        return tf.reduce_mean(yp_p)/(tf.reduce_mean(yp_n)+0.001)
+    else:
+        return 0.0
