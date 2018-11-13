@@ -66,8 +66,8 @@ def eval_detect_model(args,model=None):
         fname=args.tsdir+args.fprefix+str(names[b])+".jpg"
         [x,ws,hs]=load_image_as_numpy(args,fname)
 
-        tot=min(100,len(detect))
-        boxes=np.zeros((tot,4))
+        tot=min(200,len(detect))
+        boxes=np.zeros((tot,5))
         #x1,y1,x2,y2
         for i in range(tot):
             y=detect[i][0]
@@ -78,6 +78,7 @@ def eval_detect_model(args,model=None):
             boxes[i,1]=A[k][y,x,z+1]/hs
             boxes[i,2]=A[k][y,x,z+2]/ws
             boxes[i,3]=A[k][y,x,z+3]/hs
+            boxes[i,4]=detect[i][4]
 
         #print(boxes)
         #input("Press Enter to continue...")
