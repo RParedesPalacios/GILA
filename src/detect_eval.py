@@ -34,7 +34,7 @@ def eval_detect_model(args,model=None):
 
     names=[]
     for b in range(args.batch):
-        [x,ws,hs,img,imgname]=rand_image(args,images,0)
+        [x,ws,hs,imgname]=rand_image(args,images,0)
         names.append(str(imgname))
         X[b,:]=x
 
@@ -45,26 +45,59 @@ def eval_detect_model(args,model=None):
         print(y.shape,np.max(y))
     ## Draw detections
     for b in range(args.batch):
-        fname=args.tsdir+args.fprefix+str(names[b])+".jpg"
-        [x,ws,hs]=load_image_as_numpy(args,fname)
-        img=Image.open(fname)
-        draw=ImageDraw.Draw(img)
+
+        detect=[]
         k=0
-        c=0
         for y in Y:
             for my in range(y.shape[1]):
                 for mx in range(y.shape[2]):
                     for mz in range(y.shape[3]):
-                        if (y[b,my,mx,mz]>0.5):
-                            c=c+1
+                        if (y[b,my,mx,mz]>0.7):
                             z=4*(mz//catlen)
-                            draw.rectangle(((A[k][my,mx,z]/ws,A[k][my,mx,z+1]/hs), (A[k][my,mx,z+2]/ws,A[k][my,mx,z+3]/hs)), fill=None)
-
+                            detect.append([my,mx,z,k,y[b,my,mx,mz]])
             k=k+1
-        print("Image",fname,"found",c,"boxes")
+
+
+        ## Select top
+        detect=sorted(detect,key=lambda x: x[4],reverse=True)
+        #print(detect)
+        #input("Press Enter to continue...")
+        ## convert to to image Boxes
+        fname=args.tsdir+args.fprefix+str(names[b])+".jpg"
+        [x,ws,hs]=load_image_as_numpy(args,fname)
+
+        tot=min(100,len(detect))
+        boxes=np.zeros((tot,4))
+        #x1,y1,x2,y2
+        for i in range(tot):
+            y=detect[i][0]
+            x=detect[i][1]
+            z=detect[i][2]
+            k=detect[i][3]
+            boxes[i,0]=A[k][y,x,z]/ws
+            boxes[i,1]=A[k][y,x,z+1]/hs
+            boxes[i,2]=A[k][y,x,z+2]/ws
+            boxes[i,3]=A[k][y,x,z+3]/hs
+
+        #print(boxes)
+        #input("Press Enter to continue...")
+
+        ## non-maximum supression
+        boxes=non_max_suppression_fast(boxes, 0.5)
+        #print(boxes)
+        #input("Press Enter to continue...")
+
+        ## Draw selected
+        print(fname)
+        img=Image.open(fname)
+        draw=ImageDraw.Draw(img)
+        for box in boxes:
+            draw.rectangle((box[0],box[1],box[2],box[3]), fill=None)
+
 
         fname=args.tsdir+args.fprefix+str(names[b])+"ANOT"+".jpg"
         img.save(fname)
+        #input("Press Enter to continue...")
 
 
 
