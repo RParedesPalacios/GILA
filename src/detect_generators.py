@@ -91,7 +91,6 @@ def detect_train_generator(args,maps):
                     #Apply transofmrs to the gt box
                     if (flip):
                         x=args.width-(x+w)
-                        y=args.height-(y+h)
 
                     x=(x+dx)*scale
                     y=(y+dy)*scale
@@ -116,7 +115,7 @@ def detect_train_generator(args,maps):
                     my=int(cy/scaley)
 
                     #shift to search for neighborhood cells to place anchors
-                    shift=0
+                    shift=1
                     for sy in range(-shift,shift+1,1):
                         if ((my+sy)>=0)and((my+sy)<A[k].shape[0]):
                             for sx in range(-shift,shift+1,1):
