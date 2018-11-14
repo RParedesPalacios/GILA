@@ -26,8 +26,8 @@ def hnm_loss(y_true,y_pred):
         indneg=tf.cast(tf.reshape(indneg,[-1]),dtype=tf.int32)
         yp_n=tf.gather(yp,indneg)
         yp_n,ind=tf.nn.top_k(yp_n,neg)
-        #mask=tf.greater(yp_n, 0.5)
-        #yp_n=tf.boolean_mask(yp_n, mask)
+        mask=tf.greater(yp_n, 0.5)
+        yp_n=tf.boolean_mask(yp_n, mask)
 
         ##Concat predicted both
         yp=tf.concat([yp_p,yp_n],0)
