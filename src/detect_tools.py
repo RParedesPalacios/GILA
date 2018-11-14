@@ -161,6 +161,25 @@ def transform(args,x,gen):
 
     return x,dx,dy,scale,flip
 
+def transform_box(args,box,ws,hs,dx,dy,scale,flip):
+    x,y,w,h=box['bbox']
+    # scale to width and height
+    x=x*ws
+    y=y*hs
+    w=w*ws
+    h=h*hs
+
+    #Apply transforms to the gt box
+    if (flip):
+        x=args.width-(x+w)
+
+    x=(x+dx)*scale
+    y=(y+dy)*scale
+    w=w*scale
+    h=h*scale
+
+    return x,y,w,h
+
 # Malisiewicz et al.
 # from https://www.pyimagesearch.com/2015/02/16/faster-non-maximum-suppression-python/
 # with scores

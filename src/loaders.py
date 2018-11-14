@@ -1,6 +1,8 @@
 from PIL import Image, ImageOps
 import numpy as np
 
+
+
 def load_list_file_class_to_numpy(filename,R,C,CH,RES):
 
     file = open(filename)

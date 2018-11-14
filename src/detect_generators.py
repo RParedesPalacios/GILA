@@ -58,23 +58,12 @@ def detect_train_generator(args,maps):
             ## Load annotation of image, codification
             ## w.r.t an image of (args.height x args.width)
             anot=[]
-            for all in boxes:
-                 if (all['image_id']==imgname):
-                    x,y,w,h=all['bbox']
-                    x=x*ws
-                    y=y*hs
-                    w=w*ws
-                    h=h*hs
-                    #Apply transofmrs to the gt box
-                    if (flip):
-                        x=args.width-(x+w)
-
-                    x=(x+dx)*scale
-                    y=(y+dy)*scale
-                    w=w*scale
-                    h=h*scale
-                    anot.append([catdict[all['category_id']],x,y,(x+w),(y+h)])
+            for box in boxes:
+                 if (box['image_id']==imgname):
+                    [x,y,w,h]=transform_box(args,box,ws,hs,dx,dy,scale,flip)
+                    anot.append([catdict[box['category_id']],x,y,(x+w),(y+h)])
                     #cat,x1,y1,x2,y2
+
             match=0
             for an in anot:
                 k=0
@@ -98,7 +87,7 @@ def detect_train_generator(args,maps):
                         if (score>0.5):
                             setanchor=True
                             oclass=int(an[0])
-                            y[b,my,mx,(j*catlen)+oclass]=1.0
+                            y[b,my,mx,(j*catlen)+oclass]=1.0 # positive target
                         i=i+4
                     k=k+1
                 if (setanchor==True):

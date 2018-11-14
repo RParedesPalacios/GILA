@@ -43,7 +43,7 @@ def hnm_loss(y_true,y_pred):
 
 
 
-def num_pos(y_true, y_pred):
+def score_pos(y_true, y_pred):
     ## reshape to 1D vectors
     yt=tf.reshape(y_true,[-1])
     yp=tf.reshape(y_pred,[-1])
