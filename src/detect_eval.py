@@ -84,7 +84,7 @@ def eval_detect_model(args,model=None):
         #input("Press Enter to continue...")
 
         ## non-maximum supression
-        boxes=non_max_suppression_fast(boxes, 0.5)
+        #boxes=non_max_suppression_fast(boxes, 0.5)
         #print(boxes)
         #input("Press Enter to continue...")
 

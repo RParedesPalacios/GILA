@@ -141,17 +141,6 @@ def train_class_model(args):
         fepochs=args.fepochs
         print("Fepochs",fepochs)
 
-    #### OPTIMIZER
-    if (args.optim=="sgd"):
-        print ("Using SGD")
-        opt = SGD(lr=args.lr, decay=1e-6,momentum=0.9)
-    elif (args.optim=="adam"):
-        print ("Using Adam")
-        opt=Adam(lr=args.lr, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
-    elif (args.optim=="rmsprop"):
-        print ("Using RMSprop")
-        opt=RMSprop(lr=args.lr, rho=0.9, epsilon=None, decay=0.0)
-
 
     tr_steps=numtr//batch_size
     if (TEST):
@@ -160,6 +149,17 @@ def train_class_model(args):
 
     #### PRE-TRAIN
     if (PRETR==True):
+        #### OPTIMIZER
+        if (args.optim=="sgd"):
+            print ("Using SGD")
+            opt = SGD(lr=args.flr, decay=1e-6,momentum=0.9)
+        elif (args.optim=="adam"):
+            print ("Using Adam")
+            opt=Adam(lr=args.flr, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+        elif (args.optim=="rmsprop"):
+            print ("Using RMSprop")
+            opt=RMSprop(lr=args.flr, rho=0.9, epsilon=None, decay=0.0)
+
         if (args.flayer!=None):
             print("Freezing up to layer",args.flayer,"of the pre-trained model %d epochs" %(fepochs))
             for layer in base.layers:
@@ -195,6 +195,17 @@ def train_class_model(args):
 
 
     ## REGULAR TRAINING
+    #### OPTIMIZER
+    if (args.optim=="sgd"):
+        print ("Using SGD")
+        opt = SGD(lr=args.lr, decay=1e-6,momentum=0.9)
+    elif (args.optim=="adam"):
+        print ("Using Adam")
+        opt=Adam(lr=args.lr, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+    elif (args.optim=="rmsprop"):
+        print ("Using RMSprop")
+        opt=RMSprop(lr=args.lr, rho=0.9, epsilon=None, decay=0.0)
+
     if (args.lra==True):
         e1=int(epochs*0.5)
         e2=int(epochs*0.75)

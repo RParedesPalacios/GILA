@@ -41,6 +41,7 @@ parser.add_argument('-optim', choices=['sgd', 'adam','rmsprop'], default='sgd',h
 parser.add_argument('-lra_scale',type=float,help='Learning rate annealing scale factor (2.0)',default=2.0)
 parser.add_argument('-lra', action='store_true', help='Learning Rate Annealing')
 parser.add_argument('-lr',type=float,help='Learning rate (0.1)',default=0.1)
+parser.add_argument('-flr',type=float,help='Learning rate for a pretrained model int the frozen phase (0.001)',default=0.001)
 parser.add_argument('-epochs',type=int,help='Epochs (100)',default=100)
 parser.add_argument('-fepochs',type=int,help='Freeze pretrained epochs (10)',default=10)
 parser.add_argument('-batch',type=int,help='Batch size (100)',default=100)
