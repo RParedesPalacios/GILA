@@ -114,7 +114,7 @@ def train_det_model(args):
 
 
     #eval_detect_model(args,model)
-    
+
     history = model.fit_generator(detect_train_generator(args,maps),
                             max_queue_size=10, workers=0,use_multiprocessing=False,
                             steps_per_epoch=tr_steps,
