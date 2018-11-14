@@ -7,6 +7,7 @@ from keras.optimizers import SGD
 from keras.optimizers import Adam
 from keras.optimizers import RMSprop
 from keras.callbacks import LearningRateScheduler as LRS
+from keras.callbacks import ModelCheckpoint
 
 from detect_automodel import *
 from detect_generators import *
@@ -114,10 +115,14 @@ def train_det_model(args):
 
 
     #eval_detect_model(args,model)
+    if (args.save_epochs):
+        filepath=args.save_model+"_{epoch:03d}.h5"
+        checkpoint = ModelCheckpoint(filepath,verbose=1, save_best_only=False)
+        callbacks.append(checkpoint)
 
     history = model.fit_generator(detect_train_generator(args,maps),
                             max_queue_size=10, workers=0,use_multiprocessing=False,
-                            steps_per_epoch=tr_steps,
+                            steps_per_epoch=1,
                             epochs=epochs,
                             callbacks=callbacks,
                             verbose=1)

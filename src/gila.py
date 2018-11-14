@@ -60,6 +60,7 @@ parser.add_argument('-da_flip_h', action='store_true',help='DA horizontal flip')
 # ## IO MODELS
 parser.add_argument('-load_model',  help='Load a model from file')
 parser.add_argument('-save_model',  help='Save  model to file')
+parser.add_argument('-save_epochs', action='store_true',help='save model after all epochs')
 
 # ## other
 parser.add_argument('-plot', action='store_true',help='plot the accuracy and create a gila.png')
