@@ -7,7 +7,7 @@ GILA can create two different models:
 Automatically generates a convolutional network that fits the image sizes and the number of classes
 
 ~~~shell
--models auto
+-model auto
 ~~~
 
 > Note: by default automodel uses 3x3 convolutions with stride=1 and padding. After each convolution, automodel stacks a batch normalization layer and a ReLu activation layer. Convolutional layers are stacked as many as defined by the -autonconv argument to form a convolutional block. Finally, after each convolutional block a 2x2 max-pooling with stride 2 is applied.
@@ -66,7 +66,7 @@ default=no
 Load pretrained models and use GlobalAvgPooling to adapt the pretrained models to the size of the FC layers and numbers of classes
 
 ~~~shell
--models {vgg16,vgg19,resnet50,inceptionv3,inceptionresnetv2,densenet121,densenet169,densenet201,mobilenet,mobilenetv2}
+-model {vgg16,vgg19,resnet50,inceptionv3,inceptionresnetv2,densenet121,densenet169,densenet201,mobilenet,mobilenetv2}
 ~~~
 
 Pretrained models can be frozen a number of epochs using the parameter:
