@@ -79,16 +79,16 @@ def detect_train_generator(args,maps):
             for an in anot:
                 k=0
                 setanchor=False
-                max=0
                 for y in Y:
                     # scale annotations to maps and obtain center
                     scaley=float(args.height)/float(y.shape[1])
                     scalex=float(args.width)/float(y.shape[2])
 
                     cx=an[1]+(an[3]-an[1])/2
-                    mx=int(cx/scalex)
+                    mx=int(min(max(cx/scalex,0),y.shape[2]-1))
+
                     cy=an[2]+(an[4]-an[2])/2
-                    my=int(cy/scaley)
+                    my=int(min(max(cy/scaley,0),y.shape[1]-1))
 
                     i=0
                     for j in range(lanchors):
