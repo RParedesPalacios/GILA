@@ -63,6 +63,7 @@ parser.add_argument('-save_model',  help='Save  model to file')
 # ## other
 parser.add_argument('-plot', action='store_true',help='plot the accuracy and create a gila.png')
 parser.add_argument('-history', action='store_true',help='create a gila.txt with accuracy evolution')
+parser.add_argument('-log', action='store_true',help='create a gila_log.txt')
 
 ########## DETECTION ###########################
 ## Mode json annot file

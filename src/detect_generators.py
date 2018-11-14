@@ -7,37 +7,10 @@ from pprint import pprint
 from detect_tools import *
 
 import keras.backend as K
-import threading
 
 ######################################################################
 ################### DETECTION GENERATORS #############################
 ######################################################################
-
-# Class for generator_thread_safe
-class threadsafe_iter:
-    """Takes an iterator/generator and makes it thread-safe by
-    serializing call to the `next` method of given iterator/generator.
-    """
-    def __init__(self, it):
-        self.it = it
-        self.lock = threading.Lock()
-
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        with self.lock:
-            return next(self.it)
-
-
-def threadsafe_generator(f):
-    """A decorator that takes a generator function and makes it thread-safe.
-    """
-    def g(*a, **kw):
-        return threadsafe_iter(f(*a, **kw))
-    return g
-
-@threadsafe_generator
 def detect_train_generator(args,maps):
     ## read json annot files
 
@@ -60,15 +33,19 @@ def detect_train_generator(args,maps):
     ## Provide images and achors fitting with iou>0.5
     print("Start Generator....")
     gen = ImageDataGenerator()
+
+    if (args.log):
+        logfile = open("gila_log.txt", "w")
+        logfile.write("============================\n")
+        logfile.close()
+
     while True:
 
         for y in Y:
             y[:]=0.0
 
-        # to debug and check
-        tot=0
-        match=0
-        v=np.zeros(len(Y))
+
+        logfile = open("gila_log.txt", "a")
 
         for b in range(args.batch):
 
@@ -98,9 +75,8 @@ def detect_train_generator(args,maps):
                     h=h*scale
                     anot.append([catdict[all['category_id']],x,y,(x+w),(y+h)])
                     #cat,x1,y1,x2,y2
-
+            match=0
             for an in anot:
-                tot=tot+1
                 k=0
                 setanchor=False
                 max=0
@@ -114,57 +90,25 @@ def detect_train_generator(args,maps):
                     cy=an[2]+(an[4]-an[2])/2
                     my=int(cy/scaley)
 
-                    #shift to search for neighborhood cells to place anchors
-                    shift=1
-                    for sy in range(-shift,shift+1,1):
-                        if ((my+sy)>=0)and((my+sy)<A[k].shape[0]):
-                            for sx in range(-shift,shift+1,1):
-                                if ((mx+sx)>=0)and((mx+sx)<A[k].shape[1]):
-                                    # print("(",cx,",",cy,")")
-                                    # print("***(",dx,",",dy,")")
-                                    # print("(",mx+dx,",",my+dy,")")
-                                    i=0
-                                    for j in range(lanchors):
-                                        #w=args.anchors[2*j]*scalex
-                                        #h=args.anchors[2*j+1]*scaley
-                                        #print("[",w,",",h,"]")
-                                        score=iou([A[k][my+sy,mx+sx,i],A[k][my+sy,mx+sx,i+1],A[k][my+sy,mx+sx,i+2],A[k][my+sy,mx+sx,i+3]],
+                    i=0
+                    for j in range(lanchors):
+                        score=iou([A[k][my,mx,i],A[k][my,mx,i+1],A[k][my,mx,i+2],A[k][my,mx,i+3]],
                                         [an[1],an[2],an[3],an[4]])
 
-                                        if (score>max):
-                                            max=score
-                                        if (score>0.5):
-                                            #print("anchor found")
-                                            setanchor=True
-                                            oclass=int(an[0])
-                                            y[b,my+sy,mx+sx,(j*catlen)+oclass]=1.0
-                                            v[k]=v[k]+1
-                                        i=i+4
+                        if (score>0.5):
+                            setanchor=True
+                            oclass=int(an[0])
+                            y[b,my,mx,(j*catlen)+oclass]=1.0
+                        i=i+4
                     k=k+1
-
-
                 if (setanchor==True):
                     match=match+1
 
-
-
-        #mpc=float(100*match)/float(tot)
-        # if (mpc<50):
-        #     print("")
-        #     print("Warning: few gt boxes matched= %d %d %.2f%%" %(match,tot,mpc))
-
-
-        # print("----------------------")
-        # print("Total",tot)
-        # print("Match",match)
-        # k=0
-        # for y in Y:
-        #     print(k,":",v[k],np.count_nonzero(Y[k]),np.sum(Y[k]))
-        #     k=k+1
-        # print("----------------------")
-
-
-
+            if (args.log):
+                logfile.write("Image %s - %f\n" %(imgname,(match*100.0)/len(anot)))
+        if (args.log):
+            logfile.write("============================\n")
+            logfile.close()
         yield (X,output_dict)
 
 
