@@ -52,7 +52,7 @@ def detect_train_generator(args,maps):
             [img,ws,hs,imgname]=rand_image(args,images)
 
             ##DATA AUGMENTATION
-            [img,dx,dy,scale,flip]=transform(args,img,gen)
+            #[img,dx,dy,scale,flip]=transform(args,img,gen)
             X[b,:]=img
 
             ## Load annotation of image, codification
@@ -60,7 +60,12 @@ def detect_train_generator(args,maps):
             anot=[]
             for box in boxes:
                  if (box['image_id']==imgname):
-                    [x,y,w,h]=transform_box(args,box,ws,hs,dx,dy,scale,flip)
+                    [x,y,w,h]=box['bbox']
+                    x=x*ws
+                    y=y*hs
+                    w=w*ws
+                    h=h*hs
+                    #[x,y,w,h]=transform_box(args,box,ws,hs,dx,dy,scale,flip)
                     anot.append([catdict[box['category_id']],x,y,(x+w),(y+h)])
                     #cat,x1,y1,x2,y2
 
@@ -105,22 +110,3 @@ def detect_train_generator(args,maps):
 
 
         ######
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            #########

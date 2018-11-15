@@ -33,7 +33,7 @@ def train_det_model(args):
 
     ######### MODEL
     if (args.load_model!=None):
-        model=load_from_disk(args.load_model,hnm_loss,score_pos)
+        model=load_from_disk(args.load_model,hnm_loss,num_pos)
         maps=model.outputs
     else:
         print("Automodel")
@@ -111,7 +111,7 @@ def train_det_model(args):
     m_dict={}
     j=0
     for m in maps:
-     m_dict.update({m.name.replace('/Sigmoid:0',''):score_pos})
+     m_dict.update({m.name.replace('/Sigmoid:0',''):num_pos})
      j=j+1
 
     model.compile(loss=loss_dict,optimizer=opt,metrics=m_dict)

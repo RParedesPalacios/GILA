@@ -27,11 +27,15 @@ def hnm_loss(y_true,y_pred):
         neg=tf.cast(neg,dtype=tf.int32)
 
         yp_n,ind=tf.nn.top_k(yp_n,neg,sorted=True)
+        mask=tf.greater(yp_n,0.5)
+        yp_n=tf.boolean_mask(yp_n,mask)
 
         lenp=tf.size(yp_p)
         lenn=tf.size(yp_n)
 
         ## Concat predicted both
+        yp_p=tf.Print(yp_p,[yp_p],"Pos:")
+        yp_n=tf.Print(yp_n,[yp_n],"Neg:")
         myp=tf.concat([yp_p,yp_n],0)
 
         ## Define targets (pos 1s and neg 0s)
@@ -44,8 +48,7 @@ def hnm_loss(y_true,y_pred):
         return anchor_loss
 
 
-
-def score_pos(y_true, y_pred):
+def num_pos(y_true, y_pred):
     ## reshape to 1D vectors
     yt=tf.reshape(y_true,[-1])
     yp=tf.reshape(y_pred,[-1])
@@ -62,8 +65,6 @@ def score_pos(y_true, y_pred):
         yp_p=tf.gather(yp,indpos)
 
         return tf.reduce_mean(yp_p)
-
-
 
 
 

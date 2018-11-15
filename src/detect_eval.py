@@ -16,7 +16,7 @@ def eval_detect_model(args,model=None):
         if (args.load_model==None):
             print("No model name to eval (-load_model)")
             sys.exit(0)
-        model=load_from_disk(args.load_model,hnm_loss,score_pos)
+        model=load_from_disk(args.load_model,hnm_loss,num_pos)
 
 
     if (args.summary==True):
@@ -52,7 +52,7 @@ def eval_detect_model(args,model=None):
             for my in range(y.shape[1]):
                 for mx in range(y.shape[2]):
                     for mz in range(y.shape[3]):
-                        if (y[b,my,mx,mz]>0.25):
+                        if (y[b,my,mx,mz]>0.75):
                             z=4*(mz//catlen)
                             detect.append([my,mx,z,k,y[b,my,mx,mz]])
             k=k+1
