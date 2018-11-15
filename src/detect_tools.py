@@ -146,9 +146,10 @@ def transform(args,x,gen):
     dy=0
     if (args.da_width!=0.0)or(args.da_height!=0.0):
         dx=(args.da_width*args.width)//100
-        dy=(args.da_width*args.width)//100
+        dy=(args.da_height*args.height)//100
         dx=random.uniform(-dx,dx)
         dy=random.uniform(-dy,dy)
+        #print("dx:",dx,"dy:",dy)
         transform={'tx':dx,'ty':dy}
         x=gen.apply_transform(x, transform)
 
@@ -157,6 +158,7 @@ def transform(args,x,gen):
     if (args.da_zoom!=0.0):
         scale=random.uniform(1.0,1.0+args.da_zoom)
         transform={'zx':scale,'zy':scale}
+        #print("zoom:",scale)
         x=gen.apply_transform(x, transform)
 
     return x,dx,dy,scale,flip

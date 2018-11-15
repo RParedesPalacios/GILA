@@ -43,9 +43,7 @@ def hnm_loss(y_true,y_pred):
         yt2=tf.zeros([lenn], tf.float32)
         myt=tf.concat([yt1, yt2], 0)
 
-        anchor_loss = tf.reduce_mean(tf.square(myt - myp))
-
-        return anchor_loss
+        return tf.reduce_sum(yt1 - yp_p)+tf.reduce_sum(yp_n)
 
 
 def num_pos(y_true, y_pred):
