@@ -16,6 +16,7 @@ def hnm_loss(y_true,y_pred):
     indpos=tf.where(tf.not_equal(yt, zero))
     indpos=tf.cast(tf.reshape(indpos,[-1]),dtype=tf.int32)
     yp_p=tf.gather(yp,indpos)
+    #yp_p,ind=tf.nn.top_k(yp_p,pos,sorted=True)
 
     ## Gather hard negatives
     indneg=tf.where(tf.equal(yt, zero))
@@ -32,8 +33,8 @@ def hnm_loss(y_true,y_pred):
     lenn=tf.size(yp_n)
 
     ## Concat predicted both
-    yp_p=tf.Print(yp_p,[yp_p],"Pos:")
-    yp_n=tf.Print(yp_n,[yp_n],"Neg:")
+    #yp_p=tf.Print(yp_p,[yp_p],"Pos:")
+    #yp_n=tf.Print(yp_n,[yp_n],"Neg:")
     myp=tf.concat([yp_p,yp_n],0)
 
     ## Define targets (pos 1s and neg 0s)
@@ -44,7 +45,7 @@ def hnm_loss(y_true,y_pred):
     ln=tf.cast(lenn,dtype=tf.float32)
     lp=tf.cast(lenp,dtype=tf.float32)
 
-
+    #return tf.reduce_sum(yp_n - yp_p)/lp
     return (tf.reduce_sum(yt1 - yp_p)+tf.reduce_sum(yp_n))/(lp+ln)
     #return tf.reduce_mean(tf.square(myt - myp))
 

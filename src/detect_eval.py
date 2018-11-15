@@ -52,7 +52,7 @@ def eval_detect_model(args,model=None):
             for my in range(y.shape[1]):
                 for mx in range(y.shape[2]):
                     for mz in range(y.shape[3]):
-                        if (y[b,my,mx,mz]>0.75):
+                        if (y[b,my,mx,mz]>0.6):
                             z=4*(mz//catlen)
                             detect.append([my,mx,z,k,y[b,my,mx,mz]])
             k=k+1
@@ -81,7 +81,7 @@ def eval_detect_model(args,model=None):
 
 
         ## non-maximum supression
-        #boxes=non_max_suppression_fast(boxes, 0.5)
+        boxes=non_max_suppression_fast(boxes, 0.5)
 
         ## Draw selected
         print(fname)
