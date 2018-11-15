@@ -41,7 +41,7 @@ def hnm_loss(y_true,y_pred):
     yt2=tf.zeros([lenn], tf.float32)
     myt=tf.concat([yt1, yt2], 0)
 
-    return tf.reduce_sum(yt1 - yp_p)+tf.reduce_sum(yp_n)
+    return (tf.reduce_sum(yt1 - yp_p)+tf.reduce_sum(yp_n))/(lenp+lenn)
     #return tf.reduce_mean(tf.square(myt - myp))
 
 def num_pos(y_true, y_pred):
