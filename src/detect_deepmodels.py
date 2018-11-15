@@ -64,8 +64,11 @@ def train_det_model(args):
         print ("Using RMSprop")
         opt=RMSprop(lr=args.lr, rho=0.9, epsilon=None, decay=0.0)
 
+    if (args.trsteps!=-1):
+        tr_steps=args.trsteps
+    else:
+        tr_steps=imglen/batch_size
 
-    tr_steps=imglen/batch_size
 
 
     ## REGULAR TRAINING

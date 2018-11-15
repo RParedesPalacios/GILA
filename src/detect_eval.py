@@ -52,7 +52,7 @@ def eval_detect_model(args,model=None):
             for my in range(y.shape[1]):
                 for mx in range(y.shape[2]):
                     for mz in range(y.shape[3]):
-                        if (y[b,my,mx,mz]>0.5):
+                        if (y[b,my,mx,mz]>0.25):
                             z=4*(mz//catlen)
                             detect.append([my,mx,z,k,y[b,my,mx,mz]])
             k=k+1
@@ -60,9 +60,8 @@ def eval_detect_model(args,model=None):
 
         ## Select top
         detect=sorted(detect,key=lambda x: x[4],reverse=True)
-        #print(detect)
-        #input("Press Enter to continue...")
-        ## convert to to image Boxes
+
+        ## convert to image Boxes
         fname=args.tsdir+args.fprefix+str(names[b])+".jpg"
         [x,ws,hs]=load_image_as_numpy(args,fname)
 
@@ -80,13 +79,9 @@ def eval_detect_model(args,model=None):
             boxes[i,3]=A[k][y,x,z+3]/hs
             boxes[i,4]=detect[i][4]
 
-        #print(boxes)
-        #input("Press Enter to continue...")
 
         ## non-maximum supression
         #boxes=non_max_suppression_fast(boxes, 0.5)
-        #print(boxes)
-        #input("Press Enter to continue...")
 
         ## Draw selected
         print(fname)
@@ -98,7 +93,6 @@ def eval_detect_model(args,model=None):
 
         fname=args.tsdir+args.fprefix+str(names[b])+"ANOT"+".jpg"
         img.save(fname)
-        #input("Press Enter to continue...")
 
 
 

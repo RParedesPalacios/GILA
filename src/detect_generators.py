@@ -44,8 +44,8 @@ def detect_train_generator(args,maps):
         for y in Y:
             y[:]=0.0
 
-
-        logfile = open("gila_log.txt", "a")
+        if (args.log):
+            logfile = open("gila_log.txt", "a")
 
         for b in range(args.batch):
 

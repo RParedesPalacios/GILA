@@ -12,10 +12,8 @@ def hnm_loss(y_true,y_pred):
     if (pos==0):
         return 0.0
     else:
-        neg=pos
-        neg=tf.cast(neg,dtype=tf.int32)
-
         zero=tf.constant(0, dtype=tf.float32)
+
         ## Gather postives
         indpos=tf.where(tf.not_equal(yt, zero))
         indpos=tf.cast(tf.reshape(indpos,[-1]),dtype=tf.int32)
@@ -25,19 +23,23 @@ def hnm_loss(y_true,y_pred):
         indneg=tf.where(tf.equal(yt, zero))
         indneg=tf.cast(tf.reshape(indneg,[-1]),dtype=tf.int32)
         yp_n=tf.gather(yp,indneg)
-        yp_n,ind=tf.nn.top_k(yp_n,neg)
-        mask=tf.greater(yp_n, 0.5)
-        yp_n=tf.boolean_mask(yp_n, mask)
+        neg=3*pos
+        neg=tf.cast(neg,dtype=tf.int32)
 
-        ##Concat predicted both
-        yp=tf.concat([yp_p,yp_n],0)
+        yp_n,ind=tf.nn.top_k(yp_n,neg,sorted=True)
+
+        lenp=tf.size(yp_p)
+        lenn=tf.size(yp_n)
+
+        ## Concat predicted both
+        myp=tf.concat([yp_p,yp_n],0)
 
         ## Define targets (pos 1s and neg 0s)
-        yt1=tf.ones([tf.size(yp_p)], tf.float32)
-        yt2=tf.zeros([tf.size(yp_n)], tf.float32)
-        yt=tf.concat([yt1, yt2], 0)
+        yt1=tf.ones([lenp], tf.float32)
+        yt2=tf.zeros([lenn], tf.float32)
+        myt=tf.concat([yt1, yt2], 0)
 
-        anchor_loss = tf.reduce_mean(tf.square(yt - yp))
+        anchor_loss = tf.reduce_mean(tf.square(myt - myp))
 
         return anchor_loss
 
