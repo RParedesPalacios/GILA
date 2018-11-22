@@ -14,6 +14,7 @@ from detect_generators import *
 from detect_loss import *
 from detect_tools import *
 from detect_eval import *
+from detect_pretrainedmodel import *
 from files import *
 
 ##################################
@@ -35,10 +36,13 @@ def train_det_model(args):
     if (args.load_model!=None):
         model=load_from_disk(args.load_model,hnm_loss,num_pos)
         maps=model.outputs
-    else:
+    elif (args.model=="auto"):
         print("Automodel")
         model=auto_det_model(args,anchors,catlen)
         maps=model.outputs
+    else:
+        PRETR=True
+        [base,model]=detect_pretrained_model(args,anchors,catlen)
 
 
 
