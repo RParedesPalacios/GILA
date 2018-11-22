@@ -34,7 +34,7 @@ def load_pretrained_model(args):
     if (args.model=="vgg16"):
         load_model = VGG16(input_tensor=input_tensor,weights='imagenet', include_top=False)
     elif (args.model=="vgg19"):
-        load_model == VGG19(input_tensor=input_tensor,weights='imagenet', include_top=False)
+        load_model = VGG19(input_tensor=input_tensor,weights='imagenet', include_top=False)
     elif (args.model=="resnet50"):
         load_model = ResNet50(input_tensor=input_tensor,weights='imagenet', include_top=False)
     elif (args.model=="densenet121"):
