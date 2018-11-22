@@ -124,8 +124,9 @@ def train_det_model(args):
         checkpoint = ModelCheckpoint(filepath,verbose=1, save_best_only=False)
         callbacks.append(checkpoint)
 
+
     fepochs=args.fepochs
-    if (fepochs>0):
+    if (PRETR)and(fepochs>0):
         print("Freezing  the pre-trained model %d epochs" %(fepochs))
         for layer in base.layers:
             layer.trainable = False
