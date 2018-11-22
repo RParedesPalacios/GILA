@@ -118,9 +118,6 @@ def train_det_model(args):
      m_dict.update({m.name.replace('/Sigmoid:0',''):num_pos})
      j=j+1
 
-    model.compile(loss=loss_dict,optimizer=opt,metrics=m_dict)
-
-
     #eval_detect_model(args,model)
     if (args.save_epochs):
         filepath=args.save_model+"_{epoch:03d}.h5"
@@ -131,6 +128,7 @@ def train_det_model(args):
     print("Freezing the pre-trained model %d epochs" %(fepochs))
     for layer in base.layers:
         layer.trainable = False
+    model.compile(loss=loss_dict,optimizer=opt,metrics=m_dict)
 
     history = model.fit_generator(detect_train_generator(args,maps),
                              max_queue_size=10, workers=0,use_multiprocessing=False,
