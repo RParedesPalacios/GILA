@@ -16,7 +16,6 @@ def hnm_loss(y_true,y_pred):
     indpos=tf.where(tf.not_equal(yt, zero))
     indpos=tf.cast(tf.reshape(indpos,[-1]),dtype=tf.int32)
     yp_p=tf.gather(yp,indpos)
-    #yp_p,ind=tf.nn.top_k(yp_p,pos,sorted=True)
 
     ## Gather hard negatives
     indneg=tf.where(tf.equal(yt, zero))
@@ -24,10 +23,7 @@ def hnm_loss(y_true,y_pred):
     yp_n=tf.gather(yp,indneg)
     neg=tf.maximum(1,3*pos)
     neg=tf.cast(neg,dtype=tf.int32)
-
     yp_n,ind=tf.nn.top_k(yp_n,neg,sorted=True)
-    #mask=tf.greater(yp_n,0.5)
-    #yp_n=tf.boolean_mask(yp_n,mask)
 
     lenp=tf.size(yp_p)
     lenn=tf.size(yp_n)
@@ -45,9 +41,7 @@ def hnm_loss(y_true,y_pred):
     ln=tf.cast(lenn,dtype=tf.float32)
     lp=tf.cast(lenp,dtype=tf.float32)
 
-    #return tf.reduce_sum(yp_n - yp_p)/lp
-    return (tf.reduce_sum(yt1 - yp_p)+tf.reduce_sum(yp_n))/(lp+ln)
-    #return tf.reduce_mean(tf.square(myt - myp))
+    return tf.reduce_mean(tf.square(myt - myp))
 
 def num_pos(y_true, y_pred):
     ## reshape to 1D vectors
@@ -70,8 +64,6 @@ def num_pos(y_true, y_pred):
         yp_n=tf.gather(yp,indneg)
         neg=tf.maximum(1,3*pos)
         neg=tf.cast(neg,dtype=tf.int32)
-
-        yp_n,ind=tf.nn.top_k(yp_n,neg,sorted=True)
 
 
         return tf.reduce_mean(yp_p)-tf.reduce_mean(yp_n)
