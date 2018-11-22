@@ -2,6 +2,7 @@ import keras
 from keras.layers import Input
 from keras.models import Model
 from keras.layers import Dense, GlobalAveragePooling2D
+from keras import layers
 from pretrainedmodel import load_pretrained_model
 import numpy as np
 
