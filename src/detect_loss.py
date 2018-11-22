@@ -26,8 +26,8 @@ def hnm_loss(y_true,y_pred):
     neg=tf.cast(neg,dtype=tf.int32)
 
     yp_n,ind=tf.nn.top_k(yp_n,neg,sorted=True)
-    mask=tf.greater(yp_n,0.5)
-    yp_n=tf.boolean_mask(yp_n,mask)
+    #mask=tf.greater(yp_n,0.5)
+    #yp_n=tf.boolean_mask(yp_n,mask)
 
     lenp=tf.size(yp_p)
     lenn=tf.size(yp_n)
