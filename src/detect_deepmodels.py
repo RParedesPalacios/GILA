@@ -43,7 +43,7 @@ def train_det_model(args):
     else:
         PRETR=True
         [base,model]=detect_pretrained_model(args,anchors,catlen)
-
+        maps=model.outputs
 
 
     if (args.summary==True):

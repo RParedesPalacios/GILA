@@ -11,9 +11,10 @@ def detect_pretrained_model(args,anchors,catlen):
 
     load_model=load_pretrained_model(args)
 
+    print(args.olayer)
     maps=[]
     for l in load_model.layers:
-        if (l in args.olayer):
+        if (l.name in args.olayer):
             print("layer connected to output:",l.name)
             maps.append(l.output)
 
