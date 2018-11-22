@@ -42,7 +42,8 @@ def hnm_loss(y_true,y_pred):
     lp=tf.cast(lenp,dtype=tf.float32)
 
     #return tf.reduce_mean(tf.square(myt - myp))
-    return tf.reduce_mean(yt1-yp_p)+tf.reduce_mean(yp_n)
+    #return tf.reduce_mean(yt1-yp_p)+tf.reduce_mean(yp_n)
+    return tf.reduce_mean(yp_n)
 
 def num_pos(y_true, y_pred):
     ## reshape to 1D vectors
