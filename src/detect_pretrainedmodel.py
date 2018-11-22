@@ -14,8 +14,8 @@ def detect_pretrained_model(args,anchors,catlen):
 
     maps=[]
     for l in load_model.layers:
-        print(l.name)
-        if (min(l.shape[1],l.shape[2])>=args.minmap)and(max(l.shape[1],l.shape[2])<=args.maxmap):
+        l=l.output
+        if (min(l.output.shape[1],l.shape[2])>=args.minmap)and(max(l.shape[1],l.shape[2])<=args.maxmap):
             print(l.name,l.shape[1],"x",l.shape[2])
             maps.append(l)
 
