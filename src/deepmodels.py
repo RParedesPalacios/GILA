@@ -6,8 +6,7 @@ from keras.optimizers import SGD
 from keras.optimizers import Adam
 from keras.optimizers import RMSprop
 from keras.callbacks import LearningRateScheduler as LRS
-
-from automodel import auto_model
+PRfrom automodel import auto_model
 from pretrainedmodel import pretrained_model
 from generators import *
 from files import *
