@@ -65,7 +65,16 @@ def num_pos(y_true, y_pred):
         indpos=tf.cast(tf.reshape(indpos,[-1]),dtype=tf.int32)
         yp_p=tf.gather(yp,indpos)
 
-        return tf.reduce_mean(yp_p)
+        indneg=tf.where(tf.equal(yt, zero))
+        indneg=tf.cast(tf.reshape(indneg,[-1]),dtype=tf.int32)
+        yp_n=tf.gather(yp,indneg)
+        neg=tf.maximum(1,3*pos)
+        neg=tf.cast(neg,dtype=tf.int32)
+
+        yp_n,ind=tf.nn.top_k(yp_n,neg,sorted=True)
+
+
+        return tf.reduce_mean(yp_p)-tf.reduce_mean(yp_n)
 
 
 
