@@ -11,14 +11,11 @@ def detect_pretrained_model(args,anchors,catlen):
 
     load_model=load_pretrained_model(args)
 
-    print("Maps connected to target, from %d to %d" %(args.minmap,args.maxmap))
-
     maps=[]
     for l in load_model.layers:
-        lo=l.output
-        if (min(lo.shape[1],lo.shape[2])>=args.minmap)and(max(lo.shape[1],lo.shape[2])<=args.maxmap):
-            print(l.name,lo.shape[1],"x",lo.shape[2])
-            maps.append(l)
+        if (l in args.olayer):
+            print("layer connected to output:",l.name)
+            maps.append(l.output)
 
     depth=anchors*catlen
 
