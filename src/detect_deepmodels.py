@@ -125,22 +125,25 @@ def train_det_model(args):
         callbacks.append(checkpoint)
 
     fepochs=args.fepochs
-    print("Freezing the pre-trained model %d epochs" %(fepochs))
-    for layer in base.layers:
-        layer.trainable = False
-    model.compile(loss=loss_dict,optimizer=opt,metrics=m_dict)
+    if (fepochs>0):
+        print("Freezing  the pre-trained model %d epochs" %(fepochs))
+        for layer in base.layers:
+            layer.trainable = False
 
-    history = model.fit_generator(detect_train_generator(args,maps),
+        model.compile(loss=loss_dict,optimizer=opt,metrics=m_dict)
+
+        history = model.fit_generator(detect_train_generator(args,maps),
                              max_queue_size=10, workers=0,use_multiprocessing=False,
                              steps_per_epoch=tr_steps,
                              epochs=fepochs,
                              callbacks=callbacks,
                              verbose=1)
+        for layer in base.layers:
+            layer.trainable = True
 
-    for layer in base.layers:
-        layer.trainable = True
 
     model.compile(loss=loss_dict,optimizer=opt,metrics=m_dict)
+
     history = model.fit_generator(detect_train_generator(args,maps),
                             max_queue_size=10, workers=0,use_multiprocessing=False,
                             steps_per_epoch=tr_steps,
