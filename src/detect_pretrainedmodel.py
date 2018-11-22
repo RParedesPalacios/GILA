@@ -13,7 +13,7 @@ def detect_pretrained_model(args,anchors,catlen):
     print("Maps connected to target, from %d to %d" %(args.minmap,args.maxmap))
 
     maps=[]
-    for l in load_model:
+    for l in load_model.layers:
         if (min(l.shape[1],l.shape[2])>=args.minmap)and(max(l.shape[1],l.shape[2])<=args.maxmap):
             print(l.name,l.shape[1],"x",l.shape[2])
             maps.append(l)
