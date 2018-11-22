@@ -14,9 +14,9 @@ def detect_pretrained_model(args,anchors,catlen):
 
     maps=[]
     for l in load_model.layers:
-        l=l.output
-        if (min(l.output.shape[1],l.shape[2])>=args.minmap)and(max(l.shape[1],l.shape[2])<=args.maxmap):
-            print(l.name,l.shape[1],"x",l.shape[2])
+        lo=l.output
+        if (min(lo.shape[1],lo.shape[2])>=args.minmap)and(max(lo.shape[1],lo.shape[2])<=args.maxmap):
+            print(l.name,lo.shape[1],"x",lo.shape[2])
             maps.append(l)
 
     depth=anchors*catlen
