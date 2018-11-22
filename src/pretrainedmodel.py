@@ -18,10 +18,7 @@ from keras.layers import Dense, GlobalAveragePooling2D
 
 import numpy as np
 
-
-
-def pretrained_model(args,num_classes):
-
+def load_pretrained_model(args):
 
     h=args.height
     w=args.width
@@ -55,6 +52,11 @@ def pretrained_model(args,num_classes):
     elif (args.model=="mobilenetv2"):
         load_model = MobileNetV2(input_tensor=input_tensor,weights='imagenet', include_top=False)
 
+    return load_model
+
+def pretrained_model(args,num_classes):
+
+    load_model=load_pretrained_model(args)
 
     x=load_model.output
     x=GlobalAveragePooling2D()(x)
