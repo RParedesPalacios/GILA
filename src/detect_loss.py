@@ -29,8 +29,8 @@ def hnm_loss(y_true,y_pred):
     lenn=tf.size(yp_n)
 
     ## Concat predicted both
-    #yp_p=tf.Print(yp_p,[yp_p],"Pos:")
-    #yp_n=tf.Print(yp_n,[yp_n],"Neg:")
+    yp_p=tf.Print(yp_p,[yp_p],"Pos:")
+    yp_n=tf.Print(yp_n,[yp_n],"Neg:")
     myp=tf.concat([yp_p,yp_n],0)
 
     ## Define targets (pos 1s and neg 0s)
