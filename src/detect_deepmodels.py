@@ -33,8 +33,9 @@ def train_det_model(args):
         print("[%f,%f]" %(args.anchors[2*i],args.anchors[2*i+1]))
 
     ######### MODEL
+    PRETR=False
     if (args.load_model!=None):
-        model=load_from_disk(args.load_model,hnm_loss,num_pos)
+        model=load_from_disk(args.load_model,hnm_loss,dif_pos_neg)
         maps=model.outputs
     elif (args.model=="auto"):
         print("Automodel")
@@ -115,7 +116,7 @@ def train_det_model(args):
     m_dict={}
     j=0
     for m in maps:
-     m_dict.update({m.name.replace('/Sigmoid:0',''):num_pos})
+     m_dict.update({m.name.replace('/Sigmoid:0',''):dif_pos_neg})
      j=j+1
 
     #eval_detect_model(args,model)

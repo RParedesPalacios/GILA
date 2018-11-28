@@ -16,7 +16,7 @@ def eval_detect_model(args,model=None):
         if (args.load_model==None):
             print("No model name to eval (-load_model)")
             sys.exit(0)
-        model=load_from_disk(args.load_model,hnm_loss,num_pos)
+        model=load_from_disk(args.load_model,hnm_loss,dif_pos_neg)
 
 
     if (args.summary==True):
@@ -52,7 +52,7 @@ def eval_detect_model(args,model=None):
             for my in range(y.shape[1]):
                 for mx in range(y.shape[2]):
                     for mz in range(y.shape[3]):
-                        if (y[b,my,mx,mz]>0.6):
+                        if (y[b,my,mx,mz]>0.5):
                             z=4*(mz//catlen)
                             detect.append([my,mx,z,k,y[b,my,mx,mz]])
             k=k+1
@@ -65,7 +65,7 @@ def eval_detect_model(args,model=None):
         fname=args.tsdir+args.fprefix+str(names[b])+".jpg"
         [x,ws,hs]=load_image_as_numpy(args,fname)
 
-        tot=min(200,len(detect))
+        tot=min(2000,len(detect))
         boxes=np.zeros((tot,5))
         #x1,y1,x2,y2
         for i in range(tot):
@@ -81,7 +81,7 @@ def eval_detect_model(args,model=None):
 
 
         ## non-maximum supression
-        boxes=non_max_suppression_fast(boxes, 0.5)
+        #boxes=non_max_suppression_fast(boxes, 0.5)
 
         ## Draw selected
         print(fname)
@@ -91,7 +91,7 @@ def eval_detect_model(args,model=None):
             draw.rectangle((box[0],box[1],box[2],box[3]), fill=None)
 
 
-        fname=args.tsdir+args.fprefix+str(names[b])+"ANOT"+".jpg"
+        fname=args.tsdir+args.fprefix+str(names[b])+"ANNOT"+".jpg"
         img.save(fname)
 
 
