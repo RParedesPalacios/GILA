@@ -7,47 +7,34 @@ def hnm_loss(y_true,y_pred):
     yt=tf.reshape(y_true,[-1])
     yp=tf.reshape(y_pred,[-1])
 
-    ## Count positives and define neg as pos
+    ## Count positives
     pos=tf.cast(tf.count_nonzero(yt),dtype=tf.int32)
-    zero=tf.constant(0, dtype=tf.float32)
-    #pos=tf.Print(pos,[pos],"Pos=")
+    ## split yp into positives and negatives
+    mask=tf.to_int32(tf.greater(yt,0))
+    data=tf.dynamic_partition(yp,mask,2)
 
-    ## Gather postives
-    indpos=tf.where(tf.not_equal(yt, zero))
-    indpos=tf.cast(tf.reshape(indpos,[-1]),dtype=tf.int32)
-    yp_p=tf.gather(yp,indpos)
-    yp_p,ind=tf.nn.top_k(yp_p,pos,sorted=True)
-    
-    ## Gather hard negatives
-    indneg=tf.where(tf.equal(yt, zero))
-    indneg=tf.cast(tf.reshape(indneg,[-1]),dtype=tf.int32)
-    yp_n=tf.gather(yp,indneg)
-    #neg=tf.maximum(1,2*pos)
-    #neg=tf.cast(neg,dtype=tf.int32)
-    #yp_n,ind=tf.nn.top_k(yp_n,neg,sorted=True)
+    yp_n=data[0]
+    yp_p=data[1]
 
-    mask=tf.greater(yp_n,0.5)
-    yp_n=tf.boolean_mask(yp_n,mask)
-    
+    # hard negatives 
+    neg=tf.maximum(1,3*pos)
+    neg=tf.cast(neg,dtype=tf.int32)
+    yp_n,ind=tf.nn.top_k(yp_n,neg,sorted=False)
+
     lenp=tf.size(yp_p)
-    lenn=tf.size(yp_n)
+    #lenn=tf.size(yp_n)
 
-    ## Concat predicted both
-    yp_p=tf.Print(yp_p,[yp_p],"Pos:")
-    yp_n=tf.Print(yp_n,[yp_n],"Neg:")
-    myp=tf.concat([yp_p,yp_n],0)
+    #lenp=tf.Print(lenp,[lenp],"Pos:")
+    #lenn=tf.Print(lenn,[lenn],"Neg:")
 
     ## Define targets (pos 1s and neg 0s)
     yt1=tf.ones([lenp], tf.float32)
-    yt2=tf.zeros([lenn], tf.float32)
-    myt=tf.concat([yt1, yt2], 0)
+    #yt2=tf.zeros([lenn], tf.float32)
 
-    #ln=tf.cast(lenn,dtype=tf.float32)
-    #lp=tf.cast(lenp,dtype=tf.float32)
+    # loss
+    return tf.reduce_mean(yt1-yp_p)+tf.reduce_mean(yp_n)
 
-    return tf.reduce_mean(tf.square(myt - myp))
-    #return tf.reduce_mean(yt1-yp_p)+tf.reduce_mean(yp_n)
-    #return tf.reduce_mean(yp_n)
+    #return tf.reduce_mean(yp_n)-tf.reduce_mean(yp_p) 
 
 def dif_pos_neg(y_true, y_pred):
     ## reshape to 1D vectors
@@ -59,19 +46,14 @@ def dif_pos_neg(y_true, y_pred):
     if (pos==0):
         return 0.0
     else:
-        zero=tf.constant(0, dtype=tf.float32)
-        ## Gather postives
-        indpos=tf.where(tf.not_equal(yt, zero))
-        indpos=tf.cast(tf.reshape(indpos,[-1]),dtype=tf.int32)
-        yp_p=tf.gather(yp,indpos)
-
-        ## Gather hard negatives
-        indneg=tf.where(tf.equal(yt, zero))
-        indneg=tf.cast(tf.reshape(indneg,[-1]),dtype=tf.int32)
-        yp_n=tf.gather(yp,indneg)
+        mask=tf.to_int32(tf.greater(yt,0))
+        data=tf.dynamic_partition(yp,mask,2)
+        yp_n=data[0]
+        yp_p=data[1]
+        
         neg=tf.maximum(1,3*pos)
         neg=tf.cast(neg,dtype=tf.int32)
-        yp_n,ind=tf.nn.top_k(yp_n,neg,sorted=True)
+        yp_n,ind=tf.nn.top_k(yp_n,neg,sorted=False)
         
         return tf.reduce_mean(yp_p)-tf.reduce_mean(yp_n)
 
