@@ -55,6 +55,7 @@ def eval_detect_model(args,model=None):
                         if (y[b,my,mx,mz]>0.5):
                             z=4*(mz//catlen)
                             detect.append([my,mx,z,k,y[b,my,mx,mz]])
+
             k=k+1
 
 
@@ -65,20 +66,21 @@ def eval_detect_model(args,model=None):
         fname=args.tsdir+args.fprefix+str(names[b])+".jpg"
         [x,ws,hs]=load_image_as_numpy(args,fname)
 
-        tot=min(2000,len(detect))
+        tot=min(200,len(detect))
         boxes=np.zeros((tot,5))
         #x1,y1,x2,y2
-        for i in range(tot):
-            y=detect[i][0]
-            x=detect[i][1]
-            z=detect[i][2]
-            k=detect[i][3]
+        i=0
+        for d in detect:
+            y=d[0]
+            x=d[1]
+            z=d[2]
+            k=d[3]
             boxes[i,0]=A[k][y,x,z]/ws
             boxes[i,1]=A[k][y,x,z+1]/hs
             boxes[i,2]=A[k][y,x,z+2]/ws
             boxes[i,3]=A[k][y,x,z+3]/hs
-            boxes[i,4]=detect[i][4]
-
+            boxes[i,4]=d[4]
+            i=i+1
 
         ## non-maximum supression
         #boxes=non_max_suppression_fast(boxes, 0.5)

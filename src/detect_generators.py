@@ -87,7 +87,7 @@ def detect_train_generator(args,maps):
                         if (score>0.5):
                             setanchor=True
                             oclass=int(an[0])
-                            y[b,my,mx,(j*catlen)+oclass]=1.0 # positive target
+                            y[b,my,mx,(j*catlen)+oclass]=1 # positive target
                         i=i+4
                     k=k+1
                 if (setanchor==True):

@@ -133,13 +133,13 @@ def rand_image(args,images,tr=1):
 
 def transform(args,x,gen):
 
+    transform={}
     #HORIZAONTAL FLIP
     flip=False
     if (args.da_flip_h):
         if random.randint(0,1):
             flip=True
-            transform={'flip_horizontal':True}
-            x=gen.apply_transform(x, transform)
+            transform.update({'flip_horizontal':True})
 
     #HORIZAONTAL AND VERTICAL SHIFT
     dx=0
@@ -149,21 +149,22 @@ def transform(args,x,gen):
         dy=(args.da_height*args.height)//100
         dx=random.uniform(-dx,dx)
         dy=random.uniform(-dy,dy)
-        #print("dx:",dx,"dy:",dy)
-        transform={'tx':dx,'ty':dy}
-        x=gen.apply_transform(x, transform)
+        transform.update({'tx':dx,'ty':dy})
 
     # SCALE
     scale=1.0
     if (args.da_zoom!=0.0):
         scale=random.uniform(1.0,1.0+args.da_zoom)
-        transform={'zx':scale,'zy':scale}
-        #print("zoom:",scale)
+        transform.update({'zx':scale,'zy':scale})
+
+    
+    if (args.da_flip_h)or(args.da_width!=0.0)or(args.da_height!=0.0)or(args.da_zoom!=0.0):
         x=gen.apply_transform(x, transform)
 
     return x,dx,dy,scale,flip
 
 def transform_box(args,box,ws,hs,dx,dy,scale,flip):
+
     x,y,w,h=box['bbox']
     # scale to width and height
     x=x*ws
@@ -171,14 +172,15 @@ def transform_box(args,box,ws,hs,dx,dy,scale,flip):
     w=w*ws
     h=h*hs
 
-    #Apply transforms to the gt box
-    if (flip):
-        x=args.width-(x+w)
-
+    ## Keras apply_transform: shit-zoom-flip
+    ## Apply the same transforms to the gt box
     x=(x+dx)*scale
     y=(y+dy)*scale
     w=w*scale
     h=h*scale
+
+    if (flip):
+        x=args.width-(x+w)
 
     return x,y,w,h
 
