@@ -35,7 +35,7 @@ def train_det_model(args):
     ######### MODEL
     PRETR=False
     if (args.load_model!=None):
-        model=load_from_disk(args.load_model,hnm_loss,dif_pos_neg)
+        model=load_from_disk(args.load_model,hnm_loss,[dif_pos_neg,score_pos])
         maps=model.outputs
     elif (args.model=="auto"):
         print("Automodel")
@@ -116,7 +116,8 @@ def train_det_model(args):
     m_dict={}
     j=0
     for m in maps:
-     m_dict.update({m.name.replace('/Sigmoid:0',''):dif_pos_neg})
+     m_dict.update({m.name.replace('/Sigmoid:0',''):[dif_pos_neg,score_pos,score_neg]})
+     #m_dict.update({m.name.replace('/Sigmoid:0',''):score_pos})
      j=j+1
 
     #eval_detect_model(args,model)

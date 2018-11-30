@@ -31,7 +31,7 @@ def load_from_disk(basename,custom_loss=None,custom_metric=None):
     if (custom_loss==None):
         model=load_model(filename)
     else:
-        model=load_model(filename,custom_objects={'hnm_loss': custom_loss,'dif_pos_neg':custom_metric})
+        model=load_model(filename,custom_objects={'hnm_loss': custom_loss,'dif_pos_neg':custom_metric,'score_pos':custom_metric})
     print("Loaded model from disk")
     return model
 

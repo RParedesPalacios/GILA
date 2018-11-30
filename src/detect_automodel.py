@@ -27,7 +27,7 @@ def auto_det_model(args,anchors,catlen):
 
     depth=anchors*catlen
 
-    ks=5
+    ks=3
     outs=[]
     for m in maps:
         x=layers.Conv2D(depth, kernel_size=(ks, ks), strides=(1,1),padding='same',activation='sigmoid')(m)
