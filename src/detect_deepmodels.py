@@ -35,7 +35,7 @@ def train_det_model(args):
     ######### MODEL
     PRETR=False
     if (args.load_model!=None):
-        model=load_from_disk(args.load_model,hnm_loss,[dif_pos_neg,score_pos])
+        model=load_from_disk(args.load_model,hnm_loss,dif_pos_neg,score_pos,score_neg)
         maps=model.outputs
     elif (args.model=="auto"):
         print("Automodel")
