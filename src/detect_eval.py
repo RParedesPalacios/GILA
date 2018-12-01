@@ -16,7 +16,7 @@ def eval_detect_model(args,model=None):
         if (args.load_model==None):
             print("No model name to eval (-load_model)")
             sys.exit(0)
-        model=load_from_disk(args.load_model,hnm_loss,dif_pos_neg)
+        model=load_from_disk(args.load_model,hnm_loss,dif_pos_neg,score_pos,score_neg)
 
 
     if (args.summary==True):
@@ -66,7 +66,7 @@ def eval_detect_model(args,model=None):
         fname=args.tsdir+args.fprefix+str(names[b])+".jpg"
         [x,ws,hs]=load_image_as_numpy(args,fname)
 
-        tot=min(200,len(detect))
+        tot=min(2000,len(detect))
         boxes=np.zeros((tot,5))
         #x1,y1,x2,y2
         i=0
