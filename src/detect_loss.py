@@ -3,12 +3,10 @@ import keras.backend as K
 
 def get_pos_neg(y_true,y_pred):
     ## reshape to 1D vectors
-    #cat=tf.shape(y_true)[1]
-    #tpos,tneg=tf.split(y_true, [cat-1, 1])
-    #ppos,pneg=tf.split(y_pred, [cat-1, 1])
+    cat=tf.shape(y_true)[1]
 
-    yt=tf.reshape(y_true,[-1])
-    yp=tf.reshape(y_pred,[-1])
+    yt=tf.reshape(y_true[:,cat-1],[-1])
+    yp=tf.reshape(y_pred[:,cat-1],[-1])
 
     ## Count positives
     pos=tf.cast(tf.count_nonzero(yt),dtype=tf.int32)
@@ -16,18 +14,23 @@ def get_pos_neg(y_true,y_pred):
 
     mask=tf.to_int32(tf.greater(yt,0))
     data=tf.dynamic_partition(yp,mask,2)
-
-    yp_n=data[0]
     yp_p=data[1]
 
     # hard negatives
     hnm=2.0
     neg=tf.maximum(1,tf.to_int32(hnm*tf.to_float(pos)))
     neg=tf.cast(neg,dtype=tf.int32)
+
+    yt=tf.reshape(y_true[:,:cat-2],[-1])
+    yp=tf.reshape(y_pred[:,:cat-2],[-1])
+
+    mask=tf.to_int32(tf.greater(yt,0))
+    data=tf.dynamic_partition(yp,mask,2)
+    yp_n=data[1]
+
     yp_n,ind=tf.nn.top_k(yp_n,neg,sorted=False)
 
     return yp_p,yp_n
-
 
 def hnm_loss(y_true,y_pred):
     #return tf.nn.softmax_cross_entropy_with_logits_v2(labels = y_true, logits = y_pred)
