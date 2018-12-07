@@ -39,6 +39,8 @@ def detect_train_generator(args,maps,outm):
 
         for y in Y:
             y[:]=0.0
+            y[:,:,:,catlen-1::catlen]=1
+
 
         if (args.log):
             logfile = open("gila_log.txt", "a")
@@ -84,6 +86,7 @@ def detect_train_generator(args,maps,outm):
                             setanchor=True
                             oclass=int(an[0])
                             y[b,my,mx,(j*catlen)+oclass]=1 # positive target
+                            y[b,my,mx,((j+1)*catlen)-1]=0 # remove negative
                         i=i+4
                     k=k+1
 
