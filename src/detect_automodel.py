@@ -29,11 +29,16 @@ def auto_det_model(args,anchors,catlen):
 
     ks=3
     outs=[]
+    outm=[]
     for m in maps:
-        x=layers.Conv2D(depth, kernel_size=(ks, ks), strides=(1,1),padding='same',activation='sigmoid')(m)
+        x=layers.Conv2D(depth, kernel_size=(ks, ks), strides=(1,1),padding='same')(m)
+        outm.append(x)
+        x=layers.Reshape((-1,catlen))(x)
+        x=layers.Activation('softmax')(x)
         outs.append(x)
 
+    output = layers.concatenate(outs,axis=1)
 
-    model = models.Model(inputs=[input], outputs=outs)
+    model = models.Model(inputs=[input], outputs=output)
 
-    return model
+    return model,outm

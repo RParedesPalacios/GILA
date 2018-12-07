@@ -47,6 +47,7 @@ def load_annot_json(filename):
     categories=data['categories']
     catlen=len(categories)
     print ("Categories in annotation file:",catlen)
+    catlen=catlen+1 ## background class
 
     images=data['images']
     imglen=len(images)
@@ -157,7 +158,7 @@ def transform(args,x,gen):
         scale=random.uniform(1.0,1.0+args.da_zoom)
         transform.update({'zx':scale,'zy':scale})
 
-    
+
     if (args.da_flip_h)or(args.da_width!=0.0)or(args.da_height!=0.0)or(args.da_zoom!=0.0):
         x=gen.apply_transform(x, transform)
 

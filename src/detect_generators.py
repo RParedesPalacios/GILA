@@ -11,7 +11,7 @@ import keras.backend as K
 ######################################################################
 ################### DETECTION GENERATORS #############################
 ######################################################################
-def detect_train_generator(args,maps):
+def detect_train_generator(args,maps,outm):
     ## read json annot files
 
     [images,imglen,boxes,boxlen,catdict,catlen]=load_annot_json(args.trannot)
@@ -24,11 +24,7 @@ def detect_train_generator(args,maps):
     ## Build X,Y
     [X,Y]=buil_XY(args,maps)
 
-    output_dict={}
-    k=0
-    for m in maps:
-     output_dict.update({m.name.replace('/Sigmoid:0',''):Y[k]})
-     k=k+1
+
 
     ## Provide images and achors fitting with iou>0.5
     print("Start Generator....")
@@ -90,15 +86,26 @@ def detect_train_generator(args,maps):
                             y[b,my,mx,(j*catlen)+oclass]=1 # positive target
                         i=i+4
                     k=k+1
+
                 if (setanchor==True):
                     match=match+1
+
 
             if (args.log):
                 logfile.write("Image %s - %f\n" %(imgname,(match*100.0)/len(anot)))
         if (args.log):
             logfile.write("============================\n")
             logfile.close()
-        yield (X,output_dict)
+
+        k=0
+        Yr=[]
+        for y in Y:
+            Yr.append(Y[k].reshape((args.batch,-1,catlen)))
+            k=k+1
+
+        Yc=np.concatenate(Yr, axis=1)
+
+        yield (X,Yc)
 
 
 

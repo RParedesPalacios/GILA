@@ -36,15 +36,15 @@ def train_det_model(args):
     PRETR=False
     if (args.load_model!=None):
         model=load_from_disk(args.load_model,hnm_loss,dif_pos_neg,score_pos,score_neg)
-        maps=model.outputs
+        outm=model.outputs
     elif (args.model=="auto"):
         print("Automodel")
-        model=auto_det_model(args,anchors,catlen)
-        maps=model.outputs
+        model,maps=auto_det_model(args,anchors,catlen)
+        outm=model.outputs
     else:
         PRETR=True
         [base,model]=detect_pretrained_model(args,anchors,catlen)
-        maps=model.outputs
+        outm=model.outputs
 
 
     if (args.summary==True):
@@ -106,19 +106,6 @@ def train_det_model(args):
         callbacks=[]
 
 
-    ## use a hard negative minnig loss
-    loss_dict={}
-    j=0
-    for m in maps:
-     loss_dict.update({m.name.replace('/Sigmoid:0',''):hnm_loss})
-     j=j+1
-
-    m_dict={}
-    j=0
-    for m in maps:
-     m_dict.update({m.name.replace('/Sigmoid:0',''):[dif_pos_neg,score_pos,score_neg]})
-     #m_dict.update({m.name.replace('/Sigmoid:0',''):score_pos})
-     j=j+1
 
     #eval_detect_model(args,model)
     if (args.save_epochs):
@@ -133,9 +120,9 @@ def train_det_model(args):
         for layer in base.layers:
             layer.trainable = False
 
-        model.compile(loss=loss_dict,optimizer=opt,metrics=m_dict)
+        model.compile(loss=[hnm_loss],optimizer=opt,metrics=[dif_pos_neg,score_pos,score_neg])
 
-        history = model.fit_generator(detect_train_generator(args,maps),
+        history = model.fit_generator(detect_train_generator(args,maps,outm),
                              max_queue_size=10, workers=0,use_multiprocessing=False,
                              steps_per_epoch=tr_steps,
                              epochs=fepochs,
@@ -145,9 +132,9 @@ def train_det_model(args):
             layer.trainable = True
 
 
-    model.compile(loss=loss_dict,optimizer=opt,metrics=m_dict)
+    model.compile(loss=[hnm_loss],optimizer=opt,metrics=[dif_pos_neg,score_pos,score_neg])
 
-    history = model.fit_generator(detect_train_generator(args,maps),
+    history = model.fit_generator(detect_train_generator(args,maps,outm),
                             max_queue_size=10, workers=0,use_multiprocessing=False,
                             steps_per_epoch=tr_steps,
                             epochs=epochs,

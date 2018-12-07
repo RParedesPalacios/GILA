@@ -27,18 +27,9 @@ def get_pos_neg(y_true,y_pred):
 def hnm_loss(y_true,y_pred):
     yp_p,yp_n=get_pos_neg(y_true,y_pred)
 
-    lenp=tf.size(yp_p)
-    lenn=tf.size(yp_n)
+    return -tf.reduce_mean(yp_p)+tf.reduce_mean(yp_n)#-tf.log(yp_p)+tf.log(yp_n)
 
-    ## Define targets (pos 1s and neg 0s)
-    yt_p=tf.ones([lenp], tf.float32)
-    yt_n=tf.zeros([lenn], tf.float32)
-
-    myp=tf.concat([yp_p,yp_n],0)
-    myt=tf.concat([yt_p,yt_n],0)
-    # loss
-    return tf.reduce_mean(tf.square(myt-myp))
-
+    #return tf.reduce_mean(yp_n)-tf.reduce_mean(yp_p)
 
 def dif_pos_neg(y_true, y_pred):
     yp_p,yp_n=get_pos_neg(y_true,y_pred)
