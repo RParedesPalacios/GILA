@@ -6,7 +6,7 @@ def get_pos_neg(y_true,y_pred):
     cat=tf.shape(y_true)[2]
     zero=tf.constant(0, dtype=tf.float32)
 
-    ## reshape to 1D vectors
+    ## reshape to 1D vectors the positive part
     yt=tf.reshape(y_true[:,:,:cat-2],[-1])
     yp=tf.reshape(y_pred[:,:,:cat-2],[-1])
 
@@ -21,9 +21,12 @@ def get_pos_neg(y_true,y_pred):
     indpos=tf.cast(tf.reshape(indpos,[-1]),dtype=tf.int32)
     yp_p=tf.gather(yp,indpos)
 
-    ## Gather hard negatives
+
+    ## reshape to 1D vectors the negative part
     yt=tf.reshape(y_true[:,:,cat-1],[-1])
     yp=tf.reshape(y_pred[:,:,cat-1],[-1])
+
+    ## Gather hard negatives
     indneg=tf.where(tf.not_equal(yt, zero))
     indneg=tf.cast(tf.reshape(indneg,[-1]),dtype=tf.int32)
     yp_n=tf.gather(yp,indneg)
