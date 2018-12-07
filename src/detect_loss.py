@@ -27,7 +27,11 @@ def get_pos_neg(y_true,y_pred):
 def hnm_loss(y_true,y_pred):
     yp_p,yp_n=get_pos_neg(y_true,y_pred)
 
-    return -tf.reduce_mean(yp_p)+tf.reduce_mean(yp_n)#-tf.log(yp_p)+tf.log(yp_n)
+    #yp_p = tf.maximum(yp_p, 1e-15)
+    #yp_n = tf.maximum(yp_n, 1e-15)
+    return -tf.reduce_mean(yp_p)+tf.reduce_mean(yp_n)
+
+    #return -tf.log(yp_p)+tf.log(yp_n)
 
     #return tf.reduce_mean(yp_n)-tf.reduce_mean(yp_p)
 

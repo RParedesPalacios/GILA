@@ -34,7 +34,7 @@ def auto_det_model(args,anchors,catlen):
         x=layers.Conv2D(depth, kernel_size=(ks, ks), strides=(1,1),padding='same')(m)
         outm.append(x)
         x=layers.Reshape((-1,catlen))(x)
-        x=layers.Activation('softmax')(x)
+        x=layers.Softmax(axis=2)(x)
         outs.append(x)
 
     output = layers.concatenate(outs,axis=1)
