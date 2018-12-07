@@ -72,7 +72,7 @@ def hnm_loss(y_true,y_pred):
     # y_true=tf.concat([yt_p,yt_n],1)
     # y_pred=tf.concat([yp_p,yp_n],1)
 
-    return -tf.reduce_mean(yp_p)-tf.reduce_mean(yp_n)
+    return -tf.log(tf.reduce_mean(yp_p))-tf.log(tf.reduce_mean(yp_n))
 
     #return -tf.losses.softmax_cross_entropy(onehot_labels=yt_p,logits=yp_p)
     #yp_p,yp_n=get_pos_neg(y_true,y_pred)
