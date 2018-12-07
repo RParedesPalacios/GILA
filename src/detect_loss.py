@@ -86,8 +86,20 @@ def hnm_loss(y_true,y_pred):
     #return tf.reduce_mean(yp_n)-tf.reduce_mean(yp_p)
 
 def dif_pos_neg(y_true, y_pred):
-    yp_p,yp_n=get_pos_neg(y_true,y_pred)
-    return tf.reduce_mean(yp_p)-tf.reduce_mean(yp_n)
+
+    cat=tf.shape(y_true)[2]
+    zero=tf.constant(0, dtype=tf.float32)
+
+    ytrue=tf.reshape(y_true,[-1,cat])
+    ypred=tf.reshape(y_pred,[-1,cat])
+
+    ind=tf.where(tf.equal(ytrue[:,cat-1], zero))
+    ind=tf.cast(tf.reshape(ind,[-1]),dtype=tf.int32)
+
+    ytrue=tf.gather(ytrue,ind)
+    ypred=tf.gather(ypred,ind)
+    
+    return K.mean(K.equal(K.argmax(ytrue, axis=-1), K.argmax(ypred, axis=-1)))
 
 def score_pos(y_true, y_pred):
     yp_p,yp_n=get_pos_neg(y_true,y_pred)
