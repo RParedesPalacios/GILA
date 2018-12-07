@@ -25,11 +25,28 @@ def eval_detect_model(args,model=None):
     [images,imglen,boxes,boxlen,catdict,catlen]=load_annot_json(args.tsannot)
 
     lanchors=len(args.anchors)//2
-    maps=model.outputs
-    A=build_anchors(args,maps)
+    outputs=model.outputs
+    maps=[]
+    for layer in model.layers:
+        maps.append(layer.output)
+        if ("re_lu" in layer.name):
+            maps=[]
+        if ("reshape" in layer.name):
+            break
+
+    dmaps=[]
+    for m in maps:
+        if (min(m.shape[1],m.shape[2])>=args.minmap)and(max(m.shape[1],m.shape[2])<=args.maxmap):
+            dmaps.append(m)
+    print(dmaps)
 
 
-    [X,Y]=buil_XY(args,maps)
+
+    A=build_anchors(args,dmaps)
+
+
+    [X,Y]=buil_XY(args,dmaps)
+
 
 
     names=[]
@@ -40,22 +57,38 @@ def eval_detect_model(args,model=None):
 
     print("Predict batch")
     ## get output maps
-    Y=model.predict(X, args.batch)
+    OY=model.predict(X, args.batch)
+
+
     for y in Y:
-        print(y.shape,np.max(y))
+        print(y.shape)
+
+    print(OY.shape)
+
+
+    #sys.exit(1)
     ## Draw detections
     for b in range(args.batch):
-
         detect=[]
         k=0
+        ant=0
+
         for y in Y:
+            act=0
+            block=y.shape[3]//catlen
             for my in range(y.shape[1]):
                 for mx in range(y.shape[2]):
                     for mz in range(y.shape[3]):
-                        if (y[b,my,mx,mz]>0.5):
-                            z=4*(mz//catlen)
-                            detect.append([my,mx,z,k,y[b,my,mx,mz]])
+                        act=act+1
+                        c=mz%catlen
+                        d=mz//catlen
+                    #    if (y[b,my,mx,mz]>0.5):
+                        if (OY[b,ant+my*(y.shape[2]*block)+mx*block+d,c]>0.5):
+                            if (mz%catlen!=(catlen-1)): ## not background class
+                                z=4*(mz//catlen)
+                                detect.append([my,mx,z,k,y[b,my,mx,mz]])
 
+            ant=ant+(act//catlen)
             k=k+1
 
 
