@@ -120,7 +120,7 @@ def train_det_model(args):
         for layer in base.layers:
             layer.trainable = False
 
-        model.compile(loss=[hnm_loss],optimizer=opt,metrics=[dif_pos_neg,score_pos,score_neg])
+        model.compile(loss=[hnm_loss],optimizer=opt,metrics=[dif_pos_neg,score_pos,score_neg,"accuracy"])
 
         history = model.fit_generator(detect_train_generator(args,maps,outm),
                              max_queue_size=10, workers=0,use_multiprocessing=False,
@@ -132,7 +132,7 @@ def train_det_model(args):
             layer.trainable = True
 
 
-    model.compile(loss=[hnm_loss],optimizer=opt,metrics=[dif_pos_neg,score_pos,score_neg])
+    model.compile(loss=[hnm_loss],optimizer=opt,metrics=[dif_pos_neg,score_pos,score_neg,"accuracy"])
 
     history = model.fit_generator(detect_train_generator(args,maps,outm),
                             max_queue_size=10, workers=0,use_multiprocessing=False,
