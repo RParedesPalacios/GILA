@@ -16,7 +16,7 @@ def eval_detect_model(args,model=None):
         if (args.load_model==None):
             print("No model name to eval (-load_model)")
             sys.exit(0)
-        model=load_from_disk(args.load_model,hnm_loss,dif_pos_neg,score_pos,score_neg)
+        model=load_from_disk(args.load_model,hnm_loss,acc_pos,acc_neg)
 
 
     if (args.summary==True):
