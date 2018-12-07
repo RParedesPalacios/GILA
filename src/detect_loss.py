@@ -37,36 +37,41 @@ def get_pos_neg(y_true,y_pred):
 def hnm_loss(y_true,y_pred):
     #return tf.nn.softmax_cross_entropy_with_logits_v2(labels = y_true, logits = y_pred)
     ## reshape to 1D vectors
-    cat=tf.shape(y_true)[2]
-    zero=tf.constant(0, dtype=tf.float32)
 
-    y_true=tf.reshape(y_true,[-1,cat])
-    y_pred=tf.reshape(y_pred,[-1,cat])
+    yp_p,yp_n=get_pos_neg(y_true,y_pred)
 
-    neg_true=y_true[:,cat-1]
-    pos_true=y_true[:,0:cat-2]
+    #
+    # cat=tf.shape(y_true)[2]
+    # zero=tf.constant(0, dtype=tf.float32)
+    #
+    # y_true=tf.reshape(y_true,[-1,cat])
+    # y_pred=tf.reshape(y_pred,[-1,cat])
+    #
+    # neg_true=y_true[:,cat-1]
+    # pos_true=y_true[:,0:cat-2]
+    #
+    # neg_pred=y_pred[:,cat-1]
+    # pos_pred=y_pred[:,0:cat-2]
+    #
+    # ##positive and negatives indices
+    # p_true=tf.reduce_max(pos_true,1)
+    # indpos=tf.where(tf.not_equal(p_true, zero))
+    # indneg=tf.where(tf.equal(p_true, zero))
+    #
+    #
+    # yp_p=tf.gather_nd(y_pred, [indpos])
+    # yt_p=tf.gather_nd(y_true, [indpos])
+    #
+    # ##negative block
+    # yp_n=tf.gather_nd(y_pred, [indneg])
+    # yt_n=tf.gather_nd(y_true, [indneg])
+    #
+    # y_true=tf.concat([yt_p,yt_n],1)
+    # y_pred=tf.concat([yp_p,yp_n],1)
 
-    neg_pred=y_pred[:,cat-1]
-    pos_pred=y_pred[:,0:cat-2]
+    return -tf.reduce_mean(yp_p)-tf.reduce_mean(yp_n)
 
-    ##positive and negatives indices
-    p_true=tf.reduce_max(pos_true,1)
-    indpos=tf.where(tf.not_equal(p_true, zero))
-    indneg=tf.where(tf.equal(p_true, zero))
-
-
-    yp_p=tf.gather_nd(y_pred, [indpos])
-    yt_p=tf.gather_nd(y_true, [indpos])
-
-    ##negative block
-    yp_n=tf.gather_nd(y_pred, [indneg])
-    yt_n=tf.gather_nd(y_true, [indneg])
-
-    y_true=tf.concat([yt_p,yt_n],1)
-    y_pred=tf.concat([yp_p,yp_n],1)
-
-
-    return -tf.losses.softmax_cross_entropy(onehot_labels=yt_p,logits=yp_p)
+    #return -tf.losses.softmax_cross_entropy(onehot_labels=yt_p,logits=yp_p)
     #yp_p,yp_n=get_pos_neg(y_true,y_pred)
 
     #yp_p = tf.maximum(yp_p, 1e-15)
