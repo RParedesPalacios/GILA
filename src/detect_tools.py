@@ -72,6 +72,7 @@ def build_anchors(args,maps):
 
 
     lanchors=len(args.anchors)//2
+
     A=[]
     for m in maps:
         A.append(np.zeros((m.shape[1],m.shape[2],lanchors*4)))

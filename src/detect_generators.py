@@ -104,6 +104,7 @@ def detect_train_generator(args,maps,outm):
         Yr=[]
         for y in Y:
             Yr.append(Y[k].reshape((args.batch,-1,catlen)))
+            #print(Yr[k].shape)
             k=k+1
 
         Yc=np.concatenate(Yr, axis=1)
