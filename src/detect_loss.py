@@ -30,7 +30,8 @@ def get_pos_neg(y_true,y_pred):
 
 
 def hnm_loss(y_true,y_pred):
-    return tf.nn.softmax_cross_entropy_with_logits_v2(labels = y_true, logits = y_pred)
+    #return tf.nn.softmax_cross_entropy_with_logits_v2(labels = y_true, logits = y_pred)
+    return tf.losses.softmax_cross_entropy(onehot_labels=y_true,logits=y_pred)
     #yp_p,yp_n=get_pos_neg(y_true,y_pred)
 
     #yp_p = tf.maximum(yp_p, 1e-15)
