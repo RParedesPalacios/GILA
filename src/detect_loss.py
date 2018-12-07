@@ -65,9 +65,8 @@ def hnm_loss(y_true,y_pred):
     y_true=tf.concat([yt_p,yt_n],1)
     y_pred=tf.concat([yp_p,yp_n],1)
 
-        #return -tf.log(yp_p)
 
-    return tf.losses.softmax_cross_entropy(onehot_labels=y_true,logits=y_pred)
+    return -tf.losses.softmax_cross_entropy(onehot_labels=yt_p,logits=yp_p)
     #yp_p,yp_n=get_pos_neg(y_true,y_pred)
 
     #yp_p = tf.maximum(yp_p, 1e-15)
