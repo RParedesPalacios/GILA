@@ -36,6 +36,17 @@ def train_det_model(args):
     PRETR=False
     if (args.load_model!=None):
         model=load_from_disk(args.load_model,hnm_loss,acc_pos,acc_neg)
+        maps=[]
+        for l in model.layers:
+            print (l.name)
+            if ("re_lu" in l.name):
+                maps=[]
+            elif ("reshape" in l.name):
+                break
+            else:
+                maps.append(l.output)
+
+        print(maps)
         outm=model.outputs
     elif (args.model=="auto"):
         print("Automodel")
@@ -73,7 +84,6 @@ def train_det_model(args):
         tr_steps=args.trsteps
     else:
         tr_steps=imglen/batch_size
-
 
 
     ## REGULAR TRAINING

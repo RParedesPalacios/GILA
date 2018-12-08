@@ -32,7 +32,7 @@ def get_pos_neg_cross(y_true,y_pred):
     yp_n=tf.gather(yp_n,ind)
     yt_n=tf.gather(yt_n,ind)
 
-
+    
     return yp_p,yp_n,yt_p,yt_n
 
 def get_pos_neg_log(y_true,y_pred):
@@ -47,6 +47,7 @@ def get_pos_neg_log(y_true,y_pred):
     ## Count positives and define neg as pos
     pos=tf.cast(tf.count_nonzero(yt),dtype=tf.int32)
 
+    
     #pos=tf.Print(pos,[pos],"Pos=")
     #pos=tf.Print(pos,[pos],"Pos=")
 
@@ -69,7 +70,11 @@ def get_pos_neg_log(y_true,y_pred):
     yp_n,ind=tf.nn.top_k(tf.negative(yp_n),neg,sorted=True)
 
     yp_n=tf.negative(yp_n)
-    return yp_p,yp_n
+
+    yp_n=tf.maximum(yp_n, 1e-15)
+    yp_p=tf.maximum(yp_p, 1e-15)
+    
+    return yp_p,yp_n,pos
 
 
 
@@ -78,8 +83,11 @@ def hnm_loss(y_true,y_pred):
     #yp_p,yp_n,yt_p,yt_n=get_pos_neg_cross(y_true,y_pred)
     #return tf.losses.softmax_cross_entropy(yt_n,yp_n)+tf.losses.softmax_cross_entropy(yt_p,yp_p)
 
-    yp_p,yp_n=get_pos_neg_log(y_true,y_pred)
-    return -tf.reduce_mean(tf.log(yp_p))-tf.reduce_mean(tf.log(yp_n))
+    yp_p,yp_n,pos=get_pos_neg_log(y_true,y_pred)
+    if pos==0:
+        return 0.0
+    else:
+        return -tf.reduce_mean(tf.log(yp_p))-tf.reduce_mean(tf.log(yp_n))
 
 
 def acc_pos(y_true, y_pred):

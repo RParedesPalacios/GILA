@@ -101,7 +101,7 @@ def build_anchors(args,maps):
     return A
 
 
-def buil_XY(args,maps):
+def build_XY(args,maps):
     Y=[]
     for m in maps:
         Y.append(np.zeros((args.batch,m.shape[1],m.shape[2],m.shape[3])))

@@ -22,7 +22,7 @@ def detect_train_generator(args,maps,outm):
     A=build_anchors(args,maps)
 
     ## Build X,Y
-    [X,Y]=buil_XY(args,maps)
+    [X,Y]=build_XY(args,maps)
 
 
 
