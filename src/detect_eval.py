@@ -83,7 +83,7 @@ def eval_detect_model(args,model=None):
                         c=mz%catlen
                         d=mz//catlen
                     #    if (y[b,my,mx,mz]>0.5):
-                        if (OY[b,ant+my*(y.shape[2]*block)+mx*block+d,c]>0.5):
+                        if (OY[b,ant+my*(y.shape[2]*block)+mx*block+d,c]>0.1):
                             if (mz%catlen!=(catlen-1)): ## not background class
                                 z=4*(mz//catlen)
                                 detect.append([my,mx,z,k,y[b,my,mx,mz]])
@@ -99,7 +99,7 @@ def eval_detect_model(args,model=None):
         fname=args.tsdir+args.fprefix+str(names[b])+".jpg"
         [x,ws,hs]=load_image_as_numpy(args,fname)
 
-        tot=min(2000,len(detect))
+        tot=min(10000,len(detect))
         boxes=np.zeros((tot,5))
         #x1,y1,x2,y2
         i=0
@@ -116,7 +116,7 @@ def eval_detect_model(args,model=None):
             i=i+1
 
         ## non-maximum supression
-        #boxes=non_max_suppression_fast(boxes, 0.5)
+        boxes=non_max_suppression_fast(boxes, 0.5)
 
         ## Draw selected
         print(fname)
