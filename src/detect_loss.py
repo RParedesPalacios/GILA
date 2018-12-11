@@ -98,7 +98,7 @@ def acc_pos(y_true, y_pred):
     ytrue=tf.reshape(y_true,[-1,cat])
     ypred=tf.reshape(y_pred,[-1,cat])
 
-    ind=tf.where(tf.equal(ytrue[:,:cat-1], zero))
+    ind=tf.where(tf.equal(ytrue[:,cat-1], zero))
     ind=tf.cast(tf.reshape(ind,[-1]),dtype=tf.int32)
 
     ytrue=tf.gather(ytrue,ind)
