@@ -144,8 +144,6 @@ def train_class_model(args):
     else:
         tr_steps=numtr//batch_size
 
-
-
     [opt,callbacks]=set_tr_params(args)
 
 

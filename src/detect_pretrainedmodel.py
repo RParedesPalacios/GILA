@@ -12,18 +12,26 @@ def detect_pretrained_model(args,anchors,catlen):
 
     load_model=load_pretrained_model(args)
 
+    if (args.summary==True):
+        load_model.summary()
+
     if (args.olayer==""):
         print("When using a pretrained network you have to specify the output layer to attach the detection network: -olayer")
         sys.exit(0)
 
+    findit=False
     for l in load_model.layers:
         if (args.olayer in l.name):
             h=l.output.get_shape().as_list()[1]
             w=l.output.get_shape().as_list()[2]
             print("Connecting",l.name,":",h,"x",w)
             x=l.output
+            findit=True
             break
 
+    if (findit==False):
+        print(args.olayer,"not found in pretrained model")
+        sys.exit(0)
 
     s=min(h,w)
     DEPTH=int(math.log2(s))

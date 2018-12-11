@@ -93,7 +93,7 @@ def train_det_model(args):
                             verbose=1)
 
 
-    ## Logs and save
+    ## logs and model
     if (args.history):
         import pickle
         with open('gila.hist', 'wb') as file_pi:
