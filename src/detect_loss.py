@@ -11,7 +11,7 @@ def get_pos_neg_cross(y_true,y_pred):
     yp=tf.reshape(y_pred,[-1,cat])
 
     ## Count positives and define neg as pos
-    pos=tf.cast(tf.count_nonzero(yt[:,:cat-2]),dtype=tf.int32)
+    pos=tf.cast(tf.count_nonzero(yt[:,:cat-1]),dtype=tf.int32)
 
     ## Gather postives
     indpos=tf.where(tf.equal(yt[:,cat-1], 0.0))
@@ -32,7 +32,7 @@ def get_pos_neg_cross(y_true,y_pred):
     yp_n=tf.gather(yp_n,ind)
     yt_n=tf.gather(yt_n,ind)
 
-    
+
     return yp_p,yp_n,yt_p,yt_n
 
 def get_pos_neg_log(y_true,y_pred):
@@ -41,13 +41,13 @@ def get_pos_neg_log(y_true,y_pred):
     zero=tf.constant(0, dtype=tf.float32)
 
     ## reshape to 1D vectors the positive part
-    yt=tf.reshape(y_true[:,:,:cat-2],[-1])
-    yp=tf.reshape(y_pred[:,:,:cat-2],[-1])
+    yt=tf.reshape(y_true[:,:,:cat-1],[-1])
+    yp=tf.reshape(y_pred[:,:,:cat-1],[-1])
 
     ## Count positives and define neg as pos
     pos=tf.cast(tf.count_nonzero(yt),dtype=tf.int32)
 
-    
+
     #pos=tf.Print(pos,[pos],"Pos=")
     #pos=tf.Print(pos,[pos],"Pos=")
 
@@ -73,7 +73,7 @@ def get_pos_neg_log(y_true,y_pred):
 
     yp_n=tf.maximum(yp_n, 1e-15)
     yp_p=tf.maximum(yp_p, 1e-15)
-    
+
     return yp_p,yp_n,pos
 
 
@@ -98,7 +98,7 @@ def acc_pos(y_true, y_pred):
     ytrue=tf.reshape(y_true,[-1,cat])
     ypred=tf.reshape(y_pred,[-1,cat])
 
-    ind=tf.where(tf.equal(ytrue[:,cat-1], zero))
+    ind=tf.where(tf.equal(ytrue[:,:cat-1], zero))
     ind=tf.cast(tf.reshape(ind,[-1]),dtype=tf.int32)
 
     ytrue=tf.gather(ytrue,ind)
