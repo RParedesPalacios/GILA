@@ -22,9 +22,11 @@ def basic_block(y,K,args,ishape=0,residual=0,tlist=[]):
         else:
             y=layers.Conv2D(K, kernel_size=(3, 3), strides=(str[i],str[i]), padding='same')(y)
 
-        y=layers.BatchNormalization()(y)
-        if (args.da_gauss!=0.0):
-            y=layers.GaussianNoise(0.3)(y)
+        if (args.autonobn==False):
+            y=layers.BatchNormalization()(y)
+            if (args.da_gauss!=0.0):
+                y=layers.GaussianNoise(0.3)(y)
+
         if (residual==0)|(i<args.autonconv-1):
             y=layers.ReLU()(y)
             tlist.append(y)
@@ -90,9 +92,10 @@ def auto_model(args,num_classes):
     x=layers.Flatten()(x)
     for i in range(args.autodlayers):
         x=layers.Dense(args.autodsize)(x)
-        x=layers.BatchNormalization()(x)
-        if (args.da_gauss!=0.0):
-            x=layers.GaussianNoise(0.3)(x)
+        if (args.autonobn==False):
+            x=layers.BatchNormalization()(x)
+            if (args.da_gauss!=0.0):
+                x=layers.GaussianNoise(0.3)(x)
         x=layers.ReLU()(x)
 
     x=layers.Dense(num_classes, activation='softmax')(x)

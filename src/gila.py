@@ -35,6 +35,7 @@ parser.add_argument('-autokend',type=int,help='Final number of kernels for the a
 parser.add_argument('-autonconv',type=int,help='Number of consecutive convolutions (2)',default=2)
 parser.add_argument('-autocdwise',action='store_true',help='use depthwise convolutions',default='no')
 parser.add_argument('-autores',action='store_true',help='auto model with residual connections',default='no')
+parser.add_argument('-autonobn',action='store_true',help='Do not use BN in automodel')
 
 # ## OPTIM
 parser.add_argument('-optim', choices=['sgd', 'adam','rmsprop'], default='sgd',help='Optimizer (sgd)')
