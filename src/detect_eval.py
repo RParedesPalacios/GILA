@@ -45,7 +45,7 @@ def eval_detect_model(args,model=None):
     A=build_anchors(args,dmaps)
 
 
-    [X,Y]=buil_XY(args,dmaps)
+    [X,Y]=build_XY(args,dmaps)
 
 
 
@@ -80,13 +80,16 @@ def eval_detect_model(args,model=None):
                 for mx in range(y.shape[2]):
                     for mz in range(y.shape[3]):
                         act=act+1
-                        c=mz%catlen
-                        d=mz//catlen
+                        c=mz%catlen  # class
+                        d=mz//catlen # anchor
                     #    if (y[b,my,mx,mz]>0.5):
                         if (OY[b,ant+my*(y.shape[2]*block)+mx*block+d,c]>0.1):
-                            if (mz%catlen!=(catlen-1)): ## not background class
+                            if (c!=(catlen-1)): ## not background class
+                                if (c==5):
+                                    print(OY[b,ant+my*(y.shape[2]*block)+mx*block+d,:])
+                                    print(c)
                                 z=4*(mz//catlen)
-                                detect.append([my,mx,z,k,y[b,my,mx,mz]])
+                                detect.append([my,mx,z,k,y[b,my,mx,mz],c])
 
             ant=ant+(act//catlen)
             k=k+1
@@ -100,7 +103,9 @@ def eval_detect_model(args,model=None):
         [x,ws,hs]=load_image_as_numpy(args,fname)
 
         tot=min(10000,len(detect))
-        boxes=np.zeros((tot,5))
+        detect=detect[:tot]
+
+        boxes=np.zeros((tot,6))
         #x1,y1,x2,y2
         i=0
         for d in detect:
@@ -113,6 +118,7 @@ def eval_detect_model(args,model=None):
             boxes[i,2]=A[k][y,x,z+2]/ws
             boxes[i,3]=A[k][y,x,z+3]/hs
             boxes[i,4]=d[4]
+            boxes[i,5]=d[5]
             i=i+1
 
         ## non-maximum supression
@@ -122,8 +128,10 @@ def eval_detect_model(args,model=None):
         print(fname)
         img=Image.open(fname)
         draw=ImageDraw.Draw(img)
+
         for box in boxes:
             draw.rectangle((box[0],box[1],box[2],box[3]), fill=None)
+            draw.text((box[0],box[1]),str(box[5]),fill=(255,255,255))
 
 
         fname=args.tsdir+args.fprefix+str(names[b])+"ANNOT"+".jpg"

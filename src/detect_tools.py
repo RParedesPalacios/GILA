@@ -45,6 +45,7 @@ def load_annot_json(filename):
     f.close()
 
     categories=data['categories']
+
     catlen=len(categories)
     print ("Categories in annotation file:",catlen)
     catlen=catlen+1 ## background class
@@ -59,8 +60,9 @@ def load_annot_json(filename):
 
     catdict={}
     j=0
-    for i in categories:
-        catdict.update({categories[j]['id']:j})
+    for c in categories:
+        catdict.update({c['id']:j})
+        print(j,c['name'])
         j=j+1
 
     print(catdict)
