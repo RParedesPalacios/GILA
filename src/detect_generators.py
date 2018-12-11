@@ -11,10 +11,10 @@ import keras.backend as K
 ######################################################################
 ################### DETECTION GENERATORS #############################
 ######################################################################
-def detect_train_generator(args,maps,outm):
+def detect_train_generator(args,maps):
     ## read json annot files
 
-    [images,imglen,boxes,boxlen,catdict,catlen]=load_annot_json(args.trannot)
+    [images,imglen,boxes,boxlen,catdict,catlen,_]=load_annot_json(args.trannot)
 
 
     ## X,Y for trainig (data, targets) and A foro anchors

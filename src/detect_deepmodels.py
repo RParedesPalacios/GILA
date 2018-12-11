@@ -24,7 +24,7 @@ def train_det_model(args):
 
 
     ######### ANNOT FILE
-    [images,imglen,boxes,boxlen,catdict,catlen]=load_annot_json(args.trannot)
+    [images,imglen,boxes,boxlen,catdict,catlen,_]=load_annot_json(args.trannot)
 
     ######### ANCHORS
     print("Anchors:")
@@ -47,15 +47,12 @@ def train_det_model(args):
                 maps.append(l.output)
 
         print(maps)
-        outm=model.outputs
     elif (args.model=="auto"):
         print("Automodel")
         model,maps=auto_det_model(args,anchors,catlen)
-        outm=model.outputs
     else:
         PRETR=True
-        [base,model]=detect_pretrained_model(args,anchors,catlen)
-        outm=model.outputs
+        [base,model,maps]=detect_pretrained_model(args,anchors,catlen)
 
 
     if (args.summary==True):
@@ -132,7 +129,7 @@ def train_det_model(args):
 
         model.compile(loss=[hnm_loss],optimizer=opt,metrics=[acc_pos,acc_neg])
 
-        history = model.fit_generator(detect_train_generator(args,maps,outm),
+        history = model.fit_generator(detect_train_generator(args,maps),
                              max_queue_size=10, workers=0,use_multiprocessing=False,
                              steps_per_epoch=tr_steps,
                              epochs=fepochs,
@@ -144,7 +141,7 @@ def train_det_model(args):
 
     model.compile(loss=[hnm_loss],optimizer=opt,metrics=[acc_pos,acc_neg])
 
-    history = model.fit_generator(detect_train_generator(args,maps,outm),
+    history = model.fit_generator(detect_train_generator(args,maps),
                             max_queue_size=10, workers=0,use_multiprocessing=False,
                             steps_per_epoch=tr_steps,
                             epochs=epochs,

@@ -11,6 +11,9 @@ def detect_pretrained_model(args,anchors,catlen):
 
     load_model=load_pretrained_model(args)
 
+    for l in load_model.layers:
+        print(l.name)
+
     print(args.olayer)
     maps=[]
     for l in load_model.layers:
@@ -21,11 +24,16 @@ def detect_pretrained_model(args,anchors,catlen):
     depth=anchors*catlen
 
     outs=[]
+    outm=[]
     for m in maps:
         x=layers.Conv2D(depth, kernel_size=(3, 3), strides=(1,1),padding='same',activation='sigmoid')(m)
+        outm.append(x)
+        x=layers.Reshape((-1,catlen))(x)
+        x=layers.Softmax(axis=2)(x)
         outs.append(x)
 
-    model=Model(inputs=load_model.input, outputs=outs)
+    output = layers.concatenate(outs,axis=1)
+    model=Model(inputs=load_model.input, outputs=output)
 
 
-    return load_model,model
+    return load_model,model,outm

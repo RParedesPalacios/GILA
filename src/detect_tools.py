@@ -60,14 +60,16 @@ def load_annot_json(filename):
 
     catdict={}
     j=0
+    catnames=[]
     for c in categories:
         catdict.update({c['id']:j})
+        catnames.append(c['name'])
         print(j,c['name'])
         j=j+1
 
     print(catdict)
 
-    return images,imglen,boxes,boxlen,catdict,catlen
+    return images,imglen,boxes,boxlen,catdict,catlen,catnames
 
 
 def build_anchors(args,maps):
