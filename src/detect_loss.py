@@ -65,7 +65,7 @@ def get_pos_neg_log(y_true,y_pred):
     indneg=tf.where(tf.not_equal(yt, zero))
     indneg=tf.cast(tf.reshape(indneg,[-1]),dtype=tf.int32)
     yp_n=tf.gather(yp,indneg)
-    neg=tf.maximum(1,2*pos)
+    neg=tf.maximum(1,3*pos)
     neg=tf.cast(neg,dtype=tf.int32)
     yp_n,ind=tf.nn.top_k(tf.negative(yp_n),neg,sorted=True)
 
