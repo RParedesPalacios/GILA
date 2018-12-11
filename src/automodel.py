@@ -85,7 +85,7 @@ def FCN(args):
 ## Automodel
 def auto_model(args,num_classes):
 
-    [input,x,tlist]=FCN(args)
+    [input,x,_]=FCN(args)
 
     x=layers.Flatten()(x)
     for i in range(args.autodlayers):
