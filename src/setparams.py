@@ -21,10 +21,10 @@ def set_tr_params(args):
 
     ## LR Scheduller
     if (args.lra==True):
-        e1=int(epochs*0.5)
-        e2=int(epochs*0.75)
-        print ("Learning rate annealing epochs: 0-->",e1,"-->",e2,"-->",epochs)
-        print ("Learning rate annealing LR:",args.lr,"-->",args.lr/args.lra_scale,"-->",args.lr/(args.lra_scale))
+        e1=int(args.epochs*0.5)
+        e2=int(args.epochs*0.75)
+        print ("Learning rate annealing epochs: 0-->",e1,"-->",e2,"-->",args.epochs)
+        print ("Learning rate annealing LR:",args.lr,"-->",args.lr/args.lra_scale,"-->",args.lr/(args.lra_scale*args.lra_scale))
 
         def scheduler(epoch):
             if epoch < e1:

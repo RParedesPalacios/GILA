@@ -102,12 +102,13 @@ def train_det_model(args):
     if (args.plot):
         import matplotlib.pyplot as plt
         #  "Accuracy"
-        plt.plot(history.history['acc'])
-        plt.plot(history.history['val_acc'])
+        plt.plot(history.history['loss'])
+        plt.plot(history.history['acc_pos'])
+        plt.plot(history.history['acc_neg'])
         plt.title('model accuracy')
         plt.ylabel('accuracy')
         plt.xlabel('epoch')
-        plt.legend(['train', 'validation'], loc='upper left')
+        plt.legend(['train'], loc='upper left')
         plt.savefig('gila.png')
         plt.show()
 

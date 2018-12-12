@@ -15,14 +15,22 @@ def training_generator(args,num_classes,X=0,L=0):
     da_flip_h=False
     if (args.da_flip_h==True): da_flip_h=True
 
-    print("Data Augmentation: Rescale input values",da_rescale)
-    print("Data Augmentation: Gaussian noise",da_gauss)
-    print("Data Augmentation: Width",da_width)
-    print("Data Augmentation: Height",da_width)
-    print("Data Augmentation: Rotation",da_rotation)
-    print("Data Augmentation: Zoom [%.2f,%.2f]" %(1.0-da_zoom,1+da_zoom))
-    print("Data Augmentation: FlipV",da_flip_v)
-    print("Data Augmentation: FlipH",da_flip_h)
+
+    print("Data Modification: Rescale input values",da_rescale) ## In ImageDataGenerator
+    if (da_gauss!=0.0):
+        print("Data Augmentation: Gaussian noise",da_gauss)
+    if (da_width!=0.0):
+        print("Data Augmentation: Width [%.2f,%.2f]" %(-args.width*da_width,args.width*da_width))
+    if (da_height!=0.0):
+        print("Data Augmentation: Height [%.2f,%.2f]" %(-args.height*da_height,args.height*da_height))
+    if (da_rotation):
+        print("Data Augmentation: Rotation [%.2f,%.2f]" %(-da_rotation,da_rotation))
+    if (da_zoom!=0.0):
+        print("Data Augmentation: Zoom [%.2f,%.2f]" %(1.0-da_zoom,1+da_zoom))
+    if (args.da_flip_h==True):
+        print("Data Augmentation: FlipH")
+    if (args.da_flip_v==True):
+        print("Data Augmentation: FlipV")
 
     if (args.balance==True):
         print("Batch balance")

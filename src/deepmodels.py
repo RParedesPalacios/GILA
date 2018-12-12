@@ -11,6 +11,7 @@ from pretrainedmodel import pretrained_model
 from generators import *
 from files import *
 from loaders import *
+from setparams import set_tr_params
 
 ##################################
 ### EVAL CLASS MODELS

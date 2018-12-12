@@ -83,11 +83,8 @@ def eval_detect_model(args,model=None):
                         c=mz%catlen  # class
                         d=mz//catlen # anchor
                     #    if (y[b,my,mx,mz]>0.5):
-                        if (OY[b,ant+my*(y.shape[2]*block)+mx*block+d,c]>0.5):
+                        if (OY[b,ant+my*(y.shape[2]*block)+mx*block+d,c]>0.26):
                             if (c!=(catlen-1)): ## not background class
-                                if (c==5):
-                                    print(OY[b,ant+my*(y.shape[2]*block)+mx*block+d,:])
-                                    print(c)
                                 z=4*(mz//catlen)
                                 detect.append([my,mx,z,k,y[b,my,mx,mz],c])
 
@@ -96,13 +93,14 @@ def eval_detect_model(args,model=None):
 
 
         ## Select top
+        print("Boxes detected",len(detect))
         detect=sorted(detect,key=lambda x: x[4],reverse=True)
 
         ## convert to image Boxes
         fname=args.tsdir+args.fprefix+str(names[b])+".jpg"
         [x,ws,hs]=load_image_as_numpy(args,fname)
 
-        tot=min(10000,len(detect))
+        tot=min(100,len(detect))
         detect=detect[:tot]
 
         boxes=np.zeros((tot,6))
@@ -123,6 +121,7 @@ def eval_detect_model(args,model=None):
 
         ## non-maximum supression
         boxes=non_max_suppression_fast(boxes, 0.5)
+        print("After nms",len(boxes))
 
         ## Draw selected
         print(fname)

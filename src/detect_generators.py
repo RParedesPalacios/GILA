@@ -25,6 +25,21 @@ def detect_train_generator(args,maps):
     [X,Y]=build_XY(args,maps)
 
 
+    #### DATA AUGMENTATION
+    da_width=args.da_width/100.0
+    da_height=args.da_height/100.0
+    da_zoom=args.da_zoom
+    da_flip_h=False
+
+    print("Data Modification: Rescale input values",args.da_rescale) ## In loader
+    if (da_width!=0.0):
+        print("Data Augmentation: Width [%.2f,%.2f]" %(-args.width*da_width,args.width*da_width))
+    if (da_height!=0.0):
+        print("Data Augmentation: Height [%.2f,%.2f]" %(-args.height*da_height,args.height*da_height))
+    if (da_zoom!=0.0):
+        print("Data Augmentation: Zoom [%.2f,%.2f]" %(1.0,1+da_zoom))
+    if (args.da_flip_h==True):
+        print("Data Augmentation: FlipH")
 
     ## Provide images and achors fitting with iou>0.5
     print("Start Generator....")
