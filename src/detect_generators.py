@@ -68,6 +68,10 @@ def detect_train_generator(args,maps):
             [img,dx,dy,scale,flip]=transform(args,img,gen)
             X[b,:]=img
 
+            #modimg=Image.fromarray(np.uint8(img*255))
+            #draw=ImageDraw.Draw(modimg)
+
+
             ## Load annotation of image, codification
             ## w.r.t an image of (args.height x args.width)
             anot=[]
@@ -75,11 +79,14 @@ def detect_train_generator(args,maps):
                  if (int(box['image_id'])==int(imgname)):
                     ### I have done this: -dy,-dx,1.0/scale to obtain a correct
                     ### box displacement according to the image transform...
-                    ### open issue in keras-preprocessing ... 
+                    ### open issue in keras-preprocessing ...
                     [x,y,w,h]=transform_box(args,box,ws,hs,-dy,-dx,1.0/scale,flip)
                     anot.append([catdict[box['category_id']],x,y,(x+w),(y+h)])
+                    #draw.rectangle((x,y,(x+w),(y+h)), fill=None)
                     #cat,x1,y1,x2,y2
 
+
+            #modimg.save("modif.jpg")
 
             match=0
             for an in anot:
