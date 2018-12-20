@@ -1,4 +1,4 @@
-from PIL import Image, ImageOps
+from PIL import Image, ImageOps, ImageDraw
 import numpy as np
 import sys
 
@@ -72,10 +72,17 @@ def detect_train_generator(args,maps):
             ## w.r.t an image of (args.height x args.width)
             anot=[]
             for box in boxes:
-                 if (box['image_id']==imgname):
-                    [x,y,w,h]=transform_box(args,box,ws,hs,dx,dy,scale,flip)
+                 if (int(box['image_id'])==int(imgname)):
+                    x,y,w,h=box['bbox']
+                    x=x*ws
+                    y=y*hs
+                    w=w*ws
+                    h=h*hs
+
+                    [x,y,w,h]=transform_box(args,box,ws,hs,-dy,-dx,1.0/scale,flip)
                     anot.append([catdict[box['category_id']],x,y,(x+w),(y+h)])
                     #cat,x1,y1,x2,y2
+
 
             match=0
             for an in anot:

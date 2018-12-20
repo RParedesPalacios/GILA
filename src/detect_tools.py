@@ -123,12 +123,15 @@ def rand_image(args,images,tr=1):
     read=0
     while (read==0):
         r=random.randint(0, len(images)-1)
+
         imgname=images[r]['id']
+        imgname=str(imgname).zfill(6) ## coco
+
         ### from COCO image id to file path
         if (tr==1):
-            fname=args.trdir+args.fprefix+str(imgname)+".jpg"
+            fname=args.trdir+args.fprefix+imgname+".jpg"
         else:
-            fname=args.tsdir+args.fprefix+str(imgname)+".jpg"
+            fname=args.tsdir+args.fprefix+imgname+".jpg"
         try:
             [x,ws,hs]=load_image_as_numpy(args,fname)
             read=1
@@ -160,7 +163,7 @@ def transform(args,x,gen):
     # SCALE
     scale=1.0
     if (args.da_zoom!=0.0):
-        scale=random.uniform(1.0,1.0+args.da_zoom)
+        scale=random.uniform(1.0-args.da_zoom,1.0)
         transform.update({'zx':scale,'zy':scale})
 
 
@@ -180,8 +183,10 @@ def transform_box(args,box,ws,hs,dx,dy,scale,flip):
 
     ## Keras apply_transform: shit-zoom-flip
     ## Apply the same transforms to the gt box
-    x=(x+dx)*scale
-    y=(y+dy)*scale
+    w2=args.width/2
+    h2=args.height/2
+    x=w2+((x+dx)-w2)*scale
+    y=h2+((y+dy)-h2)*scale
     w=w*scale
     h=h*scale
 

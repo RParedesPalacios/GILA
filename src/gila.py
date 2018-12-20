@@ -73,7 +73,7 @@ parser.add_argument('-log', action='store_true',help='create a gila_log.txt')
 ## Mode json annot file
 parser.add_argument('-trannot', help='File with list of training images and annotations')
 parser.add_argument('-tsannot', help='File with list of test images and annotations')
-parser.add_argument('-fprefix', help='File name prefix, useful to match json image names with file names, e.g COCO json annot (0000000)',default="0000000")
+parser.add_argument('-fprefix', help='File name prefix, useful to match json image names with file names, e.g COCO json annot (0000000)',default="000000")
 parser.add_argument('-nmaps',  help='Numer of maps connecting to loss in detection mode (3)',default="3")
 ## Mode directory with backgrounds and objects
 parser.add_argument('-trbackgounds', help='Directory with backgourd images')
