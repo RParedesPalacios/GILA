@@ -73,12 +73,6 @@ def detect_train_generator(args,maps):
             anot=[]
             for box in boxes:
                  if (int(box['image_id'])==int(imgname)):
-                    x,y,w,h=box['bbox']
-                    x=x*ws
-                    y=y*hs
-                    w=w*ws
-                    h=h*hs
-
                     [x,y,w,h]=transform_box(args,box,ws,hs,-dy,-dx,1.0/scale,flip)
                     anot.append([catdict[box['category_id']],x,y,(x+w),(y+h)])
                     #cat,x1,y1,x2,y2
