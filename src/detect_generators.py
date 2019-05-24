@@ -50,7 +50,7 @@ def detect_train_generator(args,maps):
         logfile.write("============================\n")
         logfile.close()
 
-    save_gt=0
+    save_gt=1
     iou_thr=0.4
 
     while True:
