@@ -83,7 +83,7 @@ def eval_detect_model(args,model=None):
                         c=mz%catlen  # class
                         d=mz//catlen # anchor
                     #    if (y[b,my,mx,mz]>0.5):
-                        if (OY[b,ant+my*(y.shape[2]*block)+mx*block+d,c]>0.26):
+                        if (OY[b,ant+my*(y.shape[2]*block)+mx*block+d,c]>0.5):
                             if (c!=(catlen-1)): ## not background class
                                 z=4*(mz//catlen)
                                 detect.append([my,mx,z,k,y[b,my,mx,mz],c])

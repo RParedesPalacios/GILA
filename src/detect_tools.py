@@ -51,6 +51,7 @@ def load_annot_json(filename):
     catlen=catlen+1 ## background class
 
     images=data['images']
+
     imglen=len(images)
     print ("Images in annotation file:",imglen)
 
@@ -124,20 +125,19 @@ def rand_image(args,images,tr=1):
     while (read==0):
         r=random.randint(0, len(images)-1)
 
-        imgname=images[r]['id']
-        imgname=str(imgname).zfill(6) ## coco
+        imgname=images[r]['file_name']
+        id=images[r]['id']
 
-        ### from COCO image id to file path
         if (tr==1):
-            fname=args.trdir+args.fprefix+imgname+".jpg"
+            fname=args.trdir+imgname
         else:
-            fname=args.tsdir+args.fprefix+imgname+".jpg"
+            fname=args.tsdir+imgname
         try:
             [x,ws,hs]=load_image_as_numpy(args,fname)
             read=1
         except (FileNotFoundError, IOError):
             read=0
-    return x,ws,hs,imgname
+    return x,ws,hs,id
 
 
 def transform(args,x,gen):
