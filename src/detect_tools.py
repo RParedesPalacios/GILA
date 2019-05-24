@@ -129,9 +129,9 @@ def rand_image(args,images,tr=1):
         id=images[r]['id']
 
         if (tr==1):
-            fname=args.trdir+imgname
+            fname=args.trdir+"/"+imgname
         else:
-            fname=args.tsdir+imgname
+            fname=args.tsdir+"/"+imgname
         try:
             [x,ws,hs]=load_image_as_numpy(args,fname)
             read=1
