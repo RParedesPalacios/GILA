@@ -51,6 +51,7 @@ def detect_train_generator(args,maps):
         logfile.close()
 
     save_gt=0
+    iou_thr=0.4
 
     while True:
 
@@ -116,7 +117,7 @@ def detect_train_generator(args,maps):
                         score=iou([A[k][my,mx,i],A[k][my,mx,i+1],A[k][my,mx,i+2],A[k][my,mx,i+3]],
                                         [an[1],an[2],an[3],an[4]])
 
-                        if (score>0.5):
+                        if (score>iou_thr):
                             setanchor=True
                             oclass=int(an[0])
                             y[b,my,mx,(j*catlen)+oclass]=1 # positive target
@@ -134,7 +135,7 @@ def detect_train_generator(args,maps):
             logfile.write("============================\n")
             logfile.close()
 
-        print(" GT boxes matches IOU>0.5 = %.2f%%\n" %((match*100.0)/totan))
+        print(" GT boxes matched with anchors IOU>%f = %.2f%%\n" %(iou_thr,(match*100.0)/totan))
 
         k=0
         Yr=[]
