@@ -136,6 +136,7 @@ def rand_image(args,images,tr=1):
             [x,ws,hs]=load_image_as_numpy(args,fname)
             read=1
         except (FileNotFoundError, IOError):
+            print("Failing to load "+fname)
             read=0
     return x,ws,hs,id
 
