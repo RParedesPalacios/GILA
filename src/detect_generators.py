@@ -89,7 +89,7 @@ def detect_train_generator(args,maps):
                     [x,y,w,h]=transform_box(args,box,ws,hs,-dy,-dx,1.0/scale,flip)
                     anot.append([catdict[box['category_id']],x,y,(x+w),(y+h)])
                     if (save_gt):
-                        draw.rectangle((x,y,(x+w),(y+h)), fill=None)
+                        draw.rectangle((x,y,(x+w),(y+h)), , outline=(0, 255, 0))
                     #cat,x1,y1,x2,y2
 
 
