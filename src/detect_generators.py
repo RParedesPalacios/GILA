@@ -118,7 +118,7 @@ def detect_train_generator(args,maps):
 
                         if (score>iou_thr):
                             if (save_gt):
-                                draw.rectangle((A[k][my,mx,i],A[k][my,mx,i+1],A[k][my,mx,i+2],A[k][my,mx,i+3]), fill=(255,0,0))
+                                draw.rectangle((A[k][my,mx,i],A[k][my,mx,i+1],A[k][my,mx,i+2],A[k][my,mx,i+3]), outline=(255, 0, 0))
                             setanchor=True
                             oclass=int(an[0])
                             y[b,my,mx,(j*catlen)+oclass]=1 # positive target
