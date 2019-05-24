@@ -21,9 +21,9 @@ def train_det_model(args):
 
     ######### ANCHORS
     anchors=len(args.anchors)//2
-    printf("%d anchors:" %(anchors))
-    printf(args.anchors)
-    
+    print("%d anchors:" %(anchors))
+    print(args.anchors)
+
     ######### MODEL
     PRETR=False
     if (args.load_model!=None):
