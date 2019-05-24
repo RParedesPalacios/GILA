@@ -62,6 +62,8 @@ def detect_train_generator(args,maps):
         if (args.log):
             logfile = open("gila_log.txt", "a")
 
+        match=0
+        totan=0
         for b in range(args.batch):
 
             [img,ws,hs,id]=rand_image(args,images)
@@ -93,7 +95,7 @@ def detect_train_generator(args,maps):
             if (save_gt):
                 modimg.save("gt.jpg")
 
-            match=0
+
             for an in anot:
                 k=0
                 setanchor=False
@@ -123,14 +125,15 @@ def detect_train_generator(args,maps):
 
                 if (setanchor==True):
                     match=match+1
+                totan+=len(anot)
 
-            print("Match %f\n" %((match*100.0)/len(anot)))
 
-            if (args.log):
-                logfile.write("Match %f\n" %((match*100.0)/len(anot)))
+        # batch
         if (args.log):
             logfile.write("============================\n")
             logfile.close()
+
+        print("Match %f\r" %((match*100.0)/totan))
 
         k=0
         Yr=[]
