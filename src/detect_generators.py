@@ -93,8 +93,7 @@ def detect_train_generator(args,maps):
                     #cat,x1,y1,x2,y2
 
 
-            if (save_gt):
-                modimg.save("gt.jpg")
+
 
 
             totan+=len(anot)
@@ -118,6 +117,8 @@ def detect_train_generator(args,maps):
                                         [an[1],an[2],an[3],an[4]])
 
                         if (score>iou_thr):
+                            if (save_gt):
+                                draw.rectangle((A[k][my,mx,i],A[k][my,mx,i+1],A[k][my,mx,i+2],A[k][my,mx,i+3]), fill=None)
                             setanchor=True
                             oclass=int(an[0])
                             y[b,my,mx,(j*catlen)+oclass]=1 # positive target
@@ -128,14 +129,18 @@ def detect_train_generator(args,maps):
                 if (setanchor==True):
                     match=match+1
 
+            if (save_gt):
+                modimg.save("gt.jpg")
+
 
 
         # batch
         if (args.log):
+            logfile.write("GT boxes matched with anchors IOU>%1.2f = %.2f%%\n" %(iou_thr,(match*100.0)/totan))
             logfile.write("============================\n")
             logfile.close()
 
-        print(" GT boxes matched with anchors IOU>%1.2f = %.2f%%\n" %(iou_thr,(match*100.0)/totan))
+        print("\nGT boxes matched with anchors IOU>%1.2f = %.2f%%\n" %(iou_thr,(match*100.0)/totan))
 
         k=0
         Yr=[]
