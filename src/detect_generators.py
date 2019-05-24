@@ -96,6 +96,7 @@ def detect_train_generator(args,maps):
                 modimg.save("gt.jpg")
 
 
+            totan+=len(anot)
             for an in anot:
                 k=0
                 setanchor=False
@@ -125,7 +126,7 @@ def detect_train_generator(args,maps):
 
                 if (setanchor==True):
                     match=match+1
-                totan+=len(anot)
+
 
 
         # batch
