@@ -124,10 +124,10 @@ def detect_train_generator(args,maps):
                 if (setanchor==True):
                     match=match+1
 
-            print("Image %s - %f\n" %(imgname,(match*100.0)/len(anot)))
-            
+            print("Match %f\n" %((match*100.0)/len(anot)))
+
             if (args.log):
-                logfile.write("Image %s - %f\n" %(imgname,(match*100.0)/len(anot)))
+                logfile.write("Match %f\n" %((match*100.0)/len(anot)))
         if (args.log):
             logfile.write("============================\n")
             logfile.close()
