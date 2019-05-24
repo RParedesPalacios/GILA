@@ -134,7 +134,7 @@ def detect_train_generator(args,maps):
             logfile.write("============================\n")
             logfile.close()
 
-        print("Match %f\r" %((match*100.0)/totan))
+        print(" GT boxes matches IOU>0.5 = %.2f%%\n" %((match*100.0)/totan))
 
         k=0
         Yr=[]
