@@ -50,6 +50,8 @@ def detect_train_generator(args,maps):
         logfile.write("============================\n")
         logfile.close()
 
+    save_gt=0
+
     while True:
 
         for y in Y:
@@ -68,8 +70,9 @@ def detect_train_generator(args,maps):
             [img,dx,dy,scale,flip]=transform(args,img,gen)
             X[b,:]=img
 
-            modimg=Image.fromarray(np.uint8(img*255))
-            draw=ImageDraw.Draw(modimg)
+            if (save_gt):
+                modimg=Image.fromarray(np.uint8(img*255))
+                draw=ImageDraw.Draw(modimg)
 
 
             ## Load annotation of image, codification
@@ -82,11 +85,13 @@ def detect_train_generator(args,maps):
                     ### open issue in keras-preprocessing ...
                     [x,y,w,h]=transform_box(args,box,ws,hs,-dy,-dx,1.0/scale,flip)
                     anot.append([catdict[box['category_id']],x,y,(x+w),(y+h)])
-                    draw.rectangle((x,y,(x+w),(y+h)), fill=None)
+                    if (save_gt):
+                        draw.rectangle((x,y,(x+w),(y+h)), fill=None)
                     #cat,x1,y1,x2,y2
 
 
-            modimg.save("modif.jpg")
+            if (save_gt):
+                modimg.save("gt.jpg")
 
             match=0
             for an in anot:
@@ -119,7 +124,8 @@ def detect_train_generator(args,maps):
                 if (setanchor==True):
                     match=match+1
 
-
+            print("Image %s - %f\n" %(imgname,(match*100.0)/len(anot)))
+            
             if (args.log):
                 logfile.write("Image %s - %f\n" %(imgname,(match*100.0)/len(anot)))
         if (args.log):
