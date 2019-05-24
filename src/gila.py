@@ -78,7 +78,7 @@ parser.add_argument('-nmaps',  help='Numer of maps connecting to loss in detecti
 parser.add_argument('-trbackgounds', help='Directory with backgourd images')
 parser.add_argument('-trobjects', help='Directory with object images, one sub-directory per object category')
 ## anchors
-parser.add_argument('-anchors',type=float,nargs="+",help='Define the anchors geometry (0.75 0.75 1 1 1.5 1 1 1.5)',default=[0.75,0.75,1.5,1.5,2,2,1.5,1,1,1.5,1,2,2,1])
+parser.add_argument('-anchors',type=float,nargs="+",help='Define the anchors geometry (0.5,0.5,1,1,2,2,0.5,1,1,0.5,1,2,2,1)',default=[0.5,0.5,1,1,2,2,0.5,1,1,0.5,1,2,2,1])
 parser.add_argument('-olayer',help='Define layer from pretrained model connected to output ()',default='')
 
 ## maps
