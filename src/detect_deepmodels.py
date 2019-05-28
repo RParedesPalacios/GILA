@@ -20,9 +20,22 @@ def train_det_model(args):
     [images,imglen,boxes,boxlen,catdict,catlen,_]=load_annot_json(args.trannot)
 
     ######### ANCHORS
-    anchors=len(args.anchors)//2
-    print("%d anchors:" %(anchors))
+    if (len(args.anchors)==1):
+        a=int(args.anchors[0])
+        args.anchors.remove(a)
+        for i in range(a):
+            for j in range(a):
+                args.anchors.append(i+1)
+                args.anchors.append(j+1)
+
+        anchors=a*a
+
+    else :
+        anchors=len(args.anchors)//2
+        print("%d anchors:" %(anchors))
+
     print(args.anchors)
+
 
     ######### MODEL
     PRETR=False
