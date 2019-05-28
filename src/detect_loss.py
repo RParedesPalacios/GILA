@@ -77,7 +77,6 @@ def get_pos_neg_log(y_true,y_pred):
     return yp_p,yp_n,pos
 
 
-
 def hnm_loss(y_true,y_pred):
     ## we have to remove last softmax to use this loss
     #yp_p,yp_n,yt_p,yt_n=get_pos_neg_cross(y_true,y_pred)

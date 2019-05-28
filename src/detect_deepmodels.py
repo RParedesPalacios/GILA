@@ -73,6 +73,7 @@ def train_det_model(args):
             layer.trainable = False
 
         model.compile(loss=[hnm_loss],optimizer=opt,metrics=[acc_pos,acc_neg])
+        #model.compile(loss='mean_squared_error',optimizer=opt,metrics=[acc_pos,acc_neg])
 
         history = model.fit_generator(detect_train_generator(args,maps),
                              max_queue_size=10, workers=0,use_multiprocessing=False,
@@ -86,6 +87,7 @@ def train_det_model(args):
 
     ## Training epochs
     model.compile(loss=[hnm_loss],optimizer=opt,metrics=[acc_pos,acc_neg])
+    #model.compile(loss='mean_squared_error',optimizer=opt,metrics=[acc_pos,acc_neg])
 
     history = model.fit_generator(detect_train_generator(args,maps),
                             max_queue_size=10, workers=0,use_multiprocessing=False,

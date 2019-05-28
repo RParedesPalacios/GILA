@@ -37,7 +37,7 @@ def detect_train_generator(args,maps):
     if (da_height!=0.0):
         print("Data Augmentation: Height [%.2f,%.2f]" %(-args.height*da_height,args.height*da_height))
     if (da_zoom!=0.0):
-        print("Data Augmentation: Zoom [%.2f,%.2f]" %(1.0,1+da_zoom))
+        print("Data Augmentation: Zoom [%.2f,%.2f]" %(1.0-da_zoom,1+da_zoom))
     if (args.da_flip_h==True):
         print("Data Augmentation: FlipH")
 
@@ -51,7 +51,7 @@ def detect_train_generator(args,maps):
         logfile.close()
 
     save_gt=1
-    iou_thr=0.5
+    iou_thr=0.4
 
     while True:
 
@@ -65,6 +65,7 @@ def detect_train_generator(args,maps):
 
         match=0
         totan=0
+        print("")
         for b in range(args.batch):
 
             [img,ws,hs,id]=rand_image(args,images)
@@ -129,6 +130,7 @@ def detect_train_generator(args,maps):
                 if (setanchor==True):
                     match=match+1
 
+            # the image with gt boxes and anchors paired
             if (save_gt):
                 modimg.save("gt.jpg")
 

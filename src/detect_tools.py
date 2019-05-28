@@ -136,7 +136,7 @@ def rand_image(args,images,tr=1):
             [x,ws,hs]=load_image_as_numpy(args,fname)
             read=1
         except (FileNotFoundError, IOError):
-            print("\nFailing to load "+fname)
+            print("\r======>Failing to load "+fname+"\r", end='')
             read=0
     return x,ws,hs,id
 
@@ -164,7 +164,7 @@ def transform(args,x,gen):
     # SCALE
     scale=1.0
     if (args.da_zoom!=0.0):
-        scale=random.uniform(1.0-args.da_zoom,1.0)
+        scale=random.uniform(1.0-args.da_zoom,1.0+args.da_zoom)
         transform.update({'zx':scale,'zy':scale})
 
 
