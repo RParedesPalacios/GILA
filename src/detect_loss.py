@@ -86,7 +86,7 @@ def hnm_loss(y_true,y_pred):
     if pos==0:
         return 0.0
     else:
-        return -tf.reduce_mean(tf.log(yp_p))-tf.reduce_mean(tf.log(yp_n))
+        return -tf.reduce_mean(tf.log(yp_p))-tf.reduce_mean(tf.log(1-yp_n))
 
 
 def acc_pos(y_true, y_pred):
