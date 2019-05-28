@@ -27,9 +27,6 @@ def train_det_model(args):
         args.anchors.append(0.75)
         args.anchors.append(0.75)
 
-        args.anchors.append(1.0)
-        args.anchors.append(1.0)
-
         args.anchors.append(1.5)
         args.anchors.append(1.5)
         for i in range(a):
