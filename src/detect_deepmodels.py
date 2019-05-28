@@ -23,17 +23,23 @@ def train_det_model(args):
     if (len(args.anchors)==1):
         a=int(args.anchors[0])
         args.anchors.remove(a)
+
+        args.anchors.append(0.75)
+        args.anchors.append(0.75)
+
+        args.anchors.append(1.0)
+        args.anchors.append(1.0)
+
+        args.anchors.append(1.5)
+        args.anchors.append(1.5)
         for i in range(a):
-            for j in range(a):
-                args.anchors.append(i+1)
-                args.anchors.append(j+1)
+          args.anchors.append(1)
+          args.anchors.append(i+1)
+          args.anchors.append(i+1)
+          args.anchors.append(1)
 
-        anchors=a*a
 
-    else :
-        anchors=len(args.anchors)//2
-        print("%d anchors:" %(anchors))
-
+    anchors=len(args.anchors)//2
     print(args.anchors)
 
 
