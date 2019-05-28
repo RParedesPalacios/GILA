@@ -52,6 +52,7 @@ def detect_train_generator(args,maps):
 
     save_gt=1
     iou_thr=0.4
+    anchor_info=False
 
     while True:
 
@@ -65,7 +66,8 @@ def detect_train_generator(args,maps):
 
         match=0
         totan=0
-        print("")
+        if (anchor_info):
+            print("")
         for b in range(args.batch):
 
             [img,ws,hs,id]=rand_image(args,images)
@@ -142,7 +144,8 @@ def detect_train_generator(args,maps):
             logfile.write("============================\n")
             logfile.close()
 
-        print("\nGT boxes matched with anchors IOU>%1.2f = %.2f%%\n" %(iou_thr,(match*100.0)/totan))
+        if (anchor_info):
+            print("\nGT boxes matched with anchors IOU>%1.2f = %.2f%%\n" %(iou_thr,(match*100.0)/totan))
 
         k=0
         Yr=[]
