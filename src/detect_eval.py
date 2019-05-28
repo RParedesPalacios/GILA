@@ -24,7 +24,24 @@ def eval_detect_model(args,model=None):
 
     [images,imglen,boxes,boxlen,catdict,catlen,catnames]=load_annot_json(args.tsannot)
 
-    lanchors=len(args.anchors)//2
+    ######### ANCHORS
+    if (len(args.anchors)==1):
+        a=int(args.anchors[0])
+        args.anchors.remove(a)
+        for i in range(a):
+            for j in range(a):
+                args.anchors.append(i+1)
+                args.anchors.append(j+1)
+
+        anchors=a*a
+
+    else :
+        anchors=len(args.anchors)//2
+        print("%d anchors:" %(anchors))
+
+    print(args.anchors)
+
+
     outputs=model.outputs
     maps=[]
     for layer in model.layers:

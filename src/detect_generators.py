@@ -86,7 +86,7 @@ def detect_train_generator(args,maps):
             ## w.r.t an image of (args.height x args.width)
             anot=[]
             for box in boxes:
-                 if (int(box['image_id'])==int(id)):
+                 if (box['image_id']==id):
                     ### I have done this: -dy,-dx,1.0/scale to obtain a correct
                     ### box displacement according to the image transform...
                     ### open issue in keras-preprocessing ...
