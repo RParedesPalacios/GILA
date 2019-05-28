@@ -145,7 +145,7 @@ def detect_train_generator(args,maps):
             logfile.close()
 
         if (anchor_info):
-            print("\nGT boxes matched with anchors IOU>%1.2f = %.2f%%\n" %(iou_thr,(match*100.0)/totan))
+            print("GT boxes matched with anchors IOU>%1.2f = %.2f%%\r" %(iou_thr,(match*100.0)/totan),end="")
 
         k=0
         Yr=[]
