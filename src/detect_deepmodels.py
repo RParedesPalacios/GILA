@@ -81,7 +81,7 @@ def train_det_model(args):
     ## Pretraining epochs
     fepochs=args.fepochs
     if (PRETR)and(fepochs>0):
-        print("Freezing  the pre-trained model %d epochs" %(fepochs))
+        print("Freezing the pre-trained model %d epochs" %(fepochs))
         for layer in base.layers:
             layer.trainable = False
 

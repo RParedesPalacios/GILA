@@ -66,6 +66,7 @@ def detect_train_generator(args,maps):
 
         match=0
         totan=0
+        totm=0.0
         if (anchor_info):
             print("")
         for b in range(args.batch):
@@ -120,6 +121,7 @@ def detect_train_generator(args,maps):
                                         [an[1],an[2],an[3],an[4]])
 
                         if (score>iou_thr):
+                            totm=totm+1.0
                             if (save_gt):
                                 draw.rectangle((A[k][my,mx,i],A[k][my,mx,i+1],A[k][my,mx,i+2],A[k][my,mx,i+3]), outline=(255, 0, 0))
                             setanchor=True
@@ -145,7 +147,7 @@ def detect_train_generator(args,maps):
             logfile.close()
 
         if (anchor_info):
-            print("GT boxes matched with anchors IOU>%1.2f = %.2f%%\r" %(iou_thr,(match*100.0)/totan),end="")
+            print("GT boxes matched with anchors IOU>%1.2f = %.2f%% ratio %.1f\r" %(iou_thr,(match*100.0)/totan,totm/totan),end="")
 
         k=0
         Yr=[]
