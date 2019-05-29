@@ -20,6 +20,8 @@ def train_det_model(args):
     [images,imglen,boxes,boxlen,catdict,catlen,_]=load_annot_json(args.trannot)
 
     ######### ANCHORS
+    anchor_mode="quad"
+
     if (len(args.anchors)==1):
         a=int(args.anchors[0])
         args.anchors.remove(a)
@@ -30,19 +32,24 @@ def train_det_model(args):
         args.anchors.append(1.5)
         args.anchors.append(1.5)
 
-        args.anchors.append(1)
-        args.anchors.append(1)
+        if (anchor_mode=="linear"):
+            args.anchors.append(1)
+            args.anchors.append(1)
 
-        for i in range(a-1):
-          args.anchors.append(1)
-          args.anchors.append(i+2)
-          args.anchors.append(i+2)
-          args.anchors.append(1)
+            for i in range(a-1):
+              args.anchors.append(1)
+              args.anchors.append(i+2)
+              args.anchors.append(i+2)
+              args.anchors.append(1)
+        else :
+            for i in range(a):
+                for j in range(a):
+                  args.anchors.append(i+1)
+                  args.anchors.append(j+1)
 
 
     anchors=len(args.anchors)//2
     print(args.anchors)
-
 
     ######### MODEL
     PRETR=False

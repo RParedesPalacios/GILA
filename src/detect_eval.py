@@ -25,22 +25,36 @@ def eval_detect_model(args,model=None):
     [images,imglen,boxes,boxlen,catdict,catlen,catnames]=load_annot_json(args.tsannot)
 
     ######### ANCHORS
+    anchor_mode="quad"
+
     if (len(args.anchors)==1):
         a=int(args.anchors[0])
         args.anchors.remove(a)
-        for i in range(a):
-            for j in range(a):
-                args.anchors.append(i+1)
-                args.anchors.append(j+1)
 
-        anchors=a*a
+        args.anchors.append(0.75)
+        args.anchors.append(0.75)
 
-    else :
-        anchors=len(args.anchors)//2
-        print("%d anchors:" %(anchors))
+        args.anchors.append(1.5)
+        args.anchors.append(1.5)
 
+        if (anchor_mode=="linear"):
+            args.anchors.append(1)
+            args.anchors.append(1)
+
+            for i in range(a-1):
+              args.anchors.append(1)
+              args.anchors.append(i+2)
+              args.anchors.append(i+2)
+              args.anchors.append(1)
+        else if (anchor_mode=="quad"):
+            for i in range(a-1):
+                for y in range(a-1):
+                  args.anchors.append(i+1)
+                  args.anchors.append(j+1)
+
+
+    anchors=len(args.anchors)//2
     print(args.anchors)
-
 
     outputs=model.outputs
     maps=[]
