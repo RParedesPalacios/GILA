@@ -25,7 +25,7 @@ def eval_detect_model(args,model=None):
     [images,imglen,boxes,boxlen,catdict,catlen,catnames]=load_annot_json(args.tsannot)
 
     ######### ANCHORS
-    anchor_mode="quad"
+    anchor_mode="linear"
 
     if (len(args.anchors)==1):
         a=int(args.anchors[0])

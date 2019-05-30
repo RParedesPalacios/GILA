@@ -20,7 +20,7 @@ def train_det_model(args):
     [images,imglen,boxes,boxlen,catdict,catlen,_]=load_annot_json(args.trannot)
 
     ######### ANCHORS
-    anchor_mode="quad"
+    anchor_mode="linear"
 
     if (len(args.anchors)==1):
         a=int(args.anchors[0])
@@ -84,6 +84,7 @@ def train_det_model(args):
     print("Batch size",batch_size)
     epochs=args.epochs
     print("Epochs",epochs)
+
     if (args.trsteps!=-1):
         tr_steps=args.trsteps
     else:
