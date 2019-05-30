@@ -19,19 +19,31 @@ def detect_pretrained_model(args,anchors,catlen):
         print("When using a pretrained network you have to specify the output layer to attach the detection network: -olayer")
         sys.exit(0)
 
-    findit=False
-    for l in load_model.layers:
-        if (args.olayer in l.name):
-            h=l.output.get_shape().as_list()[1]
-            w=l.output.get_shape().as_list()[2]
-            print("Connecting",l.name,":",h,"x",w)
-            x=l.output
-            findit=True
-            break
 
-    if (findit==False):
-        print(args.olayer,"not found in pretrained model")
-        sys.exit(0)
+    maps=[]
+    print(args.olayer)
+    model_layers=[]
+    for l in load_model.layers:
+        model_layers.append(l.name)
+
+    print(model_layers)
+
+    for l in args.olayer:
+        if (l in model_layers):
+            m=load_model.get_layer(l)
+            h=m.output.get_shape().as_list()[1]
+            w=m.output.get_shape().as_list()[2]
+            print("Connecting",m.name,":",h,"x",w)
+            maps.append(m.output)
+            x=m.output
+        else:
+            print(l," not found in pretrained model")
+            sys.exit(0)
+
+            #break
+
+    print(maps)
+
 
     s=min(h,w)
     DEPTH=int(math.log2(s))
@@ -42,7 +54,6 @@ def detect_pretrained_model(args,anchors,catlen):
 
     numf=int(KINI/2)
     tlist=[]
-    maps=[]
     for i in range(DEPTH):
         numf=numf*2
         if (numf>KEND):
