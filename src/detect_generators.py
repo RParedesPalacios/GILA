@@ -69,78 +69,82 @@ def detect_train_generator(args,maps):
         totm=0.0
         if (anchor_info):
             print("")
-        for b in range(args.batch):
+        an_match=0
+        while an_match==0:
 
-            [img,ws,hs,id]=rand_image(args,images)
+            for b in range(args.batch):
 
-            ##DATA AUGMENTATION
-            [img,dx,dy,scale,flip]=transform(args,img,gen)
-            X[b,:]=img
+                [img,ws,hs,id]=rand_image(args,images)
 
-            if (save_gt):
-                modimg=Image.fromarray(np.uint8(img*255))
-                draw=ImageDraw.Draw(modimg)
+                ##DATA AUGMENTATION
+                [img,dx,dy,scale,flip]=transform(args,img,gen)
+                X[b,:]=img
 
-
-            ## Load annotation of image, codification
-            ## w.r.t an image of (args.height x args.width)
-            anot=[]
-            for box in boxes:
-                 if (box['image_id']==id):
-                    ### I have done this: -dy,-dx,1.0/scale to obtain a correct
-                    ### box displacement according to the image transform...
-                    ### open issue in keras-preprocessing ...
-                    [x,y,w,h]=transform_box(args,box,ws,hs,-dy,-dx,1.0/scale,flip)
-                    anot.append([catdict[box['category_id']],x,y,(x+w),(y+h)])
-                    if (save_gt):
-                        draw.rectangle((x,y,(x+w),(y+h)), outline=(0, 255, 0))
-                    #cat,x1,y1,x2,y2
+                if (save_gt):
+                    modimg=Image.fromarray(np.uint8(img*255))
+                    draw=ImageDraw.Draw(modimg)
 
 
+                ## Load annotation of image, codification
+                ## w.r.t an image of (args.height x args.width)
+                anot=[]
+                for box in boxes:
+                     if (box['image_id']==id):
+                        ### I have done this: -dy,-dx,1.0/scale to obtain a correct
+                        ### box displacement according to the image transform...
+                        ### open issue in keras-preprocessing ...
+                        [x,y,w,h]=transform_box(args,box,ws,hs,-dy,-dx,1.0/scale,flip)
+                        anot.append([catdict[box['category_id']],x,y,(x+w),(y+h)])
+                        if (save_gt):
+                            draw.rectangle((x,y,(x+w),(y+h)), outline=(0, 255, 0))
+                        #cat,x1,y1,x2,y2
 
 
 
-            totan+=len(anot)
-            for an in anot:
-                k=0
-                setanchor=False
-                for y in Y:
-                    # scale annotations to maps and obtain center
-                    scaley=float(args.height)/float(y.shape[1])
-                    scalex=float(args.width)/float(y.shape[2])
 
-                    cx=an[1]+(an[3]-an[1])/2
-                    mx=int(min(max(cx/scalex,0),y.shape[2]-1))
 
-                    cy=an[2]+(an[4]-an[2])/2
-                    my=int(min(max(cy/scaley,0),y.shape[1]-1))
+                totan+=len(anot)
+                for an in anot:
+                    k=0
+                    setanchor=False
+                    for y in Y:
+                        # scale annotations to maps and obtain center
+                        scaley=float(args.height)/float(y.shape[1])
+                        scalex=float(args.width)/float(y.shape[2])
 
-                    i=0
-                    for j in range(lanchors):
-                        score=iou([A[k][my,mx,i],A[k][my,mx,i+1],A[k][my,mx,i+2],A[k][my,mx,i+3]],
-                                        [an[1],an[2],an[3],an[4]])
+                        cx=an[1]+(an[3]-an[1])/2
+                        mx=int(min(max(cx/scalex,0),y.shape[2]-1))
 
-                        if (score>iou_thr):
-                            totm=totm+1.0
-                            if (save_gt):
-                                draw.rectangle((A[k][my,mx,i],A[k][my,mx,i+1],A[k][my,mx,i+2],A[k][my,mx,i+3]), outline=(255, 0, 0))
-                            setanchor=True
-                            oclass=int(an[0])
-                            y[b,my,mx,(j*catlen)+oclass]=1 # positive target
-                            y[b,my,mx,((j+1)*catlen)-1]=0 # remove negative
+                        cy=an[2]+(an[4]-an[2])/2
+                        my=int(min(max(cy/scaley,0),y.shape[1]-1))
 
-                            #y[b,my,mx,(j*catlen)+oclass]=score # positive
-                            #y[b,my,mx,((j+1)*catlen)-1]=0 # negative
+                        i=0
+                        for j in range(lanchors):
+                            score=iou([A[k][my,mx,i],A[k][my,mx,i+1],A[k][my,mx,i+2],A[k][my,mx,i+3]],
+                                            [an[1],an[2],an[3],an[4]])
 
-                        i=i+4
-                    k=k+1
+                            if (score>iou_thr):
+                                an_match=1
+                                totm=totm+1.0
+                                if (save_gt):
+                                    draw.rectangle((A[k][my,mx,i],A[k][my,mx,i+1],A[k][my,mx,i+2],A[k][my,mx,i+3]), outline=(255, 0, 0))
+                                setanchor=True
+                                oclass=int(an[0])
+                                y[b,my,mx,(j*catlen)+oclass]=1 # positive target
+                                y[b,my,mx,((j+1)*catlen)-1]=0 # remove negative
 
-                if (setanchor==True):
-                    match=match+1
+                                #y[b,my,mx,(j*catlen)+oclass]=score # positive
+                                #y[b,my,mx,((j+1)*catlen)-1]=0 # negative
 
-            # the image with gt boxes and anchors paired
-            if (save_gt):
-                modimg.save("gt.jpg")
+                            i=i+4
+                        k=k+1
+
+                    if (setanchor==True):
+                        match=match+1
+
+                # the image with gt boxes and anchors paired
+                if (save_gt):
+                    modimg.save("gt.jpg")
 
 
 
