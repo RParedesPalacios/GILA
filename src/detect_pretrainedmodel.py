@@ -59,9 +59,12 @@ def detect_pretrained_model(args,anchors,catlen):
         if (numf>KEND):
             numf=KEND
 
-        x=basic_block(x,numf,args,residual=False,tlist=tlist)
+        if (i==0):
+            x=layers.MaxPooling2D(pool_size=(2, 2))(x)
+        else:
+            x=basic_block(x,numf,args,residual=False,tlist=tlist)
+            maps.append(tlist[-1])
 
-        maps.append(tlist[-1])
 
     print(maps)
 
