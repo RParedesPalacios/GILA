@@ -47,7 +47,7 @@ def detect_pretrained_model(args,anchors,catlen):
 
     s=min(h,w)
     DEPTH=int(math.log2(s))
-    DEPTH=DEPTH+1
+    
     KINI=args.autokini
     KEND=args.autokend
 
