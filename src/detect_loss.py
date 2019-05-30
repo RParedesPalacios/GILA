@@ -48,7 +48,7 @@ def get_pos_neg_log(y_true,y_pred):
     pos=tf.cast(tf.count_nonzero(yt),dtype=tf.int32)
 
 
-    #pos=tf.Print(pos,[pos],"Pos=")
+    pos=tf.Print(pos,[pos],"Pos=")
     #pos=tf.Print(pos,[pos],"Pos=")
 
     ## Gather postives
