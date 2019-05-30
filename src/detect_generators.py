@@ -51,7 +51,7 @@ def detect_train_generator(args,maps):
         logfile.close()
 
     save_gt=True
-    iou_thr=0.5
+    iou_thr=0.7
     anchor_info=True
 
     while True:
@@ -126,11 +126,11 @@ def detect_train_generator(args,maps):
                                 draw.rectangle((A[k][my,mx,i],A[k][my,mx,i+1],A[k][my,mx,i+2],A[k][my,mx,i+3]), outline=(255, 0, 0))
                             setanchor=True
                             oclass=int(an[0])
-                            #y[b,my,mx,(j*catlen)+oclass]=1 # positive target
-                            #y[b,my,mx,((j+1)*catlen)-1]=0 # remove negative
+                            y[b,my,mx,(j*catlen)+oclass]=1 # positive target
+                            y[b,my,mx,((j+1)*catlen)-1]=0 # remove negative
 
-                            y[b,my,mx,(j*catlen)+oclass]=score # positive 
-                            y[b,my,mx,((j+1)*catlen)-1]=1-score # negative
+                            #y[b,my,mx,(j*catlen)+oclass]=score # positive
+                            #y[b,my,mx,((j+1)*catlen)-1]=0 # negative
 
                         i=i+4
                     k=k+1
