@@ -74,7 +74,7 @@ def detect_train_generator(args,maps):
 
             for b in range(args.batch):
 
-                [img,ws,hs,id]=rand_image(args,images)
+                [img,ws,hs,id,_]=rand_image(args,images)
 
                 ##DATA AUGMENTATION
                 [img,dx,dy,scale,flip]=transform(args,img,gen)
