@@ -22,15 +22,15 @@ def train_det_model(args):
     ######### ANCHORS
     anchor_mode="quad"
 
+    ########## ANCHORS
+    anchor_mode="quad"
+
     if (len(args.anchors)==1):
         a=int(args.anchors[0])
         args.anchors.remove(a)
 
-        args.anchors.append(0.75)
-        args.anchors.append(0.75)
-
-        args.anchors.append(1.5)
-        args.anchors.append(1.5)
+        args.anchors.append(0.5)
+        args.anchors.append(0.5)
 
         if (anchor_mode=="linear"):
             args.anchors.append(1)
@@ -50,7 +50,7 @@ def train_det_model(args):
 
     anchors=len(args.anchors)//2
     print(args.anchors)
-
+    
     ######### MODEL
     PRETR=False
     if (args.load_model!=None):

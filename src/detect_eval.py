@@ -31,11 +31,8 @@ def eval_detect_model(args,model=None):
         a=int(args.anchors[0])
         args.anchors.remove(a)
 
-        args.anchors.append(0.75)
-        args.anchors.append(0.75)
-
-        args.anchors.append(1.5)
-        args.anchors.append(1.5)
+        args.anchors.append(0.5)
+        args.anchors.append(0.5)
 
         if (anchor_mode=="linear"):
             args.anchors.append(1)
