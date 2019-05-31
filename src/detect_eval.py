@@ -91,10 +91,8 @@ def eval_detect_model(args,model=None):
     ## get output maps
     OY=model.predict(X, args.batch)
 
-
     for y in Y:
         print(y.shape)
-
 
     print(OY.shape)
 
@@ -153,7 +151,8 @@ def eval_detect_model(args,model=None):
             i=i+1
 
         ## non-maximum supression
-        boxes=non_max_suppression_fast(boxes, 0.5)
+        #boxes=non_max_suppression_fast(boxes, 0.5)
+        boxes=boxes.astype("int")
         print("After nms",len(boxes))
 
         ## Draw selected

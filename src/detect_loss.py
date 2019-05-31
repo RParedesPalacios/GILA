@@ -25,6 +25,7 @@ def get_pos_neg_cross(y_true,y_pred):
     yp_n=tf.gather(yp,indpos)
     yt_n=tf.gather(yt,indpos)
 
+    ## hard negative minning negatives 3 times positives
     neg=tf.maximum(1,3*pos)
     neg=tf.cast(neg,dtype=tf.int32)
     _,ind=tf.nn.top_k(tf.negative(yp_n[:,cat-1]),neg,sorted=True)
@@ -65,6 +66,7 @@ def get_pos_neg_log(y_true,y_pred):
     indneg=tf.where(tf.not_equal(yt, zero))
     indneg=tf.cast(tf.reshape(indneg,[-1]),dtype=tf.int32)
     yp_n=tf.gather(yp,indneg)
+    ## hard negative minning negatives 3 times positives
     neg=tf.maximum(1,3*pos)
     neg=tf.cast(neg,dtype=tf.int32)
     yp_n,ind=tf.nn.top_k(tf.negative(yp_n),neg,sorted=True)

@@ -217,6 +217,7 @@ def non_max_suppression_fast(boxes, overlapThresh):
     x2 = boxes[:,2]
     y2 = boxes[:,3]
     sc = boxes[:,4]
+    cl = boxes[:,4]
 
 	# compute the area of the bounding boxes and sort the bounding
 	# boxes by the score
@@ -245,7 +246,7 @@ def non_max_suppression_fast(boxes, overlapThresh):
         h = np.maximum(0, yy2 - yy1 + 1)
 
 		# compute the ratio of overlap
-        overlap = (w * h) / area[idxs[:last]]
+        overlap = (cl[i]==cl[idxs[:last]])*(w * h) / area[idxs[:last]]
 
 		# delete all indexes from the index list that have
         idxs = np.delete(idxs, np.concatenate(([last],np.where(overlap > overlapThresh)[0])))
