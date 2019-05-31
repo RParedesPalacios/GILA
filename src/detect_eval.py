@@ -81,9 +81,10 @@ def eval_detect_model(args,model=None):
 
 
     names=[]
+
     for b in range(args.batch):
-        [x,ws,hs,imgname]=rand_image(args,images,0)
-        names.append(str(imgname))
+        [x,ws,hs,imgname,fname]=rand_image(args,images,0)
+        names.append(fname)
         X[b,:]=x
 
     print("Predict batch")
@@ -93,6 +94,7 @@ def eval_detect_model(args,model=None):
 
     for y in Y:
         print(y.shape)
+
 
     print(OY.shape)
 
@@ -128,7 +130,7 @@ def eval_detect_model(args,model=None):
         detect=sorted(detect,key=lambda x: x[4],reverse=True)
 
         ## convert to image Boxes
-        fname=args.tsdir+args.fprefix+str(names[b])+".jpg"
+        fname=args.tsdir+"annot_"+str(names[b])
         [x,ws,hs]=load_image_as_numpy(args,fname)
 
         tot=min(100,len(detect))

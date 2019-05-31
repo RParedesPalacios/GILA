@@ -138,7 +138,7 @@ def rand_image(args,images,tr=1):
         except (FileNotFoundError, IOError):
             print("\r======>Failing to load "+fname+"\r", end='')
             read=0
-    return x,ws,hs,id
+    return x,ws,hs,id,imgname
 
 
 def transform(args,x,gen):
