@@ -47,7 +47,7 @@ def detect_pretrained_model(args,anchors,catlen):
 
     s=min(h,w)
     DEPTH=int(math.log2(s))
-    
+
     KINI=args.autokini
     KEND=args.autokend
 
@@ -75,7 +75,8 @@ def detect_pretrained_model(args,anchors,catlen):
     outs=[]
     outm=[]
     for m in maps:
-        x=layers.Conv2D(depth, kernel_size=(3, 3), strides=(1,1),padding='same',activation='sigmoid')(m)
+        x=layers.Conv2D(depth, kernel_size=(3, 3), strides=(1,1),padding='same')(m)
+        x=layers.ReLU(x)
         outm.append(x)
         x=layers.Reshape((-1,catlen))(x)
         x=layers.Softmax(axis=2)(x)
