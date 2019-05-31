@@ -130,7 +130,7 @@ def eval_detect_model(args,model=None):
         detect=sorted(detect,key=lambda x: x[4],reverse=True)
 
         ## convert to image Boxes
-        fname=args.tsdir+"annot_"+str(names[b])
+        fname=args.tsdir+str(names[b])
         [x,ws,hs]=load_image_as_numpy(args,fname)
 
         tot=min(100,len(detect))
@@ -166,7 +166,7 @@ def eval_detect_model(args,model=None):
             draw.text((box[0],box[1]),catnames[box[5]],fill=(255,255,255))
 
 
-        fname=args.tsdir+args.fprefix+str(names[b])+"ANNOT"+".jpg"
+        fname=args.tsdir+"annot_"+str(names[b])
         img.save(fname)
 
 
