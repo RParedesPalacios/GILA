@@ -20,7 +20,7 @@ def train_det_model(args):
     [images,imglen,boxes,boxlen,catdict,catlen,_]=load_annot_json(args.trannot)
 
     ######### ANCHORS
-    anchor_mode="quad"
+    anchor_mode="linear"
 
     if (len(args.anchors)==1):
         a=int(args.anchors[0])
