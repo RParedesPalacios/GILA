@@ -24,6 +24,7 @@ def eval_detect_model(args,model=None):
 
     [images,imglen,boxes,boxlen,catdict,catlen,catnames]=load_annot_json(args.tsannot)
 
+
     ########## ANCHORS
     anchor_mode="quad"
 
@@ -111,7 +112,7 @@ def eval_detect_model(args,model=None):
                         c=mz%catlen  # class
                         d=mz//catlen # anchor
                     #    if (y[b,my,mx,mz]>0.5):
-                        if (OY[b,ant+my*(y.shape[2]*block)+mx*block+d,c]>0.5):
+                        if (OY[b,ant+my*(y.shape[2]*block)+mx*block+d,c]>0.3):
                             if (c!=(catlen-1)): ## not background class
                                 z=4*(mz//catlen)
                                 detect.append([my,mx,z,k,y[b,my,mx,mz],c])
@@ -159,7 +160,10 @@ def eval_detect_model(args,model=None):
 
         for box in boxes:
             draw.rectangle((box[0],box[1],box[2],box[3]), fill=None)
-            draw.text((box[0],box[1]),catnames[box[5]],fill=(255,255,255))
+            y=max(box[0],0)
+            x=max(box[1],0)
+
+            draw.text((y,x),catnames[box[5]],fill=(255,255,255))
 
 
         fname=args.tsdir+"annot_"+str(names[b])

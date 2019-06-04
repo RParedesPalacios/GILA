@@ -19,8 +19,6 @@ def train_det_model(args):
     ######### ANNOT FILE
     [images,imglen,boxes,boxlen,catdict,catlen,_]=load_annot_json(args.trannot)
 
-    ######### ANCHORS
-    anchor_mode="quad"
 
     ########## ANCHORS
     anchor_mode="quad"
@@ -50,7 +48,7 @@ def train_det_model(args):
 
     anchors=len(args.anchors)//2
     print(args.anchors)
-    
+
     ######### MODEL
     PRETR=False
     if (args.load_model!=None):
