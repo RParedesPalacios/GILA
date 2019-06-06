@@ -112,7 +112,7 @@ def eval_detect_model(args,model=None):
                         c=mz%catlen  # class
                         d=mz//catlen # anchor
                     #    if (y[b,my,mx,mz]>0.5):
-                        if (OY[b,ant+my*(y.shape[2]*block)+mx*block+d,c]>0.5):
+                        if (OY[b,ant+my*(y.shape[2]*block)+mx*block+d,c]>0.75):
                             if (c!=(catlen-1)): ## not background class
                                 z=4*(mz//catlen)
                                 detect.append([my,mx,z,k,y[b,my,mx,mz],c])
@@ -126,7 +126,7 @@ def eval_detect_model(args,model=None):
         detect=sorted(detect,key=lambda x: x[4],reverse=True)
 
         ## convert to image Boxes
-        fname=args.tsdir+str(names[b])
+        fname=args.tsdir+"/"+str(names[b])
         [x,ws,hs]=load_image_as_numpy(args,fname)
 
         tot=min(100,len(detect))
@@ -159,14 +159,14 @@ def eval_detect_model(args,model=None):
         draw=ImageDraw.Draw(img)
 
         for box in boxes:
-            draw.rectangle((box[0],box[1],box[2],box[3]), fill=None, outline=(0, 255, 0))
+            draw.rectangle((box[0],box[1],box[2],box[3]), fill=None, outline=(0))
             y=max(box[0],0)
             x=max(box[1],0)
 
-            draw.text((y,x),catnames[box[5]],fill=(0,255,0))
+            draw.text((y,x),catnames[box[5]],fill=(0))
 
 
-        fname=args.tsdir+"annot_"+str(names[b])
+        fname=args.tsdir+"/"+"annot_"+str(names[b])
         img.save(fname)
 
 
