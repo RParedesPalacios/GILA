@@ -141,8 +141,7 @@ def detect_train_generator(args,maps):
 
 
 
-
-                totan+=len(anot)
+                totan=totan+len(anot)
                 for an in anot:
                     k=0
                     setanchor=False
