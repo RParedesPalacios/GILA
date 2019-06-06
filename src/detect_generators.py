@@ -23,19 +23,28 @@ def detect_train_generator(args,maps):
         for i in range(len(images)):
             imgname=images[i]['file_name']
             id=images[i]['id']
-            
+
             fname=args.trdir+"/"+imgname
             img=Image.open(fname)
-            
+
             C=args.width
             R=args.height
             width, height = img.size
             ws=float(C)/float(width)
             hs=float(R)/float(height)
             img = img.resize((C,R), Image.ANTIALIAS)
-      
+
+            ch=img.mode
+            CH=1
+            if args.chan=="rgb":
+                CH=3
+
+            if ch=="RGB" and CH==1):
+              print ("RGB-->Gray")
+              img=img.convert('L')
+
             img.save(fname)
-      
+
             print("Image %s, %d of %d\n" %(fname,i+1,len(images)))
             for box in boxes:
                 if (box['image_id']==id):
@@ -44,7 +53,7 @@ def detect_train_generator(args,maps):
                     box['bbox'][1]=box['bbox'][1]*hs
                     box['bbox'][3]=box['bbox'][3]*hs
 
-              
+
 
     ## X,Y for trainig (data, targets) and A foro anchors
     lanchors=len(args.anchors)//2
