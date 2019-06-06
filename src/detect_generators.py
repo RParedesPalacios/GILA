@@ -39,7 +39,7 @@ def detect_train_generator(args,maps):
             if args.chan=="rgb":
                 CH=3
 
-            if ch=="RGB" and CH==1):
+            if ch=="RGB" and CH==1:
               print ("RGB-->Gray")
               img=img.convert('L')
 
