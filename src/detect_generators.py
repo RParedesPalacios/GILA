@@ -120,6 +120,7 @@ def detect_train_generator(args,maps):
 
 
                 if (save_gt):
+                    fname=args.trdir+"/"+fname
                     modimg=Image.open(fname)
                     draw=ImageDraw.Draw(modimg)
 
@@ -135,13 +136,14 @@ def detect_train_generator(args,maps):
                         [x,y,w,h]=transform_box(args,box,ws,hs,-dy,-dx,1.0/scale,flip)
                         anot.append([catdict[box['category_id']],x,y,(x+w),(y+h)])
                         if (save_gt):
-                            draw.rectangle((x,y,(x+w),(y+h)), outline=(0)
+                            draw.rectangle((x,y,(x+w),(y+h)), outline=(0))
                         #cat,x1,y1,x2,y2
 
 
 
 
-                totan=totan+len(anot)
+
+                totan+=len(anot)
                 for an in anot:
                     k=0
                     setanchor=False
