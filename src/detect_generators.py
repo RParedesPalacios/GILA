@@ -88,7 +88,7 @@ def detect_train_generator(args,maps):
         logfile.write("============================\n")
         logfile.close()
 
-    save_gt=False
+    save_gt=True
     iou_thr=0.5
     anchor_info=True
 
@@ -112,7 +112,7 @@ def detect_train_generator(args,maps):
 
             for b in range(args.batch):
 
-                [img,ws,hs,id,_]=rand_image(args,images)
+                [img,ws,hs,id,fname]=rand_image(args,images)
 
                 ##DATA AUGMENTATION
                 [img,dx,dy,scale,flip]=transform(args,img,gen)
@@ -120,11 +120,7 @@ def detect_train_generator(args,maps):
 
 
                 if (save_gt):
-                    if img.shape[2]==1:
-                        print("Not saving")
-                        modimg=img
-                    else:
-                        modimg=Image.fromarray(np.uint8(img*255), mode='RGB')
+                    modimg=Image.open(fname)
                     draw=ImageDraw.Draw(modimg)
 
 
@@ -139,7 +135,7 @@ def detect_train_generator(args,maps):
                         [x,y,w,h]=transform_box(args,box,ws,hs,-dy,-dx,1.0/scale,flip)
                         anot.append([catdict[box['category_id']],x,y,(x+w),(y+h)])
                         if (save_gt):
-                            draw.rectangle((x,y,(x+w),(y+h)), outline=(0,255,0))
+                            draw.rectangle((x,y,(x+w),(y+h)), outline=(0)
                         #cat,x1,y1,x2,y2
 
 
@@ -170,7 +166,7 @@ def detect_train_generator(args,maps):
                                 an_match=1
                                 totm=totm+1.0
                                 if (save_gt):
-                                    draw.rectangle((A[k][my,mx,i],A[k][my,mx,i+1],A[k][my,mx,i+2],A[k][my,mx,i+3]), outline=(255,0,0))
+                                    draw.rectangle((A[k][my,mx,i],A[k][my,mx,i+1],A[k][my,mx,i+2],A[k][my,mx,i+3]), outline=(128))
                                 setanchor=True
                                 oclass=int(an[0])
                                 y[b,my,mx,(j*catlen)+oclass]=1 # positive target
