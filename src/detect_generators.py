@@ -16,6 +16,35 @@ def detect_train_generator(args,maps):
 
     [images,imglen,boxes,boxlen,catdict,catlen,_]=load_annot_json(args.trannot)
 
+    ## Pre-transform to size
+    PRERESIZE=True
+
+    if PRERESIZE:
+        for i in range(len(images)):
+            imgname=images[i]['file_name']
+            id=images[i]['id']
+            
+            fname=args.trdir+"/"+imgname
+            img=Image.open(fname)
+            
+            C=args.width
+            R=args.height
+            width, height = img.size
+            ws=float(C)/float(width)
+            hs=float(R)/float(height)
+            img = img.resize((C,R), Image.ANTIALIAS)
+      
+            img.save(fname)
+      
+            print("Image %s, %d of %d\n" %(fname,i+1,len(images)))
+            for box in boxes:
+                if (box['image_id']==id):
+                    box['bbox'][0]=box['bbox'][0]*ws
+                    box['bbox'][2]=box['bbox'][2]*ws
+                    box['bbox'][1]=box['bbox'][1]*hs
+                    box['bbox'][3]=box['bbox'][3]*hs
+
+              
 
     ## X,Y for trainig (data, targets) and A foro anchors
     lanchors=len(args.anchors)//2
@@ -50,7 +79,7 @@ def detect_train_generator(args,maps):
         logfile.write("============================\n")
         logfile.close()
 
-    save_gt=True
+    save_gt=False
     iou_thr=0.5
     anchor_info=True
 
@@ -80,8 +109,13 @@ def detect_train_generator(args,maps):
                 [img,dx,dy,scale,flip]=transform(args,img,gen)
                 X[b,:]=img
 
+
                 if (save_gt):
-                    modimg=Image.fromarray(np.uint8(img*255))
+                    if img.shape[2]==1:
+                        print("Not saving")
+                        modimg=img
+                    else:
+                        modimg=Image.fromarray(np.uint8(img*255), mode='RGB')
                     draw=ImageDraw.Draw(modimg)
 
 
@@ -96,7 +130,7 @@ def detect_train_generator(args,maps):
                         [x,y,w,h]=transform_box(args,box,ws,hs,-dy,-dx,1.0/scale,flip)
                         anot.append([catdict[box['category_id']],x,y,(x+w),(y+h)])
                         if (save_gt):
-                            draw.rectangle((x,y,(x+w),(y+h)), outline=(0, 255, 0))
+                            draw.rectangle((x,y,(x+w),(y+h)), outline=(0,255,0))
                         #cat,x1,y1,x2,y2
 
 
@@ -127,7 +161,7 @@ def detect_train_generator(args,maps):
                                 an_match=1
                                 totm=totm+1.0
                                 if (save_gt):
-                                    draw.rectangle((A[k][my,mx,i],A[k][my,mx,i+1],A[k][my,mx,i+2],A[k][my,mx,i+3]), outline=(255, 0, 0))
+                                    draw.rectangle((A[k][my,mx,i],A[k][my,mx,i+1],A[k][my,mx,i+2],A[k][my,mx,i+3]), outline=(255,0,0))
                                 setanchor=True
                                 oclass=int(an[0])
                                 y[b,my,mx,(j*catlen)+oclass]=1 # positive target

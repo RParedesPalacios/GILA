@@ -61,21 +61,20 @@ def load_image_as_numpy(args,fname):
 
 
     CH=1
-    if (args.chan=="rgb"):
+    if args.chan=="rgb":
         CH=3
 
     ch=img.mode
     read=1
-    if (ch=="RGB"):
-        if (CH==1):
+    if ch=="RGB" and CH==1:
             img=img.convert('L')
-    if (ch=="L"):
-        if (CH==3):
+    if ch=="L" and CH==3:
             #img=img.convert('RGB')
-            #print ("Warning: gray image to rgb:",fname)
+            print ("Warning: gray image to rgb:",fname)
 
             # Ignore gray-level images for chan="rgb"
             raise FileNotFoundError
+
     if (read==1):
         if (args.resize=="resize"):
             C=args.width
@@ -83,7 +82,8 @@ def load_image_as_numpy(args,fname):
             width, height = img.size
             ws=float(C)/float(width)
             hs=float(R)/float(height)
-            img = img.resize((C,R), Image.ANTIALIAS)
+            if C!=width or R!=height:
+                img = img.resize((C,R), Image.ANTIALIAS)
         else:
             print("Only resize is supported in detection")
 
