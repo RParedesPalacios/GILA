@@ -112,7 +112,7 @@ def eval_detect_model(args,model=None):
                         c=mz%catlen  # class
                         d=mz//catlen # anchor
                     #    if (y[b,my,mx,mz]>0.5):
-                        if (OY[b,ant+my*(y.shape[2]*block)+mx*block+d,c]>0.75):
+                        if (OY[b,ant+my*(y.shape[2]*block)+mx*block+d,c]>0.5):
                             if (c!=(catlen-1)): ## not background class
                                 z=4*(mz//catlen)
                                 detect.append([my,mx,z,k,y[b,my,mx,mz],c])
@@ -129,7 +129,7 @@ def eval_detect_model(args,model=None):
         fname=args.tsdir+"/"+str(names[b])
         [x,ws,hs]=load_image_as_numpy(args,fname)
 
-        tot=min(100,len(detect))
+        tot=min(20000,len(detect))
         detect=detect[:tot]
 
         boxes=np.zeros((tot,6))
@@ -140,16 +140,16 @@ def eval_detect_model(args,model=None):
             x=d[1]
             z=d[2]
             k=d[3]
-            boxes[i,0]=A[k][y,x,z]/ws
-            boxes[i,1]=A[k][y,x,z+1]/hs
-            boxes[i,2]=A[k][y,x,z+2]/ws
-            boxes[i,3]=A[k][y,x,z+3]/hs
+            boxes[i,0]=A[k][y,x,z]/ws #x0
+            boxes[i,1]=A[k][y,x,z+1]/hs #y0
+            boxes[i,2]=A[k][y,x,z+2]/ws #x1
+            boxes[i,3]=A[k][y,x,z+3]/hs #y1
             boxes[i,4]=d[4]
             boxes[i,5]=d[5]
             i=i+1
 
         ## non-maximum supression
-        boxes=non_max_suppression_fast(boxes, 0.5)
+        boxes=non_max_suppression_fast(boxes, 0.1)
         #boxes=boxes.astype("int")
         print("After nms",len(boxes))
 

@@ -248,8 +248,16 @@ def non_max_suppression_fast(boxes, overlapThresh):
 		# compute the ratio of overlap
         overlap = (cl[i]==cl[idxs[:last]])*(w * h) / area[idxs[:last]]
 
+        # Average coordinates
+        all=np.concatenate(([last],np.where(overlap > overlapThresh)[0]))
+        boxes[i,0]=np.average(boxes[idxs[all],0])
+        boxes[i,1]=np.average(boxes[idxs[all],1])
+        boxes[i,2]=np.average(boxes[idxs[all],2])
+        boxes[i,3]=np.average(boxes[idxs[all],3])
+
 		# delete all indexes from the index list that have
         idxs = np.delete(idxs, np.concatenate(([last],np.where(overlap > overlapThresh)[0])))
+
 
 	# return only the bounding boxes that were picked using the
 	# integer data type
