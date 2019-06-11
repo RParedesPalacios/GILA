@@ -81,7 +81,7 @@ def eval_detect_model(args,model=None):
     names=[]
 
     for b in range(args.batch):
-        [x,ws,hs,imgname,fname]=load_image(args,images,b)
+        [x,ws,hs,imgname,fname]=rand_image(args,images,args.ioumerge)
         names.append(fname)
         X[b,:]=x
 

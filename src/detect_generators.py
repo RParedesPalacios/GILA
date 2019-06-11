@@ -17,7 +17,7 @@ def detect_train_generator(args,maps):
     [images,imglen,boxes,boxlen,catdict,catlen,_]=load_annot_json(args.trannot)
 
     ## Pre-transform to size
-    PRERESIZE=True
+    PRERESIZE=args.preresize
 
     if PRERESIZE:
         for i in range(len(images)):
@@ -89,7 +89,7 @@ def detect_train_generator(args,maps):
         logfile.close()
 
     save_gt=True
-    iou_thr=0.5
+    iou_thr=args.iouthr
     anchor_info=True
 
     while True:
