@@ -81,7 +81,7 @@ def eval_detect_model(args,model=None):
     names=[]
 
     for b in range(args.batch):
-        [x,ws,hs,imgname,fname]=rand_image(args,images,0)
+        [x,ws,hs,imgname,fname]=load_image(args,images,b)
         names.append(fname)
         X[b,:]=x
 
@@ -112,10 +112,11 @@ def eval_detect_model(args,model=None):
                         c=mz%catlen  # class
                         d=mz//catlen # anchor
                     #    if (y[b,my,mx,mz]>0.5):
-                        if (OY[b,ant+my*(y.shape[2]*block)+mx*block+d,c]>0.5):
+                        val=OY[b,ant+my*(y.shape[2]*block)+mx*block+d,c]
+                        if (val>0.5):
                             if (c!=(catlen-1)): ## not background class
                                 z=4*(mz//catlen)
-                                detect.append([my,mx,z,k,y[b,my,mx,mz],c])
+                                detect.append([my,mx,z,k,val,c])
 
             ant=ant+(act//catlen)
             k=k+1
@@ -149,7 +150,7 @@ def eval_detect_model(args,model=None):
             i=i+1
 
         ## non-maximum supression
-        boxes=non_max_suppression_fast(boxes, 0.1)
+        boxes=non_max_suppression_fast(boxes, 0.0)
         #boxes=boxes.astype("int")
         print("After nms",len(boxes))
 

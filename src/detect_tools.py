@@ -141,6 +141,31 @@ def rand_image(args,images,tr=1):
     return x,ws,hs,id,imgname
 
 
+def load_image(args,images,image_id):
+
+    f=False
+    for i in range(len(images)):
+
+        id=images[i]['id']
+        if image_id==id:
+            imgname=images[i]['file_name']
+            f=True
+            break
+
+    if f==False:
+        print("Image id %d not found" %(image_id))
+
+
+    fname=args.tsdir+"/"+imgname
+    try:
+        [x,ws,hs]=load_image_as_numpy(args,fname)
+    except (FileNotFoundError, IOError):
+        print("\r======>Failing to load "+fname+"\n", end='')
+
+    return x,ws,hs,id,imgname
+
+
+
 def transform(args,x,gen):
 
     transform={}
@@ -200,6 +225,8 @@ def transform_box(args,box,ws,hs,dx,dy,scale,flip):
 # from https://www.pyimagesearch.com/2015/02/16/faster-non-maximum-suppression-python/
 # with scores
 def non_max_suppression_fast(boxes, overlapThresh):
+    average_box=True
+
     if len(boxes) == 0:
         return []
 
@@ -217,7 +244,8 @@ def non_max_suppression_fast(boxes, overlapThresh):
     x2 = boxes[:,2]
     y2 = boxes[:,3]
     sc = boxes[:,4]
-    cl = boxes[:,4]
+    cl = boxes[:,5]
+
 
 	# compute the area of the bounding boxes and sort the bounding
 	# boxes by the score
@@ -236,6 +264,7 @@ def non_max_suppression_fast(boxes, overlapThresh):
 		# find the largest (x, y) coordinates for the start of
 		# the bounding box and the smallest (x, y) coordinates
 		# for the end of the bounding box
+
         xx1 = np.maximum(x1[i], x1[idxs[:last]])
         yy1 = np.maximum(y1[i], y1[idxs[:last]])
         xx2 = np.minimum(x2[i], x2[idxs[:last]])
@@ -250,10 +279,23 @@ def non_max_suppression_fast(boxes, overlapThresh):
 
         # Average coordinates
         all=np.concatenate(([last],np.where(overlap > overlapThresh)[0]))
-        boxes[i,0]=np.average(boxes[idxs[all],0])
-        boxes[i,1]=np.average(boxes[idxs[all],1])
-        boxes[i,2]=np.average(boxes[idxs[all],2])
-        boxes[i,3]=np.average(boxes[idxs[all],3])
+
+        if (average_box):
+            ## square weighted average
+            boxes[idxs[all],4]*=boxes[idxs[all],4]
+
+            score=np.sum(boxes[idxs[all],4])
+            boxes[idxs[all],4]/=score
+
+            boxes[idxs[all],0]*=boxes[idxs[all],4]
+            boxes[idxs[all],1]*=boxes[idxs[all],4]
+            boxes[idxs[all],2]*=boxes[idxs[all],4]
+            boxes[idxs[all],3]*=boxes[idxs[all],4]
+
+            boxes[i,0]=np.sum(boxes[idxs[all],0])
+            boxes[i,1]=np.sum(boxes[idxs[all],1])
+            boxes[i,2]=np.sum(boxes[idxs[all],2])
+            boxes[i,3]=np.sum(boxes[idxs[all],3])
 
 		# delete all indexes from the index list that have
         idxs = np.delete(idxs, np.concatenate(([last],np.where(overlap > overlapThresh)[0])))
