@@ -86,7 +86,7 @@ parser.add_argument('-maxmap', type=int, help='detection maximum map size (2)',d
 
 ## other
 parser.add_argument('-iouthr', type=float, help='iou threshold to consider positive anchor (0.5)',default=0.5)
-parser.add_argument('-ioumerge', type=float, help='iou threshold to merge in nms (0.5)',default=0.5)
+parser.add_argument('-ioumerge', type=float, help='iou threshold to merge in Non-Maximum-Supresion inference (0.5)',default=0.5)
 parser.add_argument('-preresize', action='store_true',help='pre-resize images')
 
 args = parser.parse_args()
