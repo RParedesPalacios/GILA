@@ -224,7 +224,7 @@ def transform_box(args,box,ws,hs,dx,dy,scale,flip):
 # Malisiewicz et al.
 # from https://www.pyimagesearch.com/2015/02/16/faster-non-maximum-suppression-python/
 # with scores
-def non_max_suppression_fast(boxes, overlapThresh):
+def non_max_suppression_fast(boxes, overlapThresh,class=-1):
     average_box=True
 
     if len(boxes) == 0:
@@ -258,50 +258,51 @@ def non_max_suppression_fast(boxes, overlapThresh):
 		# grab the last index in the indexes list and add the
 		# index value to the list of picked indexes
         last = len(idxs) - 1
-        i = idxs[last]
-        pick.append(i)
+        if class!=-1 and cl[i]==class:
+            i = idxs[last]
+            pick.append(i)
 
-		# find the largest (x, y) coordinates for the start of
-		# the bounding box and the smallest (x, y) coordinates
-		# for the end of the bounding box
+    		# find the largest (x, y) coordinates for the start of
+    		# the bounding box and the smallest (x, y) coordinates
+    		# for the end of the bounding box
 
-        xx1 = np.maximum(x1[i], x1[idxs[:last]])
-        yy1 = np.maximum(y1[i], y1[idxs[:last]])
-        xx2 = np.minimum(x2[i], x2[idxs[:last]])
-        yy2 = np.minimum(y2[i], y2[idxs[:last]])
+            xx1 = np.maximum(x1[i], x1[idxs[:last]])
+            yy1 = np.maximum(y1[i], y1[idxs[:last]])
+            xx2 = np.minimum(x2[i], x2[idxs[:last]])
+            yy2 = np.minimum(y2[i], y2[idxs[:last]])
 
-		# compute the width and height of the bounding box
-        w = np.maximum(0, xx2 - xx1 + 1)
-        h = np.maximum(0, yy2 - yy1 + 1)
+    		# compute the width and height of the bounding box
+            w = np.maximum(0, xx2 - xx1 + 1)
+            h = np.maximum(0, yy2 - yy1 + 1)
 
-		# compute the ratio of overlap
-        overlap = (cl[i]==cl[idxs[:last]])*(w * h) / area[idxs[:last]]
-
-        # Average coordinates
-        all=np.concatenate(([last],np.where(overlap > overlapThresh)[0]))
-
-        if (average_box):
-            ## square weighted average
-            boxes[idxs[all],4]*=boxes[idxs[all],4]
-
-            score=np.sum(boxes[idxs[all],4])
-            boxes[idxs[all],4]/=score
-
-            boxes[idxs[all],0]*=boxes[idxs[all],4]
-            boxes[idxs[all],1]*=boxes[idxs[all],4]
-            boxes[idxs[all],2]*=boxes[idxs[all],4]
-            boxes[idxs[all],3]*=boxes[idxs[all],4]
-
-            boxes[i,0]=np.sum(boxes[idxs[all],0])
-            boxes[i,1]=np.sum(boxes[idxs[all],1])
-            boxes[i,2]=np.sum(boxes[idxs[all],2])
-            boxes[i,3]=np.sum(boxes[idxs[all],3])
-
-		# delete all indexes from the index list that have
-        idxs = np.delete(idxs, np.concatenate(([last],np.where(overlap > overlapThresh)[0])))
+    		# compute the ratio of overlap
+            overlap = (cl[i]==cl[idxs[:last]])*(w * h) / area[idxs[:last]]
 
 
-	# return only the bounding boxes that were picked using the
+            # Average coordinates
+            if (average_box):
+                all=np.concatenate(([last],np.where(overlap > overlapThresh)[0]))
+                ## square weighted average
+                boxes[idxs[all],4]*=boxes[idxs[all],4]
+
+                score=np.sum(boxes[idxs[all],4])
+                boxes[idxs[all],4]/=score
+
+                boxes[idxs[all],0]*=boxes[idxs[all],4]
+                boxes[idxs[all],1]*=boxes[idxs[all],4]
+                boxes[idxs[all],2]*=boxes[idxs[all],4]
+                boxes[idxs[all],3]*=boxes[idxs[all],4]
+
+                boxes[i,0]=np.sum(boxes[idxs[all],0])
+                boxes[i,1]=np.sum(boxes[idxs[all],1])
+                boxes[i,2]=np.sum(boxes[idxs[all],2])
+                boxes[i,3]=np.sum(boxes[idxs[all],3])
+
+    		# delete all indexes from the index list that have
+            idxs = np.delete(idxs, np.concatenate(([last],np.awhere(overlap > overlapThresh)[0])))
+
+
+    # return only the bounding boxes that were picked using the
 	# integer data type
     return boxes[pick].astype("int")
 
