@@ -152,8 +152,9 @@ def eval_detect_model(args,model=None):
             i=i+1
 
         ## non-maximum supression
-        boxes=non_max_suppression_fast(boxes, 0.0, 0)
-        boxes=non_max_suppression_fast(boxes, 0.5, 1)
+        boxes=non_max_suppression_fast(boxes, args.ioumerge)
+        #boxes=non_max_suppression_fast(boxes, 0.0, 0)
+        #boxes=non_max_suppression_fast(boxes, 0.5, 1)
         #boxes=boxes.astype("int")
         print("After nms",len(boxes))
 

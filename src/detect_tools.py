@@ -224,7 +224,7 @@ def transform_box(args,box,ws,hs,dx,dy,scale,flip):
 # Malisiewicz et al.
 # from https://www.pyimagesearch.com/2015/02/16/faster-non-maximum-suppression-python/
 # with scores
-def non_max_suppression_fast(boxes, overlapThresh,class=-1):
+def non_max_suppression_fast(boxes, overlapThresh,tc=-1):
     average_box=True
 
     if len(boxes) == 0:
@@ -258,8 +258,10 @@ def non_max_suppression_fast(boxes, overlapThresh,class=-1):
 		# grab the last index in the indexes list and add the
 		# index value to the list of picked indexes
         last = len(idxs) - 1
-        if class!=-1 and cl[i]==class:
-            i = idxs[last]
+        i = idxs[last]
+
+        if tc==-1 or cl[i]==tc:
+
             pick.append(i)
 
     		# find the largest (x, y) coordinates for the start of
@@ -299,7 +301,7 @@ def non_max_suppression_fast(boxes, overlapThresh,class=-1):
                 boxes[i,3]=np.sum(boxes[idxs[all],3])
 
     		# delete all indexes from the index list that have
-            idxs = np.delete(idxs, np.concatenate(([last],np.awhere(overlap > overlapThresh)[0])))
+            idxs = np.delete(idxs, np.concatenate(([last],np.where(overlap > overlapThresh)[0])))
 
 
     # return only the bounding boxes that were picked using the
