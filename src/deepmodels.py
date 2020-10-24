@@ -6,12 +6,12 @@ from keras.optimizers import SGD
 from keras.optimizers import Adam
 from keras.optimizers import RMSprop
 from keras.callbacks import LearningRateScheduler as LRS
-
 from automodel import auto_model
 from pretrainedmodel import pretrained_model
 from generators import *
 from files import *
 from loaders import *
+from setparams import set_tr_params
 
 ##################################
 ### EVAL CLASS MODELS
@@ -137,95 +137,47 @@ def train_class_model(args):
     print("Batch size",batch_size)
     epochs=args.epochs
     print("Epochs",epochs)
-    if (PRETR):
-        fepochs=args.fepochs
-        print("Fepochs",fepochs)
 
-    #### OPTIMIZER
-    if (args.optim=="sgd"):
-        print ("Using SGD")
-        opt = SGD(lr=args.lr, decay=1e-6,momentum=0.9)
-    elif (args.optim=="adam"):
-        print ("Using Adam")
-        opt=Adam(lr=args.lr, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
-    elif (args.optim=="rmsprop"):
-        print ("Using RMSprop")
-        opt=RMSprop(lr=args.lr, rho=0.9, epsilon=None, decay=0.0)
-
-
-    tr_steps=numtr//batch_size
     if (TEST):
         ts_steps=numts//batch_size
+    if (args.trsteps!=-1):
+        tr_steps=args.trsteps
+    else:
+        tr_steps=numtr//batch_size
+
+    [opt,callbacks]=set_tr_params(args)
 
 
-    #### PRE-TRAIN
-    if (PRETR==True):
-        if (args.flayer!=None):
-            print("Freezing up to layer",args.flayer,"of the pre-trained model %d epochs" %(fepochs))
-            for layer in base.layers:
-                if (layer.name==args.flayer):
-                    break
-                else:
-                    layer.trainable = False
-        else:
-            print("Freezing the pre-trained model %d epochs" %(fepochs))
-            for layer in base.layers:
-                layer.trainable = False
+
+    ## Pretraining epochs
+    fepochs=args.fepochs
+    if (PRETR)and(fepochs>0):
+        print("Freezing  the pre-trained model %d epochs" %(fepochs))
+        for layer in base.layers:
+            layer.trainable = False
 
         model.compile(loss='categorical_crossentropy',optimizer=opt,metrics=['accuracy'])
-
         if (TEST):
             model.fit_generator(training_generator(args,num_classes,X,L),
                             steps_per_epoch=tr_steps,
-                            epochs=fepochs,
+                            epochs=epochs,
                             validation_data=test_generator(args,Xt,Lt),
                             validation_steps=ts_steps,
+                            callbacks=callbacks,
                             verbose=1)
         else:
             model.fit_generator(training_generator(args,num_classes,X,L),
                             steps_per_epoch=tr_steps,
-                            epochs=fepochs,
+                            epochs=epochs,
+                            callbacks=callbacks,
                             verbose=1)
 
+        print("Setting all trainable")
         for layer in base.layers:
             layer.trainable = True
 
-        print("Setting all trainable")
-
-
-
-    ## REGULAR TRAINING
-    if (args.lra==True):
-        e1=int(epochs*0.5)
-        e2=int(epochs*0.75)
-        print ("Learning rate annealing epochs: 0-->",e1,"-->",e2,"-->",epochs)
-        print ("Learning rate annealing LR:",args.lr,"-->",args.lr/args.lra_scale,"-->",args.lr/(args.lra_scale*args.lra_scale))
-
-        def scheduler(epoch):
-            if epoch < e1:
-                return args.lr
-            elif epoch < e2:
-                if (epoch==e1):
-                    print ("===============================")
-                    print ("New learning rate:",args.lr/10)
-                    print ("===============================")
-                return args.lr/args.lra_scale
-            else:
-                if (epoch==e2):
-                    print ("===============================")
-                    print ("New learning rate:",args.lr/100)
-                    print ("===============================")
-                return args.lr/(args.lra_scale*args.lra_scale)
-
-        set_lr = LRS(scheduler)
-        callbacks=[set_lr]
-    else:
-        print ("Learning rate=",args.lr,"no annealing")
-        callbacks=[]
-
+    #####
     model.compile(loss='categorical_crossentropy',optimizer=opt,metrics=['accuracy'])
-
-
     if (TEST):
         history = model.fit_generator(training_generator(args,num_classes,X,L),
                             steps_per_epoch=tr_steps,

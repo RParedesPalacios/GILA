@@ -35,13 +35,16 @@ parser.add_argument('-autokend',type=int,help='Final number of kernels for the a
 parser.add_argument('-autonconv',type=int,help='Number of consecutive convolutions (2)',default=2)
 parser.add_argument('-autocdwise',action='store_true',help='use depthwise convolutions',default='no')
 parser.add_argument('-autores',action='store_true',help='auto model with residual connections',default='no')
+parser.add_argument('-autonobn',action='store_true',help='Do not use BN in automodel')
 
 # ## OPTIM
 parser.add_argument('-optim', choices=['sgd', 'adam','rmsprop'], default='sgd',help='Optimizer (sgd)')
 parser.add_argument('-lra_scale',type=float,help='Learning rate annealing scale factor (2.0)',default=2.0)
 parser.add_argument('-lra', action='store_true', help='Learning Rate Annealing')
 parser.add_argument('-lr',type=float,help='Learning rate (0.1)',default=0.1)
+parser.add_argument('-flr',type=float,help='Learning rate for a pretrained model int the frozen phase (0.001)',default=0.001)
 parser.add_argument('-epochs',type=int,help='Epochs (100)',default=100)
+parser.add_argument('-trsteps',type=int,help='Generator steps (-1)',default=-1)
 parser.add_argument('-fepochs',type=int,help='Freeze pretrained epochs (10)',default=10)
 parser.add_argument('-batch',type=int,help='Batch size (100)',default=100)
 parser.add_argument('-balance', action='store_true',help='Class balance')
@@ -59,10 +62,33 @@ parser.add_argument('-da_flip_h', action='store_true',help='DA horizontal flip')
 # ## IO MODELS
 parser.add_argument('-load_model',  help='Load a model from file')
 parser.add_argument('-save_model',  help='Save  model to file')
+parser.add_argument('-save_epochs', action='store_true',help='save model after all epochs')
 
 # ## other
 parser.add_argument('-plot', action='store_true',help='plot the accuracy and create a gila.png')
 parser.add_argument('-history', action='store_true',help='create a gila.txt with accuracy evolution')
+parser.add_argument('-log', action='store_true',help='create a gila_log.txt')
+
+########## DETECTION ###########################
+## Mode json annot file
+parser.add_argument('-trannot', help='File with list of training images and annotations')
+parser.add_argument('-tsannot', help='File with list of test images and annotations')
+## Mode directory with backgrounds and objects
+parser.add_argument('-trbackgounds', help='Directory with backgourd images')
+parser.add_argument('-trobjects', help='Directory with object images, one sub-directory per object category')
+## anchors
+parser.add_argument('-anchors',type=float,nargs="+",help='Define the anchors geometry (0.5,0.5,1,1,2,2,0.5,1,1,0.5,1,2,2,1,1,3,3,1,1,4,4,1,1,5,5,1)',default=[0.5,0.5,1,1,2,2,0.5,1,1,0.5,1,2,2,1,1,3,3,1,1,4,4,1,1,5,5,1])
+parser.add_argument('-olayer',nargs="+",help='Define layer from pretrained model connected to output ()',default='')
+
+## maps
+parser.add_argument('-minmap', type=int, help='detection minimum map size (2)',default=2)
+parser.add_argument('-maxmap', type=int, help='detection maximum map size (2)',default=16)
+
+## other
+parser.add_argument('-iouthr', type=float, help='iou threshold to consider positive anchor (0.5)',default=0.5)
+parser.add_argument('-ioumerge', type=float, help='iou threshold to merge in Non-Maximum-Supresion inference (0.5)',default=0.5)
+parser.add_argument('-preresize', action='store_true',help='pre-resize images')
+
 args = parser.parse_args()
 
 import numpy as np
@@ -118,8 +144,14 @@ if (MODE=="class"):
 #### DETECTION MODE
 ############################
 elif (MODE=="detect"):
-    print ("Detect mode not yet implemented")
-    sys.exit()
+    if (args.trannot!=None):
+        from detect_deepmodels import *
+        train_det_model(args)
+    elif (args.tsannot!=None)and(args.tsdir!=None):
+        from detect_eval import *
+        eval_detect_model(args)
+    else:
+        print("Nothing to do, bye!")
 
 ############################
 #### SEGMENTATION MODE
@@ -127,3 +159,21 @@ elif (MODE=="detect"):
 elif (MODE=="segment"):
     print ("Segment mode not yet implemented")
     sys.exit()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###########
