@@ -8,7 +8,7 @@ from keras.applications.densenet import DenseNet201
 from keras.applications.inception_v3 import InceptionV3
 from keras.applications.inception_resnet_v2 import InceptionResNetV2
 from keras.applications.mobilenet import MobileNet
-from keras.applications.mobilenetv2 import MobileNetV2
+#from keras.applications.mobilenetv2 import MobileNetV2
 from keras.layers import  Activation
 from keras.layers.normalization import BatchNormalization as BN
 

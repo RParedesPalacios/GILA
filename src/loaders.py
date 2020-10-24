@@ -11,6 +11,7 @@ def load_list_file_class_to_numpy(filename,R,C,CH,RES):
         fields = line.strip().split()
         c=c+1
     file.close()
+    totalfiles=c
 
     file = open(filename)
 
@@ -22,7 +23,7 @@ def load_list_file_class_to_numpy(filename,R,C,CH,RES):
         fields = line.strip().split()
         filename=fields[0]
         label=fields[1]
-        #print (filename,label)
+        print (c,"of",totalfiles,":",filename," ", label, end = "\r")
         img = Image.open(filename)
 
         ch=img.mode
